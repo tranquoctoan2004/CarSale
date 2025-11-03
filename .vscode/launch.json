@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-CarsaleApplication<carsale>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.firefire.carsale.CarsaleApplication",
+            "projectName": "carsale",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
