@@ -153,6 +153,11 @@ body {
   padding: 20px;
   text-align: center;
 }
+.banner img {
+  width: 100%; /* chiếm hết chiều ngang banner */
+  height: 100%; /* chiếm hết chiều cao banner */
+  object-fit: cover; /* giữ tỉ lệ, cắt nếu quá */
+}
 
 /* Content Area */
 .content {
