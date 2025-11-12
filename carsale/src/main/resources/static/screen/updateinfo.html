@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Change Information - CarSale</title>
+    <link rel="stylesheet" href="../style/updateinfo.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="top-bar">
+      <a href="./home.html" class="logo">
+        <img src="../image/logo.png" alt="CarSale Logo" />
+      </a>
+
+      <!-- Nav links -->
+      <nav class="nav-links">
+        <a href="./home.html">Home</a>
+        <a href="./car.html">Car</a>
+        <a href="./news.html">News</a>
+        <a href="./about.html">About</a>
+      </nav>
+
+      <!-- Icons: Search, Cart, User menu -->
+      <div class="icons">
+        <input type="text" placeholder="Search..." class="search" />
+        <button>🛒</button>
+
+        <!-- User dropdown menu -->
+        <div class="dropdown">
+          <button class="menu-btn">☰</button>
+          <div class="dropdown-content">
+            <a href="#">Edit Profile</a>
+            <a href="./guest.html">Logout</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main container -->
+    <div class="container">
+      <h1>Change Information</h1>
+      <p>ID: Tính sau chỗ này</p>
+
+      <div class="form-wrapper">
+        <!-- Avatar section -->
+        <div class="avatar-section">
+          <div class="avatar"></div>
+          <button type="button">UPLOAD PHOTO</button>
+        </div>
+
+        <!-- Info section -->
+        <div class="info-section">
+          <label for="fullname">FULL NAME:</label>
+          <input type="text" id="fullname" placeholder="Enter full name" />
+
+          <label for="address">Address</label>
+          <input type="address" id="address" placeholder="Enter address" />
+
+          <label for="date">DATE OF BIRTH:</label>
+          <input type="date" id="date" />
+
+          <label for="email">EMAIL ADDRESS:</label>
+          <input type="email" id="email" placeholder="Enter email" />
+
+          <label for="phone">PHONE NUMBER:</label>
+          <input type="phone" id="phone" placeholder="Enter phone number" />
+
+          <label for="password">NEW PASSWORD:</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Enter new password" />
+
+          <label for="confirm-password">CONFIRMED PASSWORD:</label>
+          <input
+            type="password"
+            id="confirm-password"
+            placeholder="Confirm password" />
+
+          <!-- Buttons -->
+          <div class="form-buttons">
+            <button type="submit" class="save">SAVE CHANGES</button>
+            <button type="button" class="cancel">CANCEL</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

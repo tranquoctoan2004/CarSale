@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shop Layout</title>
-    <link rel="stylesheet" href="../style/guest.css" />
+    <link rel="stylesheet" href="../style/user.css" />
   </head>
   <body>
     <!-- Top Bar -->
@@ -15,20 +15,26 @@
 
       <nav class="nav-links">
         <a href="#">Home</a>
-        <a href="./login.html">Car</a>
-        <a href="./login.html">News</a>
-        <a href="./login.html">About</a>
+        <a href="./car.html">Car</a>
+        <a href="./news.html">News</a>
+        <a href="./about.html">About</a>
       </nav>
       <select class="nav-select" onchange="location = this.value;">
         <option value="#">Home</option>
-        <option value="./login.html">Car</option>
-        <option value="./login.html">News</option>
-        <option value="./login.html">About</option>
+        <option value="./car.html">Car</option>
+        <option value="./news.html">News</option>
+        <option value="about.html">About</option>
       </select>
       <div class="icons">
         <input type="text" placeholder="Search..." class="search" />
         <button>🛒</button>
-        <button>👤</button>
+        <div class="dropdown">
+          <button class="menu-btn">☰</button>
+          <div class="dropdown-content">
+            <a href="./updateinfo.html">Edit Profile</a>
+            <a href="./guest.html">Logout</a>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -141,6 +147,8 @@
           <h2>Comment</h2>
           <textarea placeholder="Leave a comment..."></textarea>
           <button class="submit">Submit</button>
+          <button class="delete">Delete</button>
+          <button class="edit">Edit</button>
         </div>
       </section>
 

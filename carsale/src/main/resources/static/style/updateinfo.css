@@ -1,0 +1,213 @@
+/* ===== Body & Reset ===== */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f9f9f9;
+}
+
+/* ===== Header top-bar ===== */
+header.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: #111;
+  color: #fff;
+}
+
+.top-bar .logo img {
+  width: 120px;
+}
+
+/* Nav links */
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 10px;
+  font-weight: bold;
+}
+
+.nav-links a:hover {
+  color: #ffcc00;
+}
+
+/* Icons: search, cart, user menu */
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.icons input.search {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* Buttons in icons */
+.icons button {
+  background: #111;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background 0.3s, color 0.3s;
+}
+
+.icons button:hover {
+  background: #ffcc00;
+  color: #111;
+}
+
+/* Dropdown menu */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 40px;
+  background: #fff;
+  min-width: 140px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  flex-direction: column;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px;
+  color: #111;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.dropdown-content a:hover {
+  background: #f2f2f2;
+}
+
+/* ===== Main container ===== */
+.container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #111;
+}
+
+p {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* ===== Form wrapper ===== */
+.form-wrapper {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Avatar section */
+.avatar-section {
+  flex: 1 1 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* căn giữa theo chiều ngang */
+  justify-content: center; /* căn giữa theo chiều dọc */
+  gap: 15px; /* khoảng cách giữa avatar và button */
+  min-height: 300px; /* đảm bảo đủ chỗ căn giữa */
+}
+
+.avatar-section .avatar {
+  width: 150px;
+  height: 150px;
+  background: #ccc;
+  border-radius: 50%;
+}
+
+.avatar-section button {
+  background: #111;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.avatar-section button:hover {
+  background: #ffcc00;
+  color: #111;
+}
+/* Info section */
+.info-section {
+  flex: 2 1 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.info-section label {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.info-section input {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* Form buttons */
+.form-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.form-buttons button {
+  flex: 1;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s, color 0.3s;
+}
+
+.form-buttons .save {
+  background: #111;
+  color: #fff;
+}
+
+.form-buttons .save:hover {
+  background: #ffcc00;
+  color: #111;
+}
+
+.form-buttons .cancel {
+  background: #ccc;
+  color: #111;
+}
+
+.form-buttons .cancel:hover {
+  background: #aaa;
+}
