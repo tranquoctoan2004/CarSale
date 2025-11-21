@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings</title>
+    <link
+      rel="stylesheet"
+      href="/carsale/src/main/resources/static/style/global/admin.css" />
+    <link
+      rel="stylesheet"
+      href="/carsale/src/main/resources/static/style/admin/setting.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <div id="header"></div>
+
+    <div class="main-layout">
+      <!-- SIDEBAR -->
+      <div id="sidebar"></div>
+
+      <!-- CONTENT -->
+      <section class="content">
+        <h2>Settings</h2>
+
+        <!-- Account Settings -->
+        <div class="settings-box">
+          <h3>Account Information</h3>
+          <form id="account-form">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input
+                type="text"
+                id="username"
+                placeholder="Enter username"
+                value="admin" />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                placeholder="Enter email"
+                value="admin@example.com" />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                placeholder="Enter new password" />
+            </div>
+            <div class="form-group">
+              <label for="confirm-password">Confirm Password</label>
+              <input
+                type="password"
+                id="confirm-password"
+                placeholder="Confirm password" />
+            </div>
+            <button type="submit_account_admin" class="btn-save">
+              Save Account
+            </button>
+          </form>
+        </div>
+
+        <!-- Store Settings -->
+        <div class="settings-box">
+          <h3>Store Information</h3>
+          <form id="store-form">
+            <div class="form-group">
+              <label for="store-name">Store Name</label>
+              <input
+                type="text"
+                id="store-name"
+                placeholder="Enter store name"
+                value="CarSale Store" />
+            </div>
+            <div class="form-group">
+              <label for="store-email">Store Email</label>
+              <input
+                type="email"
+                id="store-email"
+                placeholder="Enter store email"
+                value="info@carsale.com" />
+            </div>
+            <div class="form-group">
+              <label for="store-phone">Phone Number</label>
+              <input
+                type="text"
+                id="store-phone"
+                placeholder="Enter phone number"
+                value="+84 123 456 789" />
+            </div>
+            <div class="form-group">
+              <label for="store-address">Address</label>
+              <input
+                type="text"
+                id="store-address"
+                placeholder="Enter store address"
+                value="123 Car Street, Hanoi, Vietnam" />
+            </div>
+            <button type="submit_store_info" class="btn-save">
+              Save Store Info
+            </button>
+          </form>
+        </div>
+      </section>
+    </div>
+
+    <script src="/carsale/src/main/resources/static/script/common/layoutadmin.js"></script>
+  </body>
+</html>

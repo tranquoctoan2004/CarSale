@@ -1,3 +1,5 @@
+/* Reuse global/admin.css for layout */
+
 /* Page header */
 .page-header {
   display: flex;
@@ -7,29 +9,23 @@
 }
 
 .page-header h2 {
-  font-size: 24px;
-}
-
-.btn-add {
-  padding: 8px 15px;
-  background: #1a73e8;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.btn-add:hover {
-  background: #1663c7;
+  font-size: 22px;
 }
 
 /* Filters */
 .filters {
   display: flex;
-  gap: 25px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
+.filters input,
+.filters select {
+  padding: 8px 10px;
+  font-size: 14px;
+  border-radius: 15px;
+  border: 1px solid #ccc;
+}
 .filters input,
 .filters select {
   padding: 10px 15px;
@@ -44,7 +40,8 @@
   text-align: center;
   width: 15%;
 }
-/* Table box */
+
+/* Table */
 .table-box {
   background: white;
   border: 1px solid #ddd;
@@ -52,30 +49,27 @@
   padding: 20px;
 }
 
-.table-box h3 {
-  margin-bottom: 15px;
-}
-
-/* Data table */
 .data-table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 10px;
 }
 
 .data-table th {
   background: #f1f3f6;
   padding: 12px;
   text-align: left;
+  font-weight: 600;
   border-bottom: 2px solid #ddd;
 }
 
 .data-table td {
   padding: 10px 12px;
   border-bottom: 1px solid #eee;
-  vertical-align: middle;
+  vertical-align: top;
 }
 
-/* Status */
+/* Status colors */
 .data-table .active {
   color: #28a745;
   font-weight: bold;
@@ -86,38 +80,27 @@
   font-weight: bold;
 }
 
-/* Actions buttons */
+/* Action buttons */
 .data-table td button {
-  background: none;
   border: none;
+  background: none;
   cursor: pointer;
   font-size: 16px;
-  margin-right: 30px; /* khoảng cách xa hơn */
-  padding: 5px;
-  border-radius: 5px;
-  transition: transform 0.2s;
+  margin-right: 12px;
 }
 
-/* View button */
 .data-table td button.view {
-  color: #1a73e8; /* xanh dương */
-}
-.data-table td button.view:hover {
-  transform: scale(1.5);
+  color: #1a73e8;
 }
 
-/* Edit button */
-.data-table td button.edit {
-  color: #ffc107; /* vàng */
-}
-.data-table td button.edit:hover {
-  transform: scale(1.5);
+.data-table td button.reply {
+  color: #f0ad4e;
 }
 
-/* Delete button */
 .data-table td button.delete {
-  color: #d9534f; /* đỏ */
+  color: #d9534f;
 }
-.data-table td button.delete:hover {
+
+.data-table td button:hover {
   transform: scale(1.5);
 }

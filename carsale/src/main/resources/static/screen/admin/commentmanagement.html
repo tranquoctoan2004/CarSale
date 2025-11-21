@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>News Management</title>
+    <title>Comment Management</title>
     <link
       rel="stylesheet"
       href="/carsale/src/main/resources/static/style/global/admin.css" />
     <link
       rel="stylesheet"
-      href="/carsale/src/main/resources/static/style/admin/newsmanagement.css" />
+      href="/carsale/src/main/resources/static/style/admin/commentmanagement.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -24,50 +24,48 @@
 
       <!-- CONTENT -->
       <section class="content">
-        <!-- Header + Add button -->
         <div class="page-header">
-          <h2>News Management</h2>
-          <button class="btn-add">+ Add New News</button>
+          <h2>Comment Management</h2>
         </div>
 
-        <!-- Search + Filters -->
+        <!-- Search + Filter -->
         <div class="filters">
           <input
             type="text"
-            placeholder="Search by title or author..."
+            placeholder="Search by user or content..."
             class="search-input" />
           <select>
             <option>All Status</option>
-            <option>Published</option>
-            <option>Draft</option>
+            <option>Pending</option>
+            <option>Approved</option>
           </select>
         </div>
 
-        <!-- News Table -->
+        <!-- Comments Table -->
         <div class="table-box">
-          <h3>News List</h3>
+          <h3>Comments (5)</h3>
           <table class="data-table">
             <thead>
               <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Date</th>
+                <th>ID</th>
+                <th>User</th>
+                <th>Comment</th>
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>New Car Model Released</td>
-                <td>Admin</td>
-                <td>2025-11-20</td>
-                <td class="active">Published</td>
+                <td>C001</td>
+                <td>Hoang</td>
+                <td>Great car, I love it!</td>
+                <td class="active">Approved</td>
                 <td>
-                  <button class="view" title="View Detail">
+                  <button class="view" title="View">
                     <i class="fa-solid fa-eye"></i>
                   </button>
-                  <button class="edit" title="Edit">
-                    <i class="fa-solid fa-pen-to-square"></i>
+                  <button class="reply" title="Reply">
+                    <i class="fa-solid fa-reply"></i>
                   </button>
                   <button class="delete" title="Delete">
                     <i class="fa-solid fa-trash"></i>
@@ -75,16 +73,16 @@
                 </td>
               </tr>
               <tr>
-                <td>Holiday Discount Campaign</td>
-                <td>Marketing</td>
-                <td>2025-11-18</td>
-                <td class="pending">Draft</td>
+                <td>C002</td>
+                <td>Lan</td>
+                <td>When will the new model arrive?</td>
+                <td class="pending">Pending</td>
                 <td>
-                  <button class="view" title="View Detail">
+                  <button class="view" title="View">
                     <i class="fa-solid fa-eye"></i>
                   </button>
-                  <button class="edit" title="Edit">
-                    <i class="fa-solid fa-pen-to-square"></i>
+                  <button class="reply" title="Reply">
+                    <i class="fa-solid fa-reply"></i>
                   </button>
                   <button class="delete" title="Delete">
                     <i class="fa-solid fa-trash"></i>
@@ -92,16 +90,16 @@
                 </td>
               </tr>
               <tr>
-                <td>Website Maintenance Notice</td>
-                <td>Admin</td>
-                <td>2025-11-15</td>
-                <td class="active">Published</td>
+                <td>C003</td>
+                <td>Khoa</td>
+                <td>Does this come with warranty?</td>
+                <td class="active">Approved</td>
                 <td>
-                  <button class="view" title="View Detail">
+                  <button class="view" title="View">
                     <i class="fa-solid fa-eye"></i>
                   </button>
-                  <button class="edit" title="Edit">
-                    <i class="fa-solid fa-pen-to-square"></i>
+                  <button class="reply" title="Reply">
+                    <i class="fa-solid fa-reply"></i>
                   </button>
                   <button class="delete" title="Delete">
                     <i class="fa-solid fa-trash"></i>
@@ -113,7 +111,7 @@
         </div>
       </section>
     </div>
-    <!-- JS load layout + data -->
+
     <script src="/carsale/src/main/resources/static/script/common/layoutadmin.js"></script>
   </body>
 </html>

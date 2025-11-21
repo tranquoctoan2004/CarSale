@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Management</title>
+    <link
+      rel="stylesheet"
+      href="/carsale/src/main/resources/static/style/global/admin.css" />
+    <link
+      rel="stylesheet"
+      href="/carsale/src/main/resources/static/style/admin/ordermanagement.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <div id="header"></div>
+
+    <div class="main-layout">
+      <!-- SIDEBAR -->
+      <div id="sidebar"></div>
+
+      <!-- CONTENT -->
+      <section class="content">
+        <!-- Page header -->
+        <div class="page-header">
+          <h2>Order Management</h2>
+        </div>
+
+        <!-- Search + Filters -->
+        <div class="filters">
+          <input
+            type="text"
+            placeholder="Search by customer or car..."
+            class="search-input" />
+          <select>
+            <option>All Status</option>
+            <option>Pending</option>
+            <option>Done</option>
+            <option>Cancelled</option>
+          </select>
+          <select>
+            <option>All Payment</option>
+            <option>Paid</option>
+            <option>Unpaid</option>
+          </select>
+        </div>
+
+        <!-- Orders Table -->
+        <div class="table-box">
+          <h3>Orders List (4 orders)</h3>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Car</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Payment</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#001</td>
+                <td>Tuan</td>
+                <td>Toyota Camry</td>
+                <td>2025-11-20</td>
+                <td class="pending">Pending</td>
+                <td class="pending">Unpaid</td>
+                <td>
+                  <button class="view" title="View Detail">
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                  <button class="edit" title="Edit">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                  <button class="delete" title="Delete">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>#002</td>
+                <td>Nam</td>
+                <td>BMW X5</td>
+                <td>2025-11-18</td>
+                <td class="done">Done</td>
+                <td class="done">Paid</td>
+                <td>
+                  <button class="view" title="View Detail">
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                  <button class="edit" title="Edit">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                  <button class="delete" title="Delete">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>#003</td>
+                <td>Lan</td>
+                <td>Honda Civic</td>
+                <td>2025-11-15</td>
+                <td class="done">Done</td>
+                <td class="done">Paid</td>
+                <td>
+                  <button class="view" title="View Detail">
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                  <button class="edit" title="Edit">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                  <button class="delete" title="Delete">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>#004</td>
+                <td>Khoa</td>
+                <td>Mercedes C-Class</td>
+                <td>2025-11-12</td>
+                <td class="pending">Pending</td>
+                <td class="pending">Unpaid</td>
+                <td>
+                  <button class="view" title="View Detail">
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                  <button class="edit" title="Edit">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                  <button class="delete" title="Delete">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <!-- JS load layout -->
+    <script src="/carsale/src/main/resources/static/script/common/layoutadmin.js"></script>
+  </body>
+</html>

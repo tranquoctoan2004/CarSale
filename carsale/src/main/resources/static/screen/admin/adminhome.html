@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="/carsale/src/main/resources/static/style/admin/adminhome.css" />
+    <link
+      rel="stylesheet"
+      href="/carsale/src/main/resources/static/style/global/admin.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <div id="header"></div>
+
+    <div class="main-layout">
+      <!-- SIDEBAR -->
+      <div id="sidebar"></div>
+
+      <!-- CONTENT -->
+      <section class="content">
+        <!-- 4 Cards -->
+        <div class="card-row">
+          <div class="card">
+            <h4>Total CARS</h4>
+            <p>120</p>
+          </div>
+
+          <div class="card">
+            <h4>Total MEMBERS</h4>
+            <p>540</p>
+          </div>
+
+          <div class="card">
+            <h4>New ORDERS</h4>
+            <p>15</p>
+          </div>
+
+          <div class="card">
+            <h4>Pending COMMENT</h4>
+            <p>3</p>
+          </div>
+        </div>
+
+        <!-- CHART + RECENT ACTIVITIES -->
+        <div class="chart-activities">
+          <div class="chart-box">
+            <h3>REVENUE CHART (Doanh thu, số thành viên mới 12 tháng)</h3>
+            <div class="fake-chart">
+              <!-- Vẽ đơn giản -->
+              <div class="line"></div>
+            </div>
+          </div>
+
+          <div class="activities-box">
+            <h3>RECENT ACTIVITIES</h3>
+            <ul>
+              <li>User A ordered Car1</li>
+              <li>User B new comment</li>
+              <li>User C registered</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- RECENT ORDERS TABLE -->
+        <div class="table-box">
+          <h3>RECENT ORDERS (Danh sách đơn mới nhất)</h3>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Car</th>
+                <th>Customer</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#001</td>
+                <td>Ford Mustang</td>
+                <td>Tuan</td>
+                <td class="pending">Pending</td>
+              </tr>
+              <tr>
+                <td>#002</td>
+                <td>Audi A6</td>
+                <td>Nam</td>
+                <td class="done">Done</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- RECENT MEMBERS TABLE -->
+        <div class="table-box">
+          <h3>RECENT MEMBERS (Thành viên mới nhất)</h3>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>M001</td>
+                <td>Hoang</td>
+                <td>hoang@gmail.com</td>
+                <td class="active">Active</td>
+              </tr>
+              <tr>
+                <td>M002</td>
+                <td>Lan</td>
+                <td>lan@gmail.com</td>
+                <td class="active">Active</td>
+              </tr>
+              <tr>
+                <td>M003</td>
+                <td>Khoa</td>
+                <td>khoa@gmail.com</td>
+                <td class="pending">Pending</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+    <!-- Script -->
+    <script src="/carsale/src/main/resources/static/script/common/layoutadmin.js"></script>
+  </body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Management</title>
+    <link
+      rel="stylesheet"
+      href="/carsale/src/main/resources/static/style/global/admin.css" />
+    <link
+      rel="stylesheet"
+      href="/carsale/src/main/resources/static/style/admin/usermanagement.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <div id="header"></div>
+
+    <div class="main-layout">
+      <!-- SIDEBAR -->
+      <div id="sidebar"></div>
+
+      <!-- CONTENT -->
+      <section class="content">
+        <div class="page-header">
+          <h2>User Management</h2>
+          <button class="btn-add">+ Add New User</button>
+        </div>
+        <!-- Search + Filter -->
+        <div class="filters">
+          <input
+            type="text"
+            placeholder="Search by name, email..."
+            class="search-input" />
+          <select>
+            <option>All Status</option>
+            <option>Active</option>
+            <option>Pending</option>
+          </select>
+        </div>
+
+        <!-- Users Table -->
+        <div class="table-box">
+          <h3>Users (5)</h3>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>U001</td>
+                <td>Hoang</td>
+                <td>hoang@gmail.com</td>
+                <td class="active">Active</td>
+                <td>
+                  <button class="view" title="View Detail">
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                  <button class="edit" title="Edit">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                  <button class="delete" title="Delete">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>U002</td>
+                <td>Lan</td>
+                <td>lan@gmail.com</td>
+                <td class="active">Active</td>
+                <td>
+                  <button class="view" title="View Detail">
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                  <button class="edit" title="Edit">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                  <button class="delete" title="Delete">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>U003</td>
+                <td>Khoa</td>
+                <td>khoa@gmail.com</td>
+                <td class="pending">Pending</td>
+                <td>
+                  <button class="view" title="View Detail">
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                  <button class="edit" title="Edit">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                  <button class="delete" title="Delete">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>U004</td>
+                <td>Mai</td>
+                <td>mai@gmail.com</td>
+                <td class="active">Active</td>
+                <td>
+                  <button class="view" title="View Detail">
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                  <button class="edit" title="Edit">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                  <button class="delete" title="Delete">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>U005</td>
+                <td>Nam</td>
+                <td>nam@gmail.com</td>
+                <td class="pending">Pending</td>
+                <td>
+                  <button class="view" title="View Detail">
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                  <button class="edit" title="Edit">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                  <button class="delete" title="Delete">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <script src="/carsale/src/main/resources/static/script/common/layoutadmin.js"></script>
+  </body>
+</html>
