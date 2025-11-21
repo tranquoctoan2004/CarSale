@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payment Page</title>
+    <link
+      rel="stylesheet"
+      href="/carsale/src/main/resources/static/style/user/payment.css" />
+  </head>
+  <body>
+    <div class="payment-container">
+      <!-- LEFT: QR IMAGE -->
+      <div class="qr-section">
+        <h2>Scan QR Code</h2>
+
+        <img
+          src="/carsale/src/main/resources/static/image/qrCode.jpg"
+          alt="QR Code"
+          class="qr-image" />
+
+        <div class="transfer-info">
+          <h3>Transfer Content</h3>
+          <p class="transfer-template">
+            <strong>"Phone number + Car ID"</strong>
+          </p>
+        </div>
+
+        <p>Please scan this QR code to proceed with payment.</p>
+      </div>
+
+      <!-- RIGHT: PAYMENT FORM -->
+      <div class="form-section">
+        <h2>Payment Information</h2>
+
+        <form id="paymentForm">
+          <label>Full Name</label>
+          <input type="text" placeholder="Enter your name" />
+
+          <label>Address</label>
+          <input type="text" placeholder="Enter your address" />
+
+          <label>Phone Number</label>
+          <input type="text" placeholder="Enter your phone number" />
+
+          <label>Car Name</label>
+          <input type="text" placeholder="Enter car name" />
+
+          <label>Car ID</label>
+          <input type="text" placeholder="Enter car ID" />
+
+          <label>Upload Payment Proof</label>
+          <input type="file" accept="image/*" />
+
+          <div class="btn-group">
+            <button type="submit" class="submit-btn">Submit Payment</button>
+            <button
+              type="button"
+              class="cancel-btn"
+              onclick="window.history.back()">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

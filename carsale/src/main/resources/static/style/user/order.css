@@ -1,0 +1,121 @@
+.order-container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+.order-container h2 {
+  margin-bottom: 20px;
+  border-bottom: 3px solid #ffcc00;
+  padding-bottom: 8px;
+}
+
+/* Tabs */
+.order-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.order-tabs .tab {
+  padding: 8px 15px;
+  border: 1px solid #aaa;
+  background: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.order-tabs .active {
+  background: #ffcc00;
+  color: #111;
+}
+
+/* Order list */
+.order-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Card */
+.order-card {
+  display: flex;
+  gap: 15px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.order-img {
+  width: 120px;
+  height: 80px;
+  background: #ccc;
+  border-radius: 8px;
+}
+
+/* Info */
+.order-info h3 {
+  margin: 0 0 5px 0;
+}
+
+/* Status colors */
+.status {
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.delivering {
+  background: #ffeb99;
+  color: #c68a00;
+}
+.completed {
+  background: #c8ffcb;
+  color: #008f1a;
+}
+.cancelled {
+  background: #ffb3b3;
+  color: #a10000;
+}
+.pending {
+  background: #ccccff;
+  color: #00008b;
+}
+
+/* Buttons */
+.order-actions {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.order-actions button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.order-actions .view {
+  background: #111;
+  color: #fff;
+}
+.order-actions .cancel {
+  background: #d40000;
+  color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+  .order-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  .order-actions {
+    margin-left: 0;
+  }
+}

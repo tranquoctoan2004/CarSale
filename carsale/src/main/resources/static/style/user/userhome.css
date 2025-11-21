@@ -1,92 +1,3 @@
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
-
-body {
-  background-color: #f7f7f7;
-  color: #222;
-}
-
-/* Header */
-.top-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #111;
-  color: #fff;
-  padding: 10px 30px;
-  overflow-x: visible;
-}
-
-.top-bar .logo {
-  font-size: 1.5em;
-  font-weight: bold;
-}
-
-.nav-links a {
-  color: #fff;
-  margin: 0 10px;
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-.nav-links a:hover {
-  color: #ffcc00;
-}
-/* Ẩn select trên desktop */
-.nav-select {
-  display: none;
-}
-
-/* Desktop nav normal */
-.nav-links {
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-}
-
-/* Khi quá to (zoom bé, max-width tương ứng) → hide nav links, show select */
-@media (max-width: 1000px) {
-  .nav-links {
-    display: none;
-  }
-  .nav-select {
-    display: block;
-    padding: 8px 12px;
-    border-radius: 6px;
-    border: none;
-  }
-}
-
-.icons {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.icons button {
-  background: none;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.icons button:hover {
-  background: #ffcc00;
-}
-
-.search {
-  padding: 5px 10px;
-  border-radius: 5px;
-  border: none;
-}
-
 /* Main Layout */
 .main-container {
   display: grid;
@@ -105,6 +16,11 @@ body {
   height: 100%;
   padding: 20px;
   text-align: center;
+}
+.banner img {
+  width: 100%; /* chiếm hết chiều ngang banner */
+  height: 100%; /* chiếm hết chiều cao banner */
+  object-fit: cover; /* giữ tỉ lệ, cắt nếu quá */
 }
 
 /* Content Area */
@@ -184,6 +100,16 @@ body {
   resize: none;
 }
 
+.comment button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s;
+  margin-right: 8px; /* khoảng cách giữa các nút */
+}
+
 .comment .submit {
   padding: 8px 16px;
   background: #111;
@@ -199,45 +125,24 @@ body {
   color: #111;
 }
 
-/* Footer */
-.footer {
-  background: #111;
+/* Delete */
+.comment .delete {
+  background: #e74c3c;
   color: #fff;
-  text-align: center;
-  padding: 15px 0;
-  margin-top: 20px;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-  .main-container {
-    grid-template-columns: 1fr;
-  }
-  .banner {
-    display: none;
-  }
-  .nav-links {
-    display: none;
-  }
+.comment .delete:hover {
+  background: #c0392b;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
+/* Edit */
+.comment .edit {
+  background: #3498db;
+  color: #fff;
 }
 
-.logo img {
-  height: 50px; /* adjust to your desired logo size */
-  width: auto;
-  object-fit: contain;
-  transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-.logo:hover img {
-  transform: scale(1.05);
-  filter: brightness(1.2);
-  cursor: pointer;
+.comment .edit:hover {
+  background: #2980b9;
 }
 
 /* Review Section */

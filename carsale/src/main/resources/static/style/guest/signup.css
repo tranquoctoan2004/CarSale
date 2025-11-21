@@ -6,11 +6,13 @@
 }
 
 body {
-  height: 100vh;
+  height: auto;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   background: #111;
+  padding: 40px 0;
 }
 
 .signup-container {

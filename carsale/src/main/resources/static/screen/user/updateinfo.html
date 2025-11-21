@@ -3,43 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <title>Change Information - CarSale</title>
-    <link rel="stylesheet" href="../style/updateinfo.css" />
+    <link
+      rel="stylesheet"
+      href="/carsale/src/main/resources/static/style/global/user.css" />
+    <link
+      rel="stylesheet"
+      href="/carsale/src/main/resources/static/style/user/updateinfo.css" />
   </head>
   <body>
     <!-- Header -->
-    <header class="top-bar">
-      <a href="./home.html" class="logo">
-        <img src="../image/logo.png" alt="CarSale Logo" />
-      </a>
-
-      <!-- Nav links -->
-      <nav class="nav-links">
-        <a href="./home.html">Home</a>
-        <a href="./car.html">Car</a>
-        <a href="./news.html">News</a>
-        <a href="./about.html">About</a>
-      </nav>
-
-      <!-- Icons: Search, Cart, User menu -->
-      <div class="icons">
-        <input type="text" placeholder="Search..." class="search" />
-        <button>🛒</button>
-
-        <!-- User dropdown menu -->
-        <div class="dropdown">
-          <button class="menu-btn">☰</button>
-          <div class="dropdown-content">
-            <a href="#">Edit Profile</a>
-            <a href="./guest.html">Logout</a>
-          </div>
-        </div>
-      </div>
-    </header>
+    <div id="header"></div>
 
     <!-- Main container -->
     <div class="container">
       <h1>Change Information</h1>
-      <p>ID: Tính sau chỗ này</p>
+      <p>ID:</p>
 
       <div class="form-wrapper">
         <!-- Avatar section -->
@@ -85,5 +63,9 @@
         </div>
       </div>
     </div>
+    <!-- Footer -->
+    <div id="footer"></div>
+    <!-- Script -->
+    <script src="/carsale/src/main/resources/static/script/common/layout.js"></script>
   </body>
 </html>

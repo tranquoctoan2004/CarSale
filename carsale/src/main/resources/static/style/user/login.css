@@ -67,6 +67,16 @@ body {
   margin-bottom: 20px;
 }
 
+.remember-forgot label {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.remember-forgot input[type="checkbox"] {
+  margin: 0;
+}
+
 .remember-forgot a {
   text-decoration: none;
   color: #007bff;

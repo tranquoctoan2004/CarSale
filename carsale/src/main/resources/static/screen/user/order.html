@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Your Orders - CarShop</title>
+
+    <link
+      rel="stylesheet"
+      href="/carsale/src/main/resources/static/style/global/user.css" />
+    <link
+      rel="stylesheet"
+      href="/carsale/src/main/resources/static/style/user/order.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <div id="header"></div>
+
+    <!-- MAIN -->
+    <main class="order-container">
+      <h2>Your Orders</h2>
+
+      <!-- Tabs -->
+      <div class="order-tabs">
+        <button class="tab active">All Orders</button>
+        <button class="tab">In Delivery</button>
+        <button class="tab">Completed</button>
+        <button class="tab">Cancelled</button>
+        <button class="tab">Pending</button>
+      </div>
+
+      <!-- Order List -->
+      <div class="order-list">
+        <!-- ==== Example Order ==== -->
+        <div class="order-card">
+          <div class="order-img"></div>
+          <div class="order-info">
+            <h3>Tesla Model S</h3>
+            <p>Order ID: <b>#A1023</b></p>
+            <p>Status: <span class="status delivering">Delivering</span></p>
+            <p>Estimated Delivery: 23 Nov 2025</p>
+          </div>
+          <div class="order-actions">
+            <button class="view">View</button>
+            <button class="cancel">Cancel</button>
+          </div>
+        </div>
+        <!-- ======================= -->
+
+        <div class="order-card">
+          <div class="order-img"></div>
+          <div class="order-info">
+            <h3>BMW M5</h3>
+            <p>Order ID: <b>#B9912</b></p>
+            <p>Status: <span class="status completed">Completed</span></p>
+            <p>Delivered: 10 Oct 2025</p>
+          </div>
+          <div class="order-actions">
+            <button class="view">View</button>
+          </div>
+        </div>
+
+        <div class="order-card">
+          <div class="order-img"></div>
+          <div class="order-info">
+            <h3>Ford Mustang GT</h3>
+            <p>Order ID: <b>#C5521</b></p>
+            <p>Status: <span class="status cancelled">Cancelled</span></p>
+          </div>
+          <div class="order-actions">
+            <button class="view">View</button>
+          </div>
+        </div>
+
+        <div class="order-card">
+          <div class="order-img"></div>
+          <div class="order-info">
+            <h3>Audi R8</h3>
+            <p>Order ID: <b>#D1982</b></p>
+            <p>Status: <span class="status pending">Pending Payment</span></p>
+          </div>
+          <div class="order-actions">
+            <button class="view">Pay Now</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer"></div>
+    <!-- Script -->
+    <script src="/carsale/src/main/resources/static/script/common/layout.js"></script>
+  </body>
+</html>

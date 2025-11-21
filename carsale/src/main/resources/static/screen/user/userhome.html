@@ -4,33 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shop Layout</title>
-    <link rel="stylesheet" href="../style/guest.css" />
+    <link
+      rel="stylesheet"
+      href="/carsale/src/main/resources/static/style/global/user.css" />
+    <link
+      rel="stylesheet"
+      href="/carsale/src/main/resources/static/style/user/userhome.css" />
   </head>
   <body>
-    <!-- Top Bar -->
-    <header class="top-bar">
-      <a href="./guest.html" class="logo"
-        ><img src="../image/logo.png" alt="CarShop Logo"
-      /></a>
-
-      <nav class="nav-links">
-        <a href="#">Home</a>
-        <a href="./login.html">Car</a>
-        <a href="./login.html">News</a>
-        <a href="./login.html">About</a>
-      </nav>
-      <select class="nav-select" onchange="location = this.value;">
-        <option value="#">Home</option>
-        <option value="./login.html">Car</option>
-        <option value="./login.html">News</option>
-        <option value="./login.html">About</option>
-      </select>
-      <div class="icons">
-        <input type="text" placeholder="Search..." class="search" />
-        <button>🛒</button>
-        <button>👤</button>
-      </div>
-    </header>
+    <!-- Header -->
+    <div id="header"></div>
 
     <!-- Main Content -->
     <main class="main-container">
@@ -141,6 +124,8 @@
           <h2>Comment</h2>
           <textarea placeholder="Leave a comment..."></textarea>
           <button class="submit">Submit</button>
+          <button class="delete">Delete</button>
+          <button class="edit">Edit</button>
         </div>
       </section>
 
@@ -150,8 +135,8 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
-      <p>Information | Contact: shop@email.com | &copy; 2025 CarShop</p>
-    </footer>
+    <div id="footer"></div>
+    <!-- Script -->
+    <script src="/carsale/src/main/resources/static/script/common/layout.js"></script>
   </body>
 </html>

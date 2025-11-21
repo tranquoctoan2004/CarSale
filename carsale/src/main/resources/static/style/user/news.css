@@ -1,0 +1,41 @@
+/* Main Layout */
+.main-container {
+  display: grid;
+  grid-template-columns: 200px 1fr 200px;
+  gap: 10px;
+  padding: 15px 20px;
+}
+
+/* Banner trái/phải */
+.banner {
+  background: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.banner img {
+  width: 100%; /* chiếm hết chiều ngang banner */
+  height: 100%; /* chiếm hết chiều cao banner */
+  object-fit: cover; /* giữ tỉ lệ, cắt nếu quá */
+}
+
+/* Center Content */
+.center-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Content card */
+.content-card {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
