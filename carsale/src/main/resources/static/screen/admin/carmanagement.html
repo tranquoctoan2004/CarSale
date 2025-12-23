@@ -1,179 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Car Management</title>
-    <link
-      rel="stylesheet"
-      href="/carsale/src/main/resources/static/style/global/admin.css" />
-    <link
-      rel="stylesheet"
-      href="/carsale/src/main/resources/static/style/admin/carmanagement.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  </head>
-  <body>
-    <!-- HEADER -->
-    <div id="header"></div>
+<head>
+  <meta charset="UTF-8" />
+  <title>Car Management</title>
 
-    <div class="main-layout">
-      <!-- SIDEBAR -->
-      <div id="sidebar"></div>
+  <link rel="stylesheet" href="/style/global/admin.css" />
+  <link rel="stylesheet" href="/style/admin/carmanagement.css" />
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
 
-      <!-- CONTENT -->
-      <section class="content">
-        <!-- Header + Add button -->
-        <div class="page-header">
-          <h2>Car Inventory</h2>
-          <button class="btn-add">+ Add New Car</button>
-        </div>
-        <p>Manage your car listings and inventory</p>
+<body>
+  <div id="header"></div>
 
-        <!-- Search + Filters -->
-        <div class="filters">
-          <input
-            type="text"
-            placeholder="Search by make, model, or year..."
-            class="search-input" />
-          <select>
-            <option>All Status</option>
-            <option>Available</option>
-            <option>Sold</option>
-            <option>Reserved</option>
-          </select>
-          <select>
-            <option>All Conditions</option>
-            <option>Excellent</option>
-            <option>Like New</option>
-            <option>Good</option>
-          </select>
-        </div>
+  <div class="main-layout">
+    <div id="sidebar"></div>
 
-        <!-- Inventory Table -->
-        <div class="table-box">
-          <h3>Inventory (4 cars)</h3>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Car</th>
-                <th>Year</th>
-                <th>Price</th>
-                <th>Mileage</th>
-                <th>Condition</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <img
-                    src="/carsale/src/main/resources/static/images/camry.jpg"
-                    alt="Toyota Camry"
-                    class="car-img" />
-                  Toyota Camry<br /><small>Silver</small>
-                </td>
-                <td>2023</td>
-                <td>$28,500</td>
-                <td>15,000 mi</td>
-                <td>Excellent</td>
-                <td class="active">Available</td>
-                <td>
-                  <button class="view" title="View Detail">
-                    <i class="fa-solid fa-eye"></i>
-                  </button>
-                  <button class="edit" title="Edit">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  <button class="delete" title="Delete">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <img
-                    src="/carsale/src/main/resources/static/images/bmwx5.jpg"
-                    alt="BMW X5"
-                    class="car-img" />
-                  BMW X5<br /><small>Black</small>
-                </td>
-                <td>2024</td>
-                <td>$67,500</td>
-                <td>5,000 mi</td>
-                <td>Like New</td>
-                <td class="active">Available</td>
-                <td>
-                  <button class="view" title="View Detail">
-                    <i class="fa-solid fa-eye"></i>
-                  </button>
-                  <button class="edit" title="Edit">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  <button class="delete" title="Delete">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <img
-                    src="/carsale/src/main/resources/static/images/civic.jpg"
-                    alt="Honda Civic"
-                    class="car-img" />
-                  Honda Civic<br /><small>Blue</small>
-                </td>
-                <td>2022</td>
-                <td>$24,500</td>
-                <td>25,000 mi</td>
-                <td>Good</td>
-                <td class="pending">Sold</td>
-                <td>
-                  <button class="view" title="View Detail">
-                    <i class="fa-solid fa-eye"></i>
-                  </button>
-                  <button class="edit" title="Edit">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  <button class="delete" title="Delete">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <img
-                    src="/carsale/src/main/resources/static/images/mercedes.jpg"
-                    alt="Mercedes C-Class"
-                    class="car-img" />
-                  Mercedes C-Class<br /><small>White</small>
-                </td>
-                <td>2023</td>
-                <td>$45,000</td>
-                <td>12,000 mi</td>
-                <td>Excellent</td>
-                <td class="pending">Reserved</td>
-                <td>
-                  <button class="view" title="View Detail">
-                    <i class="fa-solid fa-eye"></i>
-                  </button>
-                  <button class="edit" title="Edit">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  <button class="delete" title="Delete">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-    </div>
+    <section class="content">
+      <div class="page-header">
+        <h2>Car Inventory</h2>
+        <button class="btn-add" onclick="goAdd()">+ Add New Car</button>
+      </div>
 
-    <!-- JS load layout -->
-    <script src="/carsale/src/main/resources/static/script/common/layoutadmin.js"></script>
-  </body>
+      <p>Manage your car listings and inventory</p>
+
+      <div class="filters">
+        <input type="text"
+               placeholder="Search by name or brand..."
+               class="search-input"
+               id="searchInput"/>
+
+        <select id="statusFilter">
+          <option value="">All Status</option>
+          <option value="available">Available</option>
+          <option value="sold">Sold</option>
+          <option value="out_of_stock">Out of stock</option>
+        </select>
+      </div>
+
+      <div class="table-box">
+        <h3>Inventory</h3>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Car</th>
+              <th>Brand</th>
+              <th>Price</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="carTableBody">
+            <!-- JS render -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script src="/script/common/layoutadmin.js"></script>
+  <script src="/script/admin/car-management.js"></script>
+</body>
 </html>
