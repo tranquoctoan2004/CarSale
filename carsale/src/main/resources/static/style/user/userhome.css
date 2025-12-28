@@ -1,3 +1,23 @@
+#userInfoBar {
+  display: none;
+  position: fixed;
+  top: 10px;
+  right: 100px;
+  background: white;
+  padding: 8px 12px;
+  border-radius: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  font-size: 14px;
+  color: #333;
+}
+
+#userStats {
+  font-size: 14px;
+  color: #888;
+  margin-top: 5px;
+}
+
 /* Main Layout */
 .main-container {
   display: grid;

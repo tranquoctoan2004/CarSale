@@ -3,10 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign In</title>
-    <link
-      rel="stylesheet"
-      href="/carsale/src/main/resources/static/style/user/login.css" />
+    <title>Login</title>
+    <link rel="stylesheet" href="/style/user/login.css" />
   </head>
   <body>
     <div class="login-container">
@@ -15,9 +13,17 @@
         <h2>Welcome Back</h2>
         <p>Welcome back. Please enter your details.</p>
 
-        <label for="email"><b>Email</b></label>
-        <input type="email" id="email" placeholder="Enter your email" />
+        <!-- Messages container -->
+        <div id="errorMessage" class="error-message"></div>
+        <div id="successMessage" class="success-message"></div>
+        <div id="loading" class="loading">Processing...</div>
 
+        <label for="username"><b>Username</b></label>
+        <input
+          type="text"
+          id="username"
+          placeholder="Enter your username"
+          required />
         <label for="password"><b>Password</b></label>
         <input
           type="password"
@@ -29,17 +35,17 @@
           <a href="#">Forgot password?</a>
         </div>
 
-        <button class="signin-btn">Sign In</button>
+        <button class="signin-btn" onclick="login()">Sign In</button>
 
         <button class="google-btn">
           <img
-            src="/carsale/src/main/resources/static/image/google.png"
+            src="/image/google.png"
             alt="Google" />
           Sign in with Google
         </button>
 
         <p class="signup-text">
-          Don’t have an account? <a href="../guest/signup.html">Sign up now</a>
+          Don’t have an account? <a href="/screen/guest/signup.html">Sign up now</a>
         </p>
       </div>
 
@@ -54,5 +60,5 @@
         </div>
       </div>
     </div>
-  </body>
+    <script src="/script/user/login.js"></script>
 </html>

@@ -35,4 +35,20 @@ public class Comment {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private VisibilityStatus status = VisibilityStatus.visible;
+
+    public Car getCar() {
+        return this.orderDetail != null ? this.orderDetail.getCar() : null;
+    }
+
+    // THÊM: Phương thức helper để lấy carId
+    public Integer getCarId() {
+        return (this.orderDetail != null && this.orderDetail.getCar() != null)
+                ? this.orderDetail.getCar().getCarId()
+                : null;
+    }
+
+    // THÊM: Phương thức helper để lấy Account username
+    public String getAccountUsername() {
+        return this.account != null ? this.account.getUsername() : null;
+    }
 }

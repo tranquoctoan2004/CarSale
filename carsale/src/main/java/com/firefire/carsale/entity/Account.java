@@ -24,6 +24,9 @@ public class Account {
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
+    @Column(name = "reset_token", length = 255)
+    private String resetToken;
+
     @Column(name = "email", nullable = false, unique = true, length = 150)
     private String email;
 

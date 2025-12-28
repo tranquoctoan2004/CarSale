@@ -3,10 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign Up</title>
-    <link
-      rel="stylesheet"
-      href="/carsale/src/main/resources/static/style/guest/signup.css" />
+    <title>Sign Up - CarSale</title>
+    <link rel="stylesheet" href="/style/guest/signup.css" />
   </head>
   <body>
     <div class="signup-container">
@@ -15,51 +13,114 @@
         <h2>Create an Account</h2>
         <p>Join us to explore amazing cars and deals.</p>
 
-        <label for="name"><b>Full Name</b></label>
-        <input type="text" id="name" placeholder="Enter your full name" />
-
-        <label for="phone"><b>Phone Number</b></label>
-        <input type="phone" id="phone" placeholder="Enter your phone number" />
-
-        <label for="date"><b>Date Of Birth</b></label>
-        <input type="date" id="date" />
-
-        <label for="address"><b>Address</b></label>
-        <input type="address" id="address" placeholder="Enter your address" />
-
-        <label for="email"><b>Email</b></label>
-        <input type="email" id="email" placeholder="Enter your email" />
-
-        <label for="password"><b>Password</b></label>
-        <input type="password" id="password" placeholder="Create a password" />
-
-        <label for="confirm"><b>Confirm Password</b></label>
-        <input
-          type="password"
-          id="confirm"
-          placeholder="Re-enter your password" />
-
-        <div class="terms">
-          <label>
-            <input type="checkbox" /> I agree to the
-            <a href="../user/condition.html"
-              >Terms & Conditions đoạn này nhờ gpt viết nhé, tạo 1 trang đơn
-              giản chỉ dùng thẻ p vs h thôi</a
-            >
-          </label>
+        <!-- Message containers -->
+        <div
+          id="errorMessage"
+          class="error-message"
+          style="display: none"></div>
+        <div
+          id="successMessage"
+          class="success-message"
+          style="display: none"></div>
+        <div id="loading" class="loading" style="display: none">
+          Creating account...
         </div>
 
-        <button class="signup-btn">Sign Up</button>
+        <form id="registerForm">
+          <label for="username"><b>Username*</b></label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Enter username"
+            required
+            autocomplete="username"
+            minlength="3"
+            maxlength="50" />
+
+          <label for="fullName"><b>Full Name*</b></label>
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            placeholder="Enter full name"
+            required
+            autocomplete="name"
+            minlength="2"
+            maxlength="100" />
+
+          <label for="phone"><b>Phone Number</b></label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            placeholder="Enter your phone number"
+            autocomplete="tel"
+            pattern="[0-9]{10,15}" />
+
+          <label for="email"><b>Email*</b></label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+            autocomplete="email" />
+
+          <label for="password"><b>Password*</b></label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Min 6 characters"
+            required
+            minlength="6"
+            autocomplete="new-password" />
+          <div id="passwordError" class="password-error">Min 6 characters</div>
+
+          <label for="confirm"><b>Confirm Password*</b></label>
+          <input
+            type="password"
+            id="confirm"
+            name="confirm"
+            placeholder="Re-enter password"
+            required
+            autocomplete="new-password" />
+          <div id="confirmError" class="password-error">
+            Passwords don't match
+          </div>
+
+          <div class="terms">
+            <label>
+              <input type="checkbox" id="terms" name="terms" required />
+              I agree to the
+              <a href="/screen/user/terms.html">Terms & Conditions</a>
+            </label>
+          </div>
+
+          <!-- Admin notice (will be shown if no admin exists) -->
+          <div id="adminNotice" class="admin-notice" style="display: none">
+            <div class="admin-badge">🎉 SPECIAL</div>
+            <p>
+              <strong
+                >You're the first user! Your account will have
+                <span class="admin-role">ADMIN</span> privileges.</strong
+              >
+            </p>
+          </div>
+
+          <button type="submit" class="signup-btn">Sign Up</button>
+        </form>
+
+        <div class="divider">or</div>
 
         <button class="google-btn">
-          <img
-            src="/carsale/src/main/resources/static/image/google.png"
-            alt="Google" />
+          <img src="/image/google.png" alt="Google" />
           Sign up with Google
         </button>
 
         <p class="signin-text">
-          Already have an account? <a href="../user/login.html">Sign in</a>
+          Already have an account? <a href="/screen/user/login.html">Sign in</a>
         </p>
       </div>
 
@@ -67,12 +128,17 @@
       <div class="signup-image">
         <div class="overlay">
           <div class="text-box">
-            <p>Sửa tương tự như bên signin nhé</p>
-            <h3>Steve Jobs</h3>
-            <p class="location">Palo Alto, California, USA</p>
+            <p>
+              "The car was not invented by committee. It was invented by people
+              who wanted to go faster."
+            </p>
+            <h3>Car Enthusiast</h3>
+            <p class="location">Welcome to CarSale Community</p>
           </div>
         </div>
       </div>
     </div>
+
+    <script src="/script/guest/signup.js"></script>
   </body>
 </html>

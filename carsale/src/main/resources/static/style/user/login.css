@@ -13,6 +13,31 @@ body {
   background: #111;
 }
 
+.error-message {
+  color: #dc3545;
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  display: none;
+}
+.success-message {
+  color: #155724;
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  display: none;
+}
+.loading {
+  display: none;
+  text-align: center;
+  color: #007bff;
+  margin: 10px 0;
+}
+
 .login-container {
   display: flex;
   width: 90%;
@@ -138,7 +163,7 @@ body {
 /* RIGHT: IMAGE & TEXT */
 .login-image {
   flex: 1.2;
-  background-image: url("car-black.jpg"); /* 👉 đổi thành đường dẫn ảnh của bạn */
+  background-image: url("/image/logo.png"); /* 👉 đổi thành đường dẫn ảnh của bạn */
   background-size: cover;
   background-position: center;
   position: relative;

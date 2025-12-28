@@ -1,21 +1,26 @@
 package com.firefire.carsale.dto.response;
 
+import lombok.Data;
+
+@Data
 public class LoginResponse {
+    private boolean success;
+    private String message;
+    private AccountResponse account;
+    private String token; // Simple token for session
 
-    private String token;
-    private String role;
-
-    public LoginResponse(String token, String role) {
+    public LoginResponse(boolean success, String message, AccountResponse account, String token) {
+        this.success = success;
+        this.message = message;
+        this.account = account;
         this.token = token;
-        this.role = role;
     }
 
-    public String getToken() {
-        return token;
+    public static LoginResponse success(String message, AccountResponse account, String token) {
+        return new LoginResponse(true, message, account, token);
     }
 
-    public String getRole() {
-        return role;
+    public static LoginResponse error(String message) {
+        return new LoginResponse(false, message, null, null);
     }
-
 }

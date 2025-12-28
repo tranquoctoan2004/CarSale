@@ -4,12 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shop Layout</title>
-    <link
-      rel="stylesheet"
-      href="/carsale/src/main/resources/static/style/global/user.css" />
-    <link
-      rel="stylesheet"
-      href="/carsale/src/main/resources/static/style/user/userhome.css" />
+    <link rel="stylesheet" href="/style/global/user.css" />
+    <link rel="stylesheet" href="/style/user/userhome.css" />
   </head>
   <body>
     <!-- Header -->
@@ -22,6 +18,8 @@
       <section class="content">
         <div class="bestseller">
           <h2>Bestseller</h2>
+          <p id="welcomeMessage">Loading...</p>
+          <p id="userStats"></p>
         </div>
 
         <div class="cards">
@@ -137,6 +135,7 @@
     <!-- Footer -->
     <div id="footer"></div>
     <!-- Script -->
-    <script src="/carsale/src/main/resources/static/script/common/layout.js"></script>
+    <script src="/script/common/layout.js"></script>
+    <script src="/script/user/auth-check.js"></script>
   </body>
 </html>

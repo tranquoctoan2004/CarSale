@@ -194,7 +194,9 @@ CREATE TABLE public.accounts (
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     full_name character varying(100) NOT NULL,
-    phone_number character varying(15)
+    phone_number character varying(15),
+    reset_token character varying(255),
+    token_expiry timestamp without time zone
 );
 
 
