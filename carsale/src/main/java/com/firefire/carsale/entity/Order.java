@@ -1,7 +1,9 @@
 package com.firefire.carsale.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -9,11 +11,15 @@ import java.util.List;
 
 import com.firefire.carsale.entity.enums.OrderStatus;
 import com.firefire.carsale.entity.enums.PaymentMethod;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "orders")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
@@ -21,6 +27,7 @@ public class Order {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
+    @JsonIgnore
     private Account account;
 
     @Column(name = "total_price", nullable = false, precision = 15, scale = 2)
@@ -34,8 +41,9 @@ public class Order {
     @Column(name = "payment_method", nullable = false)
     private PaymentMethod paymentMethod;
 
-    @Column(name = "order_date")
-    private LocalDateTime orderDate = LocalDateTime.now();
+    @CreationTimestamp
+    @Column(name = "order_date", updatable = false)
+    private LocalDateTime orderDate;
 
     @Column(name = "delivery_address", nullable = false, length = 255)
     private String deliveryAddress;
@@ -46,6 +54,9 @@ public class Order {
     @Column(name = "note", length = 255)
     private String note;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    /* ================== RELATIONSHIPS ================== */
+
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<OrderDetail> orderDetails = new ArrayList<>();
 }

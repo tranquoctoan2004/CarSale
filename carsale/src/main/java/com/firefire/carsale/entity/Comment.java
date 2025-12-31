@@ -1,15 +1,21 @@
 package com.firefire.carsale.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
 import com.firefire.carsale.entity.enums.VisibilityStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "comments")
 public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
@@ -17,10 +23,12 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
+    @JsonIgnore
     private Account account;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_detail_id", nullable = false, unique = true)
+    @JsonIgnore
     private OrderDetail orderDetail;
 
     @Column(name = "rating", nullable = false)
@@ -29,26 +37,30 @@ public class Comment {
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    @Column(name = "review_date")
-    private LocalDateTime reviewDate = LocalDateTime.now();
+    @CreationTimestamp
+    @Column(name = "review_date", updatable = false)
+    private LocalDateTime reviewDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private VisibilityStatus status = VisibilityStatus.visible;
 
+    /* ================== HELPER METHODS ================== */
+
+    @Transient
     public Car getCar() {
-        return this.orderDetail != null ? this.orderDetail.getCar() : null;
+        return orderDetail != null ? orderDetail.getCar() : null;
     }
 
-    // THÊM: Phương thức helper để lấy carId
+    @Transient
     public Integer getCarId() {
-        return (this.orderDetail != null && this.orderDetail.getCar() != null)
-                ? this.orderDetail.getCar().getCarId()
+        return (orderDetail != null && orderDetail.getCar() != null)
+                ? orderDetail.getCar().getCarId()
                 : null;
     }
 
-    // THÊM: Phương thức helper để lấy Account username
+    @Transient
     public String getAccountUsername() {
-        return this.account != null ? this.account.getUsername() : null;
+        return account != null ? account.getUsername() : null;
     }
 }
