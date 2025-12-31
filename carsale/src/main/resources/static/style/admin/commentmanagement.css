@@ -1,47 +1,52 @@
-/* Reuse global/admin.css for layout */
+/* ============================= */
+/* Reuse global/admin.css layout */
+/* ============================= */
 
-/* Page header */
+/* ===== Page Header ===== */
+/* Thanh tiêu đề của trang (tiêu đề + nút hành động) */
 .page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: flex; /* Hiển thị ngang */
+  justify-content: space-between; /* Tách đều 2 bên */
+  align-items: center; /* Canh giữa theo chiều dọc */
   margin-bottom: 10px;
 }
 
+/* Tiêu đề trang */
 .page-header h2 {
   font-size: 22px;
 }
 
-/* Filters */
+/* ===== Filters ===== */
+/* Khu vực tìm kiếm & bộ lọc */
 .filters {
-  display: flex;
-  gap: 10px;
+  display: flex; /* Hiển thị các filter theo hàng ngang */
+  gap: 10px; /* Khoảng cách giữa các phần tử */
   margin-bottom: 15px;
 }
 
-.filters input,
-.filters select {
-  padding: 8px 10px;
-  font-size: 14px;
-  border-radius: 15px;
-  border: 1px solid #ccc;
-}
+/* Style chung cho input & select */
 .filters input,
 .filters select {
   padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 15px; /* Bo tròn mềm UI */
   border: 1px solid #ccc;
-  border-radius: 15px;
 }
+
+/* Ô tìm kiếm chiếm 50% chiều ngang */
 .filters input {
   width: 50%;
 }
+
+/* Dropdown trạng thái nằm bên phải */
 .filters select:last-child {
-  margin-left: auto; /* đẩy sang phải */
+  margin-left: auto; /* Đẩy sang phải */
   text-align: center;
   width: 15%;
 }
 
-/* Table */
+/* ===== Table Box ===== */
+/* Khung bao bảng dữ liệu */
 .table-box {
   background: white;
   border: 1px solid #ddd;
@@ -49,12 +54,15 @@
   padding: 20px;
 }
 
+/* ===== Data Table ===== */
+/* Bảng danh sách xe */
 .data-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: collapse; /* Gộp đường viền */
   margin-top: 10px;
 }
 
+/* Header bảng */
 .data-table th {
   background: #f1f3f6;
   padding: 12px;
@@ -63,44 +71,52 @@
   border-bottom: 2px solid #ddd;
 }
 
+/* Nội dung bảng */
 .data-table td {
   padding: 10px 12px;
   border-bottom: 1px solid #eee;
   vertical-align: top;
 }
 
-/* Status colors */
+/* ===== Status Colors ===== */
+/* Trạng thái Active */
 .data-table .active {
-  color: #28a745;
+  color: #28a745; /* Xanh lá */
   font-weight: bold;
 }
 
+/* Trạng thái Pending */
 .data-table .pending {
-  color: #d9534f;
+  color: #d9534f; /* Đỏ */
   font-weight: bold;
 }
 
-/* Action buttons */
+/* ===== Action Buttons ===== */
+/* Các nút hành động (xem, phản hồi, xoá) */
 .data-table td button {
   border: none;
-  background: none;
+  background: none; /* Không nền – icon style */
   cursor: pointer;
   font-size: 16px;
   margin-right: 12px;
 }
 
+/* Nút xem chi tiết */
 .data-table td button.view {
-  color: #1a73e8;
+  color: #1a73e8; /* Xanh dương */
 }
 
+/* Nút phản hồi */
 .data-table td button.reply {
-  color: #f0ad4e;
+  color: #f0ad4e; /* Cam */
 }
 
+/* Nút xoá */
 .data-table td button.delete {
-  color: #d9534f;
+  color: #d9534f; /* Đỏ */
 }
 
+/* Hiệu ứng hover nút */
 .data-table td button:hover {
-  transform: scale(1.5);
+  transform: scale(1.5); /* Phóng to icon */
 }
