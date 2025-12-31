@@ -1,144 +1,256 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign Up - CarSale</title>
-    <link rel="stylesheet" href="/style/guest/signup.css" />
-  </head>
-  <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4361ee">
+    <title>Sign Up | CarSale</title>
+    <link rel="stylesheet" href="/style/guest/signup.css">
+</head>
+<body>
     <div class="signup-container">
-      <!-- LEFT SIDE: FORM -->
-      <div class="signup-form">
-        <h2>Create an Account</h2>
-        <p>Join us to explore amazing cars and deals.</p>
-
-        <!-- Message containers -->
-        <div
-          id="errorMessage"
-          class="error-message"
-          style="display: none"></div>
-        <div
-          id="successMessage"
-          class="success-message"
-          style="display: none"></div>
-        <div id="loading" class="loading" style="display: none">
-          Creating account...
-        </div>
-
-        <form id="registerForm">
-          <label for="username"><b>Username*</b></label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            placeholder="Enter username"
-            required
-            autocomplete="username"
-            minlength="3"
-            maxlength="50" />
-
-          <label for="fullName"><b>Full Name*</b></label>
-          <input
-            type="text"
-            id="fullName"
-            name="fullName"
-            placeholder="Enter full name"
-            required
-            autocomplete="name"
-            minlength="2"
-            maxlength="100" />
-
-          <label for="phone"><b>Phone Number</b></label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            placeholder="Enter your phone number"
-            autocomplete="tel"
-            pattern="[0-9]{10,15}" />
-
-          <label for="email"><b>Email*</b></label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Enter your email"
-            required
-            autocomplete="email" />
-
-          <label for="password"><b>Password*</b></label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Min 6 characters"
-            required
-            minlength="6"
-            autocomplete="new-password" />
-          <div id="passwordError" class="password-error">Min 6 characters</div>
-
-          <label for="confirm"><b>Confirm Password*</b></label>
-          <input
-            type="password"
-            id="confirm"
-            name="confirm"
-            placeholder="Re-enter password"
-            required
-            autocomplete="new-password" />
-          <div id="confirmError" class="password-error">
-            Passwords don't match
-          </div>
-
-          <div class="terms">
-            <label>
-              <input type="checkbox" id="terms" name="terms" required />
-              I agree to the
-              <a href="/screen/user/terms.html">Terms & Conditions</a>
-            </label>
-          </div>
-
-          <!-- Admin notice (will be shown if no admin exists) -->
-          <div id="adminNotice" class="admin-notice" style="display: none">
-            <div class="admin-badge">🎉 SPECIAL</div>
-            <p>
-              <strong
-                >You're the first user! Your account will have
-                <span class="admin-role">ADMIN</span> privileges.</strong
-              >
+        <!-- LEFT: FORM SECTION -->
+        <div class="signup-form">
+            <div class="form-header">
+                <div class="logo">
+                    <div class="logo-icon">🚗</div>
+                    <div class="logo-text">CarSale</div>
+                </div>
+                <h2>Create Account</h2>
+                <p>Join thousands of car enthusiasts in our community</p>
+            </div>
+            
+            <!-- Messages -->
+            <div id="errorMessage" class="message error">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                </svg>
+                <span>Please check your inputs</span>
+            </div>
+            
+            <div id="successMessage" class="message success">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                <span>Registration successful! Redirecting...</span>
+            </div>
+            
+            <div id="loading" class="message loading">
+                <div class="spinner"></div>
+                <span>Creating your account...</span>
+            </div>
+            
+            <!-- Form -->
+            <form id="registerForm" autocomplete="on">
+                <div class="form-grid">
+                    <!-- Username -->
+                    <div class="input-field">
+                        <label for="username">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                            </svg>
+                            <span>Username *</span>
+                        </label>
+                        <input type="text" id="username" name="username" 
+                               placeholder="Choose a username" 
+                               autocomplete="username" 
+                               autocapitalize="none"
+                               autocorrect="off"
+                               minlength="3" 
+                               maxlength="30" 
+                               pattern="^[a-zA-Z0-9_]+$"
+                               title="Letters, numbers, and underscores only"
+                               required>
+                        <div class="field-status" id="usernameStatus"></div>
+                    </div>
+                    
+                    <!-- Full Name -->
+                    <div class="input-field">
+                        <label for="fullName">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                            </svg>
+                            <span>Full Name *</span>
+                        </label>
+                        <input type="text" id="fullName" name="fullName" 
+                               placeholder="Your full name" 
+                               autocomplete="name"
+                               minlength="2" 
+                               maxlength="50" 
+                               required>
+                    </div>
+                    
+                    <!-- Email -->
+                    <div class="input-field full-width">
+                        <label for="email">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                            </svg>
+                            <span>Email Address *</span>
+                        </label>
+                        <input type="email" id="email" name="email" 
+                               placeholder="your.email@example.com" 
+                               autocomplete="email"
+                               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                               title="Enter a valid email address"
+                               required>
+                        <div class="field-status" id="emailStatus"></div>
+                    </div>
+                    
+                    <!-- Phone -->
+                    <div class="input-field">
+                        <label for="phone">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                            </svg>
+                            <span>Phone Number</span>
+                        </label>
+                        <input type="tel" id="phone" name="phone" 
+                               placeholder="(123) 456-7890" 
+                               autocomplete="tel"
+                               pattern="[0-9\s\-\(\)]+"
+                               maxlength="15">
+                    </div>
+                    
+                    <!-- Password -->
+                    <div class="input-field">
+                        <label for="password">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                            </svg>
+                            <span>Password *</span>
+                        </label>
+                        <div class="password-field">
+                            <input type="password" id="password" name="password" 
+                                   placeholder="At least 6 characters" 
+                                   autocomplete="new-password"
+                                   minlength="6"
+                                   required>
+                            <button type="button" class="toggle-pwd" id="togglePassword" aria-label="Show password">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="password-strength">
+                            <div class="strength-bar" id="strengthBar"></div>
+                        </div>
+                        <div class="strength-text" id="strengthText">Password strength: None</div>
+                    </div>
+                    
+                    <!-- Confirm Password -->
+                    <div class="input-field">
+                        <label for="confirmPassword">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                            <span>Confirm Password *</span>
+                        </label>
+                        <div class="password-field">
+                            <input type="password" id="confirmPassword" name="confirmPassword" 
+                                   placeholder="Re-enter your password" 
+                                   autocomplete="new-password"
+                                   minlength="6"
+                                   required>
+                            <button type="button" class="toggle-pwd" id="toggleConfirmPassword" aria-label="Show password">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="field-status" id="passwordMatch"></div>
+                    </div>
+                </div>
+                
+                <!-- Terms & Admin Notice -->
+                <div class="terms">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <span class="checkmark"></span>
+                        <span class="label-text">I agree to the 
+                            <a href="/screen/user/condition.html" target="_blank">Terms & Conditions</a> 
+                            and <a href="/screen/user/condition.html" target="_blank">Privacy Policy</a>
+                        </span>
+                    </label>
+                </div>
+                
+                <div id="adminNotice" class="admin-notice">
+                    <div class="admin-badge">🎉 SPECIAL ANNOUNCEMENT</div>
+                    <p><strong>You're the first user! Your account will have <span class="admin-role">ADMIN</span> privileges.</strong></p>
+                    <p class="admin-desc">As the first user, you'll have full access to manage the system.</p>
+                </div>
+                
+                <!-- Submit Button -->
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span>Create Account</span>
+                </button>
+            </form>
+            
+            <!-- Divider -->
+            <div class="divider">
+                <span>or continue with</span>
+            </div>
+            
+            <!-- Google Button -->
+            <button type="button" class="google-btn" id="googleBtn">
+                <svg width="18" height="18" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                <span>Sign up with Google</span>
+            </button>
+            
+            <!-- Login Link -->
+            <p class="login-link">
+                Already have an account? 
+                <a href="/screen/user/login.html">Sign in here</a>
             </p>
-          </div>
-
-          <button type="submit" class="signup-btn">Sign Up</button>
-        </form>
-
-        <div class="divider">or</div>
-
-        <button class="google-btn">
-          <img src="/image/google.png" alt="Google" />
-          Sign up with Google
-        </button>
-
-        <p class="signin-text">
-          Already have an account? <a href="/screen/user/login.html">Sign in</a>
-        </p>
-      </div>
-
-      <!-- RIGHT SIDE: IMAGE & INFO -->
-      <div class="signup-image">
-        <div class="overlay">
-          <div class="text-box">
-            <p>
-              "The car was not invented by committee. It was invented by people
-              who wanted to go faster."
-            </p>
-            <h3>Car Enthusiast</h3>
-            <p class="location">Welcome to CarSale Community</p>
-          </div>
         </div>
-      </div>
+        
+        <!-- RIGHT: IMAGE & INFO SECTION -->
+        <div class="signup-image">
+            <div class="overlay">
+                <div class="text-box">
+                    <div class="car-badge">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/>
+                        </svg>
+                        <span>Auto Marketplace</span>
+                    </div>
+                    <h2>Join Our Community</h2>
+                    <p class="quote">
+                        "The car was not invented by committee. It was invented by people who wanted to go faster."
+                        <br><br>
+                        Be part of a community that values quality, trust, and passion for automobiles.
+                    </p>
+                    
+                    <div class="features">
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
+                            </svg>
+                            <span>Verified & Quality Checked Vehicles</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+                            </svg>
+                            <span>Best Price Guarantee</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/>
+                            </svg>
+                            <span>24/7 Customer Support</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="/script/guest/signup.js"></script>
-  </body>
+</body>
 </html>
