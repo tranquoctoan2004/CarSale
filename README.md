@@ -125,11 +125,10 @@ carsale
 │
 └── README.md
 
-
-1. entity + enums
-2. repository
-3. dto
-4. exception + util
+1. entity + enums - done
+2. repository - done
+3. dto - done
+4. exception + util - done
 5. service (interface)
 6. service/impl (nghiệp vụ)
 7. controller
