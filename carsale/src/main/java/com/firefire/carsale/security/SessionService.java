@@ -47,4 +47,15 @@ public class SessionService {
         String token = userTokens.get(accountId);
         return token != null ? sessions.get(token) : null;
     }
+
+    public boolean hasRole(String token, String roleName) {
+        AccountResponse account = sessions.get(token);
+        if (account == null || account.getRoles() == null) {
+            return false;
+        }
+        return account.getRoles()
+                .stream()
+                .anyMatch(r -> r.equalsIgnoreCase(roleName));
+    }
+
 }

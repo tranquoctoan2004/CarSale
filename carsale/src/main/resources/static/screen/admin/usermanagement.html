@@ -70,53 +70,69 @@
                 <th>Actions</th>
               </tr>
             </thead>
-
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>admin</td>
-                <td>admin@gmail.com</td>
-                <td>ADMIN</td>
-                <td class="active">Active</td>
-                <td>2025-11-01</td>
-                <td>
-                  <button class="view" title="View Detail">
-                    <i class="fa-solid fa-eye"></i>
-                  </button>
-                  <button class="edit" title="Edit">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  <button class="delete" title="Deactivate">
-                    <i class="fa-solid fa-ban"></i>
-                  </button>
-                </td>
-              </tr>
-
-              <tr>
-                <td>2</td>
-                <td>khoa</td>
-                <td>khoa@gmail.com</td>
-                <td>CUSTOMER</td>
-                <td class="pending">Pending</td>
-                <td>2025-11-10</td>
-                <td>
-                  <button class="view">
-                    <i class="fa-solid fa-eye"></i>
-                  </button>
-                  <button class="edit">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  <button class="delete">
-                    <i class="fa-solid fa-ban"></i>
-                  </button>
-                </td>
-              </tr>
+            <tbody id="userTableBody">
+              <!-- JS render -->
             </tbody>
           </table>
         </div>
       </section>
     </div>
+    <!-- USER MODAL -->
+    <div id="userModal" class="modal hidden">
+      <div class="modal-overlay"></div>
+
+      <div class="modal-content">
+        <button class="modal-close" id="closeModal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <!-- VIEW MODE -->
+        <div id="viewUserBox">
+          <h3>User Detail</h3>
+
+          <div class="user-detail">
+            <img
+              id="detailAvatar"
+              src="/images/avatar-default.png"
+              alt="avatar" />
+
+            <div class="info">
+              <p><b>ID:</b> <span id="detailId"></span></p>
+              <p><b>Username:</b> <span id="detailUsername"></span></p>
+              <p><b>Email:</b> <span id="detailEmail"></span></p>
+              <p><b>Phone:</b> <span id="detailPhone"></span></p>
+              <p><b>Status:</b> <span id="detailStatus"></span></p>
+              <p><b>Roles:</b> <span id="detailRoles"></span></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- EDIT MODE -->
+        <div id="editUserBox" class="hidden">
+          <h3>Edit User</h3>
+
+          <input type="hidden" id="editUserId" />
+
+          <label>Status</label>
+          <select id="editStatus">
+            <option value="ACTIVE">ACTIVE</option>
+            <option value="INACTIVE">INACTIVE</option>
+            <option value="BANNED">BANNED</option>
+          </select>
+
+          <label>Roles</label>
+          <div class="role-group">
+            <label><input type="checkbox" value="ADMIN" /> ADMIN</label>
+            <label><input type="checkbox" value="STAFF" /> STAFF</label>
+            <label><input type="checkbox" value="CUSTOMER" /> CUSTOMER</label>
+          </div>
+
+          <button class="btn-save" id="saveUserBtn">Save Changes</button>
+        </div>
+      </div>
+    </div>
 
     <script src="/script/common/layoutadmin.js"></script>
+    <script src="/script/admin/usermanagement.js"></script>
   </body>
 </html>
