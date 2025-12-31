@@ -14,17 +14,25 @@ import java.util.List;
 
 @Repository
 public interface ReportRepository extends JpaRepository<Report, Integer> {
-    List<Report> findByAdminAccountId(Integer adminId);
-    List<Report> findByReportType(ReportType reportType);
-    List<Report> findByStatus(ReportStatus status);
-    
-    @Query("SELECT r FROM Report r WHERE " +
-           "(:reportType IS NULL OR r.reportType = :reportType) AND " +
-           "(:status IS NULL OR r.status = :status) AND " +
-           "(:startDate IS NULL OR r.createdAt >= :startDate) AND " +
-           "(:endDate IS NULL OR r.createdAt <= :endDate)")
-    List<Report> searchReports(@Param("reportType") ReportType reportType,
-                              @Param("status") ReportStatus status,
-                              @Param("startDate") LocalDateTime startDate,
-                              @Param("endDate") LocalDateTime endDate);
+
+       List<Report> findByAdminAccountId(Integer adminId);
+
+       List<Report> findByReportType(ReportType reportType);
+
+       List<Report> findByStatus(ReportStatus status);
+
+       @Query("""
+                         SELECT r FROM Report r
+                         WHERE (:reportType IS NULL OR r.reportType = :reportType)
+                           AND (:status IS NULL OR r.status = :status)
+                           AND (:startDate IS NULL OR r.createdAt >= :startDate)
+                           AND (:endDate IS NULL OR r.createdAt <= :endDate)
+                         ORDER BY r.createdAt DESC
+                     """)
+       org.springframework.data.domain.Page<Report> searchReports(
+                     @Param("reportType") ReportType reportType,
+                     @Param("status") ReportStatus status,
+                     @Param("startDate") LocalDateTime startDate,
+                     @Param("endDate") LocalDateTime endDate,
+                     org.springframework.data.domain.Pageable pageable);
 }

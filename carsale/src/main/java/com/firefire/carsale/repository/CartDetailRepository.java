@@ -14,19 +14,22 @@ import java.util.Optional;
 
 @Repository
 public interface CartDetailRepository extends JpaRepository<CartDetail, Integer> {
+
     List<CartDetail> findByCartCartId(Integer cartId);
+
     Optional<CartDetail> findByCartCartIdAndCarCarId(Integer cartId, Integer carId);
-    
-    @Query("SELECT SUM(cd.quantity) FROM CartDetail cd WHERE cd.cart.cartId = :cartId")
+
+    @Query("SELECT COALESCE(SUM(cd.quantity), 0) FROM CartDetail cd WHERE cd.cart.cartId = :cartId")
     Integer countItemsInCart(@Param("cartId") Integer cartId);
-    
+
     @Transactional
     @Modifying
     @Query("DELETE FROM CartDetail cd WHERE cd.cart.cartId = :cartId")
     void clearCart(@Param("cartId") Integer cartId);
-    
+
     @Transactional
     @Modifying
     @Query("DELETE FROM CartDetail cd WHERE cd.cart.cartId = :cartId AND cd.car.carId = :carId")
-    void removeItemFromCart(@Param("cartId") Integer cartId, @Param("carId") Integer carId);
+    void removeItemFromCart(@Param("cartId") Integer cartId,
+            @Param("carId") Integer carId);
 }

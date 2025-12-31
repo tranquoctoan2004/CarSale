@@ -1,15 +1,21 @@
 package com.firefire.carsale.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
 import com.firefire.carsale.entity.enums.NewsStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "news")
 public class News {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "news_id")
@@ -26,10 +32,12 @@ public class News {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_account_id", nullable = false)
+    @JsonIgnore
     private Account author;
 
-    @Column(name = "date")
-    private LocalDateTime date = LocalDateTime.now();
+    @CreationTimestamp
+    @Column(name = "date", updatable = false)
+    private LocalDateTime date;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")

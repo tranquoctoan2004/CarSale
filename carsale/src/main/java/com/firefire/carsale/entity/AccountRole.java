@@ -1,13 +1,19 @@
 package com.firefire.carsale.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @Entity
-@Table(name = "account_roles")
+@Table(name = "account_roles", uniqueConstraints = {
+        @UniqueConstraint(columnNames = { "account_id", "role_id" })
+})
 public class AccountRole {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_role_id")
@@ -21,7 +27,7 @@ public class AccountRole {
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
-    @Column(name = "assigned_at")
+    @Column(name = "assigned_at", updatable = false)
     private LocalDateTime assignedAt = LocalDateTime.now();
 
     @Column(name = "is_active")

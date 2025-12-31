@@ -4,12 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>News Management</title>
+
     <link rel="stylesheet" href="/style/global/admin.css" />
     <link rel="stylesheet" href="/style/admin/newsmanagement.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   </head>
+
   <body>
     <!-- HEADER -->
     <div id="header"></div>
@@ -20,10 +22,10 @@
 
       <!-- CONTENT -->
       <section class="content">
-        <!-- Header + Add button -->
+        <!-- Header -->
         <div class="page-header">
           <h2>News Management</h2>
-          <button class="btn-add">+ Add New News</button>
+          <button class="btn-add" id="btnAddNews">+ Add New News</button>
         </div>
 
         <!-- Search + Filters -->
@@ -32,6 +34,7 @@
             type="text"
             placeholder="Search by title or author..."
             class="search-input" />
+
           <select>
             <option>All Status</option>
             <option>Published</option>
@@ -41,64 +44,77 @@
 
         <!-- News Table -->
         <div class="table-box">
-          <h3>News List</h3>
+          <h3>News List (3)</h3>
+
           <table class="data-table">
             <thead>
               <tr>
                 <th>Title</th>
                 <th>Author</th>
-                <th>Date</th>
+                <th>Publish Date</th>
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
             </thead>
+
             <tbody>
+              <!-- NEWS 1 -->
               <tr>
                 <td>New Car Model Released</td>
                 <td>Admin</td>
                 <td>2025-11-20</td>
                 <td class="active">Published</td>
                 <td>
-                  <button class="view" title="View Detail">
+                  <button class="view" title="View">
                     <i class="fa-solid fa-eye"></i>
                   </button>
-                  <button class="edit" title="Edit">
+
+                  <button class="edit" title="Edit" data-news-id="1">
                     <i class="fa-solid fa-pen-to-square"></i>
                   </button>
+
                   <button class="delete" title="Delete">
                     <i class="fa-solid fa-trash"></i>
                   </button>
                 </td>
               </tr>
+
+              <!-- NEWS 2 -->
               <tr>
                 <td>Holiday Discount Campaign</td>
                 <td>Marketing</td>
                 <td>2025-11-18</td>
                 <td class="pending">Draft</td>
                 <td>
-                  <button class="view" title="View Detail">
+                  <button class="view" title="View">
                     <i class="fa-solid fa-eye"></i>
                   </button>
-                  <button class="edit" title="Edit">
+
+                  <button class="edit" title="Edit" data-news-id="2">
                     <i class="fa-solid fa-pen-to-square"></i>
                   </button>
+
                   <button class="delete" title="Delete">
                     <i class="fa-solid fa-trash"></i>
                   </button>
                 </td>
               </tr>
+
+              <!-- NEWS 3 -->
               <tr>
                 <td>Website Maintenance Notice</td>
                 <td>Admin</td>
                 <td>2025-11-15</td>
                 <td class="active">Published</td>
                 <td>
-                  <button class="view" title="View Detail">
+                  <button class="view" title="View">
                     <i class="fa-solid fa-eye"></i>
                   </button>
-                  <button class="edit" title="Edit">
+
+                  <button class="edit" title="Edit" data-news-id="3">
                     <i class="fa-solid fa-pen-to-square"></i>
                   </button>
+
                   <button class="delete" title="Delete">
                     <i class="fa-solid fa-trash"></i>
                   </button>
@@ -109,7 +125,32 @@
         </div>
       </section>
     </div>
-    <!-- JS load layout + data -->
+
+    <!-- ADD / EDIT NEWS MODAL -->
+    <div class="modal" id="newsModal">
+      <div class="modal-content">
+        <h3 id="modalTitle">Add News</h3>
+
+        <input type="text" id="newsTitle" placeholder="News title" />
+
+        <textarea
+          id="newsContent"
+          rows="5"
+          placeholder="News content..."></textarea>
+
+        <select id="newsStatus">
+          <option value="PUBLISHED">Published</option>
+          <option value="DRAFT">Draft</option>
+        </select>
+
+        <div class="modal-actions">
+          <button class="btn-cancel">Cancel</button>
+          <button class="btn-submit">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- JS load layout -->
     <script src="/script/common/layoutadmin.js"></script>
   </body>
 </html>

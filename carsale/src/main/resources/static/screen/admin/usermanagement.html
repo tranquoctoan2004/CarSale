@@ -4,12 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Management</title>
+
     <link rel="stylesheet" href="/style/global/admin.css" />
     <link rel="stylesheet" href="/style/admin/usermanagement.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   </head>
+
   <body>
     <!-- HEADER -->
     <div id="header"></div>
@@ -20,42 +22,63 @@
 
       <!-- CONTENT -->
       <section class="content">
+        <!-- Page header -->
         <div class="page-header">
           <h2>User Management</h2>
-          <button class="btn-add">+ Add New User</button>
+          <button class="btn-add">
+            <i class="fa-solid fa-user-plus"></i> Add New User
+          </button>
         </div>
-        <!-- Search + Filter -->
+
+        <p>Manage system accounts and permissions</p>
+
+        <!-- Search + Filters -->
         <div class="filters">
           <input
             type="text"
-            placeholder="Search by name, email..."
+            placeholder="Search by username or email..."
             class="search-input" />
+
           <select>
-            <option>All Status</option>
-            <option>Active</option>
-            <option>Pending</option>
+            <option value="">All Roles</option>
+            <option value="ADMIN">Admin</option>
+            <option value="STAFF">Staff</option>
+            <option value="CUSTOMER">Customer</option>
+          </select>
+
+          <select>
+            <option value="">All Status</option>
+            <option value="ACTIVE">Active</option>
+            <option value="PENDING">Pending</option>
+            <option value="BLOCKED">Blocked</option>
           </select>
         </div>
 
         <!-- Users Table -->
         <div class="table-box">
-          <h3>Users (5)</h3>
+          <h3>Users List</h3>
+
           <table class="data-table">
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Name</th>
+                <th>Username</th>
                 <th>Email</th>
+                <th>Role</th>
                 <th>Status</th>
+                <th>Created At</th>
                 <th>Actions</th>
               </tr>
             </thead>
+
             <tbody>
               <tr>
-                <td>U001</td>
-                <td>Hoang</td>
-                <td>hoang@gmail.com</td>
+                <td>1</td>
+                <td>admin</td>
+                <td>admin@gmail.com</td>
+                <td>ADMIN</td>
                 <td class="active">Active</td>
+                <td>2025-11-01</td>
                 <td>
                   <button class="view" title="View Detail">
                     <i class="fa-solid fa-eye"></i>
@@ -63,76 +86,28 @@
                   <button class="edit" title="Edit">
                     <i class="fa-solid fa-pen-to-square"></i>
                   </button>
-                  <button class="delete" title="Delete">
-                    <i class="fa-solid fa-trash"></i>
+                  <button class="delete" title="Deactivate">
+                    <i class="fa-solid fa-ban"></i>
                   </button>
                 </td>
               </tr>
+
               <tr>
-                <td>U002</td>
-                <td>Lan</td>
-                <td>lan@gmail.com</td>
-                <td class="active">Active</td>
-                <td>
-                  <button class="view" title="View Detail">
-                    <i class="fa-solid fa-eye"></i>
-                  </button>
-                  <button class="edit" title="Edit">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  <button class="delete" title="Delete">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>U003</td>
-                <td>Khoa</td>
+                <td>2</td>
+                <td>khoa</td>
                 <td>khoa@gmail.com</td>
+                <td>CUSTOMER</td>
                 <td class="pending">Pending</td>
+                <td>2025-11-10</td>
                 <td>
-                  <button class="view" title="View Detail">
+                  <button class="view">
                     <i class="fa-solid fa-eye"></i>
                   </button>
-                  <button class="edit" title="Edit">
+                  <button class="edit">
                     <i class="fa-solid fa-pen-to-square"></i>
                   </button>
-                  <button class="delete" title="Delete">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>U004</td>
-                <td>Mai</td>
-                <td>mai@gmail.com</td>
-                <td class="active">Active</td>
-                <td>
-                  <button class="view" title="View Detail">
-                    <i class="fa-solid fa-eye"></i>
-                  </button>
-                  <button class="edit" title="Edit">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  <button class="delete" title="Delete">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>U005</td>
-                <td>Nam</td>
-                <td>nam@gmail.com</td>
-                <td class="pending">Pending</td>
-                <td>
-                  <button class="view" title="View Detail">
-                    <i class="fa-solid fa-eye"></i>
-                  </button>
-                  <button class="edit" title="Edit">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  <button class="delete" title="Delete">
-                    <i class="fa-solid fa-trash"></i>
+                  <button class="delete">
+                    <i class="fa-solid fa-ban"></i>
                   </button>
                 </td>
               </tr>

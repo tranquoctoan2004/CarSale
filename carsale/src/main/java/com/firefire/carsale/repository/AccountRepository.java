@@ -13,21 +13,26 @@ import java.util.Optional;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer> {
-    Optional<Account> findByUsername(String username);
 
-    Optional<Account> findByEmail(String email);
+        Optional<Account> findByUsername(String username);
 
-    boolean existsByUsername(String username);
+        Optional<Account> findByEmail(String email);
 
-    boolean existsByEmail(String email);
+        boolean existsByUsername(String username);
 
-    List<Account> findByStatus(AccountStatus status);
+        boolean existsByEmail(String email);
 
-    @Query("SELECT a FROM Account a WHERE " +
-            "(:username IS NULL OR LOWER(a.username) LIKE LOWER(CONCAT('%', :username, '%'))) AND " +
-            "(:email IS NULL OR LOWER(a.email) LIKE LOWER(CONCAT('%', :email, '%'))) AND " +
-            "(:status IS NULL OR a.status = :status)")
-    List<Account> searchAccounts(@Param("username") String username,
-            @Param("email") String email,
-            @Param("status") AccountStatus status);
+        List<Account> findByStatus(AccountStatus status);
+
+        @Query("""
+                            SELECT a FROM Account a
+                            WHERE (:username IS NULL OR LOWER(a.username) LIKE LOWER(CONCAT('%', :username, '%')))
+                              AND (:email IS NULL OR LOWER(a.email) LIKE LOWER(CONCAT('%', :email, '%')))
+                              AND (:status IS NULL OR a.status = :status)
+                        """)
+        org.springframework.data.domain.Page<Account> searchAccounts(
+                        @Param("username") String username,
+                        @Param("email") String email,
+                        @Param("status") AccountStatus status,
+                        org.springframework.data.domain.Pageable pageable);
 }

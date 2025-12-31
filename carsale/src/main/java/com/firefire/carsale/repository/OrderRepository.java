@@ -14,19 +14,39 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Integer> {
+
     List<Order> findByAccountAccountId(Integer accountId);
+
     List<Order> findByOrderStatus(OrderStatus status);
-    
-    @Query("SELECT o FROM Order o WHERE " +
-           "(:accountId IS NULL OR o.account.accountId = :accountId) AND " +
-           "(:status IS NULL OR o.orderStatus = :status) AND " +
-           "(:startDate IS NULL OR o.orderDate >= :startDate) AND " +
-           "(:endDate IS NULL OR o.orderDate <= :endDate)")
-    List<Order> searchOrders(@Param("accountId") Integer accountId,
-                            @Param("status") OrderStatus status,
-                            @Param("startDate") LocalDateTime startDate,
-                            @Param("endDate") LocalDateTime endDate);
-    
-    @Query("SELECT SUM(o.totalPrice) FROM Order o WHERE o.orderStatus = 'completed'")
-    BigDecimal getTotalRevenue();
+
+    @Query("""
+                SELECT o FROM Order o
+                WHERE (:accountId IS NULL OR o.account.accountId = :accountId)
+                  AND (:status IS NULL OR o.orderStatus = :status)
+                  AND (:startDate IS NULL OR o.orderDate >= :startDate)
+                  AND (:endDate IS NULL OR o.orderDate <= :endDate)
+                ORDER BY o.orderDate DESC
+            """)
+    org.springframework.data.domain.Page<Order> searchOrders(
+            @Param("accountId") Integer accountId,
+            @Param("status") OrderStatus status,
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate,
+            org.springframework.data.domain.Pageable pageable);
+
+    @Query("""
+                SELECT COALESCE(SUM(o.totalPrice), 0)
+                FROM Order o
+                WHERE o.orderStatus = :status
+            """)
+    BigDecimal getTotalRevenue(
+            @Param("status") OrderStatus status);
+
+    @Query("""
+                SELECT COUNT(o)
+                FROM Order o
+                WHERE o.orderStatus = :status
+            """)
+    Long countOrdersByStatus(
+            @Param("status") OrderStatus status);
 }

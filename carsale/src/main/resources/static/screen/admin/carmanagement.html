@@ -4,12 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Car Management</title>
+
     <link rel="stylesheet" href="/style/global/admin.css" />
     <link rel="stylesheet" href="/style/admin/carmanagement.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   </head>
+
   <body>
     <!-- HEADER -->
     <div id="header"></div>
@@ -20,62 +22,66 @@
 
       <!-- CONTENT -->
       <section class="content">
-        <!-- Header + Add button -->
+        <!-- Header + Add -->
         <div class="page-header">
-          <h2>Car Inventory</h2>
-          <button class="btn-add">+ Add New Car</button>
+          <h2>Car Management</h2>
+          <button class="btn-add" onclick="openAddCarModal()">
+            + Add New Car
+          </button>
         </div>
-        <p>Manage your car listings and inventory</p>
+        <p>Manage car inventory information</p>
 
-        <!-- Search + Filters -->
+        <!-- Search + Filter -->
         <div class="filters">
           <input
             type="text"
-            placeholder="Search by make, model, or year..."
+            name="keyword"
+            placeholder="Search by car name or brand..."
             class="search-input" />
-          <select>
-            <option>All Status</option>
-            <option>Available</option>
-            <option>Sold</option>
-            <option>Reserved</option>
+
+          <select name="status">
+            <option value="">All Status</option>
+            <option value="available">Available</option>
+            <option value="sold">Sold</option>
+            <option value="out_of_stock">Out of Stock</option>
           </select>
-          <select>
-            <option>All Conditions</option>
-            <option>Excellent</option>
-            <option>Like New</option>
-            <option>Good</option>
-          </select>
+
+          <button class="btn-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
         </div>
 
-        <!-- Inventory Table -->
+        <!-- Car Table -->
         <div class="table-box">
-          <h3>Inventory (4 cars)</h3>
+          <h3>Car List</h3>
+
           <table class="data-table">
             <thead>
               <tr>
-                <th>Car</th>
-                <th>Year</th>
+                <th>ID</th>
+                <th>Car Name</th>
+                <th>Brand</th>
                 <th>Price</th>
-                <th>Mileage</th>
-                <th>Condition</th>
                 <th>Status</th>
+                <th>Image</th>
                 <th>Actions</th>
               </tr>
             </thead>
+
             <tbody>
+              <!-- Example Row -->
               <tr>
+                <td>1</td>
+                <td>Toyota Camry</td>
+                <td>Toyota</td>
+                <td>$28,500</td>
+                <td class="status available">Available</td>
                 <td>
                   <img
                     src="/images/camry.jpg"
                     alt="Toyota Camry"
                     class="car-img" />
-                  Toyota Camry<br /><small>Silver</small>
                 </td>
-                <td>2023</td>
-                <td>$28,500</td>
-                <td>15,000 mi</td>
-                <td>Excellent</td>
-                <td class="active">Available</td>
                 <td>
                   <button class="view" title="View Detail">
                     <i class="fa-solid fa-eye"></i>
@@ -88,74 +94,24 @@
                   </button>
                 </td>
               </tr>
+
               <tr>
+                <td>2</td>
+                <td>BMW X5</td>
+                <td>BMW</td>
+                <td>$67,500</td>
+                <td class="status sold">Sold</td>
                 <td>
                   <img src="/images/bmwx5.jpg" alt="BMW X5" class="car-img" />
-                  BMW X5<br /><small>Black</small>
                 </td>
-                <td>2024</td>
-                <td>$67,500</td>
-                <td>5,000 mi</td>
-                <td>Like New</td>
-                <td class="active">Available</td>
                 <td>
-                  <button class="view" title="View Detail">
+                  <button class="view">
                     <i class="fa-solid fa-eye"></i>
                   </button>
-                  <button class="edit" title="Edit">
+                  <button class="edit">
                     <i class="fa-solid fa-pen-to-square"></i>
                   </button>
-                  <button class="delete" title="Delete">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <img
-                    src="/images/civic.jpg"
-                    alt="Honda Civic"
-                    class="car-img" />
-                  Honda Civic<br /><small>Blue</small>
-                </td>
-                <td>2022</td>
-                <td>$24,500</td>
-                <td>25,000 mi</td>
-                <td>Good</td>
-                <td class="pending">Sold</td>
-                <td>
-                  <button class="view" title="View Detail">
-                    <i class="fa-solid fa-eye"></i>
-                  </button>
-                  <button class="edit" title="Edit">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  <button class="delete" title="Delete">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <img
-                    src="/images/mercedes.jpg"
-                    alt="Mercedes C-Class"
-                    class="car-img" />
-                  Mercedes C-Class<br /><small>White</small>
-                </td>
-                <td>2023</td>
-                <td>$45,000</td>
-                <td>12,000 mi</td>
-                <td>Excellent</td>
-                <td class="pending">Reserved</td>
-                <td>
-                  <button class="view" title="View Detail">
-                    <i class="fa-solid fa-eye"></i>
-                  </button>
-                  <button class="edit" title="Edit">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  <button class="delete" title="Delete">
+                  <button class="delete">
                     <i class="fa-solid fa-trash"></i>
                   </button>
                 </td>
@@ -165,8 +121,76 @@
         </div>
       </section>
     </div>
+    <!-- ===== ADD CAR MODAL ===== -->
+    <div id="addCarModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Add New Car</h3>
+          <span class="close" onclick="closeAddCarModal()">&times;</span>
+        </div>
 
-    <!-- JS load layout -->
+        <form id="addCarForm">
+          <!-- Car Name -->
+          <div class="form-group">
+            <label>Car Name</label>
+            <input type="text" name="carName" required />
+          </div>
+
+          <!-- Brand -->
+          <div class="form-group">
+            <label>Brand</label>
+            <select name="brand" required>
+              <option value="">Select brand</option>
+              <option value="Toyota">Toyota</option>
+              <option value="BMW">BMW</option>
+              <option value="Mercedes">Mercedes</option>
+              <option value="Honda">Honda</option>
+            </select>
+          </div>
+
+          <!-- Price -->
+          <div class="form-group">
+            <label>Price ($)</label>
+            <input type="number" name="price" required />
+          </div>
+
+          <!-- Status -->
+          <div class="form-group">
+            <label>Status</label>
+            <select name="status">
+              <option value="available">Available</option>
+              <option value="sold">Sold</option>
+              <option value="out_of_stock">Out of Stock</option>
+            </select>
+          </div>
+
+          <!-- Description -->
+          <div class="form-group">
+            <label>Description</label>
+            <textarea name="description" rows="3"></textarea>
+          </div>
+
+          <!-- Image -->
+          <div class="form-group">
+            <label>Car Image</label>
+            <input type="file" name="image" accept="image/*" />
+          </div>
+
+          <!-- Buttons -->
+          <div class="modal-actions">
+            <button type="submit" class="btn-save">Save</button>
+            <button
+              type="button"
+              class="btn-cancel"
+              onclick="closeAddCarModal()">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- JS -->
     <script src="/script/common/layoutadmin.js"></script>
   </body>
 </html>
