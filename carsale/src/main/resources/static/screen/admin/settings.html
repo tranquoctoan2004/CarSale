@@ -3,13 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Settings</title>
+    <title>System Settings</title>
+
     <link rel="stylesheet" href="/style/global/admin.css" />
     <link rel="stylesheet" href="/style/admin/setting.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   </head>
+
   <body>
     <!-- HEADER -->
     <div id="header"></div>
@@ -20,87 +22,91 @@
 
       <!-- CONTENT -->
       <section class="content">
-        <h2>Settings</h2>
+        <h2>System Settings</h2>
 
-        <!-- Account Settings -->
+        <!-- ================= ACCOUNT SETTINGS ================= -->
         <div class="settings-box">
-          <h3>Account Information</h3>
+          <h3>Admin Account</h3>
+
           <form id="account-form">
             <div class="form-group">
-              <label for="username">Username</label>
-              <input
-                type="text"
-                id="username"
-                placeholder="Enter username"
-                value="admin" />
+              <label>Username</label>
+              <input type="text" id="username" value="admin" />
             </div>
+
             <div class="form-group">
-              <label for="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                placeholder="Enter email"
-                value="admin@example.com" />
+              <label>Email</label>
+              <input type="email" id="email" value="admin@example.com" />
             </div>
+
             <div class="form-group">
-              <label for="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                placeholder="Enter new password" />
+              <label>New Password</label>
+              <input type="password" id="password" />
             </div>
+
             <div class="form-group">
-              <label for="confirm-password">Confirm Password</label>
-              <input
-                type="password"
-                id="confirm-password"
-                placeholder="Confirm password" />
+              <label>Confirm Password</label>
+              <input type="password" id="confirm-password" />
             </div>
-            <button type="submit_account_admin" class="btn-save">
-              Save Account
+
+            <button type="submit" class="btn-save">
+              Save Account Settings
             </button>
           </form>
         </div>
 
-        <!-- Store Settings -->
+        <!-- ================= STORE / FOOTER SETTINGS ================= -->
         <div class="settings-box">
-          <h3>Store Information</h3>
+          <h3>Store Information (Public Footer)</h3>
+
           <form id="store-form">
             <div class="form-group">
-              <label for="store-name">Store Name</label>
-              <input
-                type="text"
-                id="store-name"
-                placeholder="Enter store name"
-                value="CarSale Store" />
+              <label>Store Name</label>
+              <input type="text" id="store-name" value="CarSale Store" />
             </div>
+
             <div class="form-group">
-              <label for="store-email">Store Email</label>
-              <input
-                type="email"
-                id="store-email"
-                placeholder="Enter store email"
-                value="info@carsale.com" />
+              <label>Store Email</label>
+              <input type="email" id="store-email" value="info@carsale.com" />
             </div>
+
             <div class="form-group">
-              <label for="store-phone">Phone Number</label>
-              <input
-                type="text"
-                id="store-phone"
-                placeholder="Enter phone number"
-                value="+84 123 456 789" />
+              <label>Hotline</label>
+              <input type="text" id="store-phone" value="+84 123 456 789" />
             </div>
+
             <div class="form-group">
-              <label for="store-address">Address</label>
+              <label>Address</label>
               <input
                 type="text"
                 id="store-address"
-                placeholder="Enter store address"
                 value="123 Car Street, Hanoi, Vietnam" />
             </div>
-            <button type="submit_store_info" class="btn-save">
-              Save Store Info
-            </button>
+
+            <div class="form-group">
+              <label>Footer Description</label>
+              <textarea id="footer-description" rows="3">
+CarSale – Trusted platform for buying and selling cars in Vietnam.
+              </textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Facebook</label>
+              <input
+                type="text"
+                id="facebook"
+                placeholder="https://facebook.com/..." />
+            </div>
+
+            <div class="form-group">
+              <label>Instagram</label>
+              <input
+                type="text"
+                id="instagram"
+                placeholder="https://instagram.com/..." />
+            </div>
+
+            <button type="submit" class="btn-save">Save Store Settings</button>
           </form>
         </div>
       </section>

@@ -4,12 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Order Management</title>
+
     <link rel="stylesheet" href="/style/global/admin.css" />
     <link rel="stylesheet" href="/style/admin/ordermanagement.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   </head>
+
   <body>
     <!-- HEADER -->
     <div id="header"></div>
@@ -24,6 +26,7 @@
         <div class="page-header">
           <h2>Order Management</h2>
         </div>
+        <p>Manage customer orders and payment status</p>
 
         <!-- Search + Filters -->
         <div class="filters">
@@ -31,108 +34,94 @@
             type="text"
             placeholder="Search by customer or car..."
             class="search-input" />
+
           <select>
-            <option>All Status</option>
-            <option>Pending</option>
-            <option>Done</option>
-            <option>Cancelled</option>
+            <option value="">All Order Status</option>
+            <option value="PENDING">Pending</option>
+            <option value="DONE">Done</option>
+            <option value="CANCELLED">Cancelled</option>
           </select>
+
           <select>
-            <option>All Payment</option>
-            <option>Paid</option>
-            <option>Unpaid</option>
+            <option value="">All Payment Status</option>
+            <option value="PAID">Paid</option>
+            <option value="UNPAID">Unpaid</option>
           </select>
         </div>
 
         <!-- Orders Table -->
         <div class="table-box">
-          <h3>Orders List (4 orders)</h3>
+          <h3>Orders List</h3>
+
           <table class="data-table">
             <thead>
               <tr>
                 <th>Order ID</th>
                 <th>Customer</th>
                 <th>Car</th>
-                <th>Date</th>
-                <th>Status</th>
+                <th>Order Date</th>
+                <th>Total Price</th>
+                <th>Order Status</th>
                 <th>Payment</th>
+                <th>Method</th>
                 <th>Actions</th>
               </tr>
             </thead>
+
             <tbody>
               <tr>
                 <td>#001</td>
                 <td>Tuan</td>
                 <td>Toyota Camry</td>
                 <td>2025-11-20</td>
+                <td>$28,500</td>
                 <td class="pending">Pending</td>
                 <td class="pending">Unpaid</td>
+                <td>Bank Transfer</td>
                 <td>
                   <button class="view" title="View Detail">
                     <i class="fa-solid fa-eye"></i>
                   </button>
-                  <button class="edit" title="Edit">
+                  <button class="edit" title="Update Status">
                     <i class="fa-solid fa-pen-to-square"></i>
                   </button>
-                  <button class="delete" title="Delete">
-                    <i class="fa-solid fa-trash"></i>
+                  <button class="delete" title="Cancel Order">
+                    <i class="fa-solid fa-ban"></i>
                   </button>
                 </td>
               </tr>
+
               <tr>
                 <td>#002</td>
                 <td>Nam</td>
                 <td>BMW X5</td>
                 <td>2025-11-18</td>
+                <td>$67,500</td>
                 <td class="done">Done</td>
                 <td class="done">Paid</td>
+                <td>Cash</td>
                 <td>
-                  <button class="view" title="View Detail">
+                  <button class="view">
                     <i class="fa-solid fa-eye"></i>
                   </button>
-                  <button class="edit" title="Edit">
+                  <button class="edit">
                     <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  <button class="delete" title="Delete">
-                    <i class="fa-solid fa-trash"></i>
                   </button>
                 </td>
               </tr>
+
               <tr>
                 <td>#003</td>
                 <td>Lan</td>
                 <td>Honda Civic</td>
                 <td>2025-11-15</td>
+                <td>$24,000</td>
                 <td class="done">Done</td>
                 <td class="done">Paid</td>
+                <td>Online</td>
                 <td>
-                  <button class="view" title="View Detail">
+                  <button class="view">
                     <i class="fa-solid fa-eye"></i>
-                  </button>
-                  <button class="edit" title="Edit">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  <button class="delete" title="Delete">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>#004</td>
-                <td>Khoa</td>
-                <td>Mercedes C-Class</td>
-                <td>2025-11-12</td>
-                <td class="pending">Pending</td>
-                <td class="pending">Unpaid</td>
-                <td>
-                  <button class="view" title="View Detail">
-                    <i class="fa-solid fa-eye"></i>
-                  </button>
-                  <button class="edit" title="Edit">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  <button class="delete" title="Delete">
-                    <i class="fa-solid fa-trash"></i>
                   </button>
                 </td>
               </tr>
@@ -142,7 +131,7 @@
       </section>
     </div>
 
-    <!-- JS load layout -->
+    <!-- JS -->
     <script src="/script/common/layoutadmin.js"></script>
   </body>
 </html>
