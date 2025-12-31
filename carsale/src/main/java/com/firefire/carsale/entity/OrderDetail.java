@@ -1,16 +1,22 @@
 package com.firefire.carsale.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import com.firefire.carsale.entity.enums.VisibilityStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "order_details", uniqueConstraints = @UniqueConstraint(columnNames = { "order_id", "car_id" }))
 public class OrderDetail {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_detail_id")
@@ -18,6 +24,7 @@ public class OrderDetail {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
+    @JsonIgnore
     private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,6 +37,9 @@ public class OrderDetail {
     @Column(name = "price_at_purchase", nullable = false, precision = 15, scale = 2)
     private BigDecimal priceAtPurchase;
 
+    /* ===== Review info (snapshot tại thời điểm review) ===== */
+
+    @CreationTimestamp
     @Column(name = "review_date")
     private LocalDateTime reviewDate;
 
