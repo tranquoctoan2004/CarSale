@@ -3,67 +3,80 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .page-header h2 {
   font-size: 24px;
   font-weight: 600;
-  color: #333;
+  color: #2c2c2c;
 }
 
 .btn-add {
   background-color: #1a73e8;
   color: #fff;
-  padding: 8px 15px;
+  padding: 9px 18px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
-  transition: background 0.3s;
+  font-size: 14px;
+  transition: background-color 0.25s ease, transform 0.15s ease;
 }
 
 .btn-add:hover {
   background-color: #155ab6;
+  transform: translateY(-1px);
 }
 
 /* ===== Search + Filters ===== */
 .filters {
   display: flex;
-  gap: 10px;
-  margin: 10px 0 20px;
+  gap: 12px;
+  margin: 15px 0 20px;
 }
 
 .search-input {
   flex: 1;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  padding: 9px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
   font-size: 14px;
 }
 
+.search-input:focus {
+  outline: none;
+  border-color: #1a73e8;
+}
+
 .filters select {
-  padding: 8px 12px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  padding: 9px 12px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
   background: #fff;
   font-size: 14px;
   cursor: pointer;
 }
 
+.filters select:focus {
+  outline: none;
+  border-color: #1a73e8;
+}
+
 /* ===== Inventory Table ===== */
 .table-box {
   background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
   padding: 20px;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .table-box h3 {
   margin-bottom: 15px;
   font-size: 18px;
   font-weight: 600;
+  color: #333;
 }
 
 .data-table {
@@ -73,80 +86,164 @@
 }
 
 .data-table th {
-  background-color: #f1f3f6;
+  background-color: #f3f4f6;
   padding: 12px;
   text-align: left;
   font-weight: 600;
-  border-bottom: 2px solid #ddd;
+  color: #374151;
+  border-bottom: 2px solid #e5e7eb;
 }
 
 .data-table td {
-  padding: 10px 12px;
-  border-bottom: 1px solid #eee;
+  padding: 12px;
+  border-bottom: 1px solid #f0f0f0;
   vertical-align: middle;
+  color: #444;
 }
 
 /* ===== Car Image ===== */
 .car-img {
-  width: 50px;
-  height: 50px;
+  width: 48px;
+  height: 48px;
   object-fit: cover;
-  border-radius: 5px;
-  margin-right: 8px;
+  border-radius: 6px;
+  margin-right: 10px;
   vertical-align: middle;
+  border: 1px solid #e5e7eb;
 }
 
 /* ===== Status Colors ===== */
 .data-table td.active {
-  color: #28a745;
-  font-weight: bold;
+  color: #16a34a;
+  font-weight: 600;
 }
 
 .data-table td.pending {
-  color: #d9534f;
-  font-weight: bold;
+  color: #dc2626;
+  font-weight: 600;
 }
 
 /* ===== Action Buttons ===== */
 .data-table button {
   margin: 0 3px;
-  padding: 6px 8px;
+  padding: 7px 9px;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  transition: opacity 0.2s ease, transform 0.15s ease;
 }
 
 .data-table button.view {
-  background-color: #28a745;
+  background-color: #22c55e;
   color: #fff;
 }
 
 .data-table button.edit {
-  background-color: #ffc107;
+  background-color: #f59e0b;
   color: #fff;
 }
 
 .data-table button.delete {
-  background-color: #d9534f;
+  background-color: #ef4444;
   color: #fff;
 }
 
 .data-table button:hover {
-  opacity: 0.85;
+  opacity: 0.9;
+  transform: translateY(-1px);
 }
 
 /* ===== Hover Table Row ===== */
 .data-table tbody tr:hover {
-  background-color: #f9fafc;
+  background-color: #f9fafb;
 }
 
 /* ===== Actions Note ===== */
 .actions-note {
-  margin-top: 5px;
+  margin-top: 6px;
   font-size: 12px;
-  color: #555;
+  color: #6b7280;
+}
+
+/* ===== MODAL ===== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background: white;
+  width: 450px;
+  margin: 5% auto;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  margin: 0;
+}
+
+.close {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Form */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Buttons */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn-save {
+  background: #1a73e8;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-cancel {
+  background: #ccc;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }

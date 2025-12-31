@@ -1,4 +1,7 @@
-/* Page header */
+/* ===================================== */
+/* ===== NEWS MANAGEMENT - HEADER ====== */
+/* ===================================== */
+/* Tiêu đề trang quản lý tin tức + nút thêm bài viết */
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -10,6 +13,7 @@
   font-size: 24px;
 }
 
+/* Nút Add New News */
 .btn-add {
   padding: 8px 15px;
   background: #1a73e8;
@@ -23,7 +27,10 @@
   background: #1663c7;
 }
 
-/* Filters */
+/* ===================================== */
+/* ===== SEARCH & FILTER (NEWS) ========= */
+/* ===================================== */
+/* Thanh tìm kiếm + lọc trạng thái bài viết */
 .filters {
   display: flex;
   gap: 25px;
@@ -36,15 +43,23 @@
   border: 1px solid #ccc;
   border-radius: 15px;
 }
+
+/* Ô tìm kiếm theo tiêu đề / tác giả */
 .filters input {
   width: 50%;
 }
+
+/* Bộ lọc trạng thái (Published / Draft) */
 .filters select:last-child {
   margin-left: auto; /* đẩy sang phải */
   text-align: center;
   width: 15%;
 }
-/* Table box */
+
+/* ===================================== */
+/* ===== NEWS TABLE CONTAINER =========== */
+/* ===================================== */
+/* Khung chứa bảng danh sách tin tức */
 .table-box {
   background: white;
   border: 1px solid #ddd;
@@ -56,12 +71,15 @@
   margin-bottom: 15px;
 }
 
-/* Data table */
+/* ===================================== */
+/* ===== NEWS DATA TABLE ================ */
+/* ===================================== */
 .data-table {
   width: 100%;
   border-collapse: collapse;
 }
 
+/* Header bảng */
 .data-table th {
   background: #f1f3f6;
   padding: 12px;
@@ -69,54 +87,62 @@
   border-bottom: 2px solid #ddd;
 }
 
+/* Nội dung bảng */
 .data-table td {
   padding: 10px 12px;
   border-bottom: 1px solid #eee;
   vertical-align: middle;
 }
 
-/* Status */
+/* ===================================== */
+/* ===== NEWS STATUS ==================== */
+/* ===================================== */
+/* Trạng thái Published */
 .data-table .active {
   color: #28a745;
   font-weight: bold;
 }
 
+/* Trạng thái Draft */
 .data-table .pending {
   color: #d9534f;
   font-weight: bold;
 }
 
-/* Actions buttons */
+/* ===================================== */
+/* ===== ACTION BUTTONS (NEWS) =========== */
+/* ===================================== */
+/* Nút View / Edit / Delete */
 .data-table td button {
   background: none;
   border: none;
   cursor: pointer;
   font-size: 16px;
-  margin-right: 30px; /* khoảng cách xa hơn */
+  margin-right: 30px;
   padding: 5px;
   border-radius: 5px;
   transition: transform 0.2s;
 }
 
-/* View button */
+/* Xem chi tiết bài viết */
 .data-table td button.view {
-  color: #1a73e8; /* xanh dương */
+  color: #1a73e8;
 }
 .data-table td button.view:hover {
   transform: scale(1.5);
 }
 
-/* Edit button */
+/* Chỉnh sửa bài viết */
 .data-table td button.edit {
-  color: #ffc107; /* vàng */
+  color: #ffc107;
 }
 .data-table td button.edit:hover {
   transform: scale(1.5);
 }
 
-/* Delete button */
+/* Xoá bài viết */
 .data-table td button.delete {
-  color: #d9534f; /* đỏ */
+  color: #d9534f;
 }
 .data-table td button.delete:hover {
   transform: scale(1.5);
