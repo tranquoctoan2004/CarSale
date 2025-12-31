@@ -124,3 +124,15 @@ carsale
 │ └── CarsaleApplicationTests.java
 │
 └── README.md
+
+
+1. entity + enums
+2. repository
+3. dto
+4. exception + util
+5. service (interface)
+6. service/impl (nghiệp vụ)
+7. controller
+8. config
+9. security (JWT)
+10. dashboard + report
