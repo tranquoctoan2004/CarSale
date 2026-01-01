@@ -9,7 +9,6 @@ import com.firefire.carsale.dto.response.AccountResponse;
 import com.firefire.carsale.entity.Account;
 import com.firefire.carsale.entity.AccountRole;
 import com.firefire.carsale.entity.Role;
-import com.firefire.carsale.entity.enums.AccountStatus;
 import com.firefire.carsale.repository.AccountRepository;
 import com.firefire.carsale.repository.AccountRoleRepository;
 import com.firefire.carsale.repository.RoleRepository;
