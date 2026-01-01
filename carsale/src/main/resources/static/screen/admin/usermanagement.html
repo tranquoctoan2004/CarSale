@@ -54,7 +54,9 @@
           <table class="data-table">
             <thead>
               <tr>
-                <th>ID</th>
+                <th onclick="sortById()" style="cursor: pointer" id="idHeader">
+                  ID <i class="fa-solid fa-sort"></i>
+                </th>
                 <th>Username</th>
                 <th>Email</th>
                 <th>Role</th>
@@ -70,7 +72,26 @@
         </div>
       </section>
     </div>
-    <!-- USER MODAL -->
+    <!-- USER MODAL Signup-->
+    <div id="addModal" class="modal hidden">
+      <div class="modal-overlay" onclick="closeAddModal()"></div>
+      <div class="modal-content admin-signup-modal">
+        <button class="modal-close" onclick="closeAddModal()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <iframe
+          src=""
+          id="signupFrame"
+          style="
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 8px;
+          "></iframe>
+      </div>
+    </div>
+    <!-- USER MODAL-->
     <div id="userModal" class="modal hidden">
       <div class="modal-overlay"></div>
 
@@ -92,6 +113,7 @@
             <div class="info">
               <p><b>ID:</b> <span id="detailId"></span></p>
               <p><b>Username:</b> <span id="detailUsername"></span></p>
+              <p><b>Fullname:</b> <span id="detailFullname"></span></p>
               <p><b>Email:</b> <span id="detailEmail"></span></p>
               <p><b>Phone:</b> <span id="detailPhone"></span></p>
               <p><b>Status:</b> <span id="detailStatus"></span></p>

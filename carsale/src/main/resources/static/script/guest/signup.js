@@ -68,29 +68,31 @@ const elements = {
 document.addEventListener('DOMContentLoaded', init);
 
 function init() {
-    const token = localStorage.getItem(CONFIG.STORAGE.TOKEN);
-    const user = JSON.parse(localStorage.getItem(CONFIG.STORAGE.USER) || '{}');
     const params = new URLSearchParams(window.location.search);
     const mode = params.get('mode');
+    const token = localStorage.getItem(CONFIG.STORAGE.TOKEN);
+    const user = JSON.parse(localStorage.getItem(CONFIG.STORAGE.USER) || '{}');
 
-    // ❗ Chỉ redirect nếu là user thường
-    if (token && !(user.roles?.includes('admin') && mode === 'admin')) {
+    // ✅ CHỖ SỬA QUAN TRỌNG:
+    // Nếu trang đang nằm trong iframe (window.parent !== window), 
+    // chúng ta sẽ KHÔNG chạy lệnh redirectToDashboard().
+    if (window.parent !== window) {
+        console.log("Iframe detected: Dừng tự động chuyển hướng để Admin làm việc.");
+    } 
+    // Nếu KHÔNG phải iframe, mà đã có token thì mới redirect (như khách đăng ký bình thường)
+    else if (token && !(user.roles?.includes('admin') && mode === 'admin')) {
         redirectToDashboard();
         return;
     }
     
-    // Check admin existence
+    // Các phần dưới đây giữ nguyên để trang vẫn hoạt động bình thường
     checkAdminExists();
-    
-    // Setup event listeners
     setupEventListeners();
     
-    // Auto-focus username field
     setTimeout(() => {
         if (elements.username) elements.username.focus();
     }, 100);
     
-    // Performance monitoring
     if ('performance' in window) {
         performance.mark('signup_init_start');
     }
@@ -459,29 +461,56 @@ function validatePasswordMatch() {
 async function handleRegistrationSuccess(userData) {
     const params = new URLSearchParams(window.location.search);
     const mode = params.get('mode');
-    // Store user data
-    if (mode !== 'admin') {
-    localStorage.setItem(CONFIG.STORAGE.TOKEN, userData.token);
-    localStorage.setItem(CONFIG.STORAGE.USER, JSON.stringify(userData.account));
-    }
-    // Get admin notice status
-    const isFirstUser = elements.adminNotice.style.display === 'block';
+    const returnUrl = params.get('returnUrl');
+
+    // ✅ TRƯỜNG HỢP 1: NẾU ĐANG TRONG MODAL (IFRAME)
+    // Chỉ cần kiểm tra xem có cửa sổ cha hay không, không cần quá phụ thuộc vào mode
+    if (window.parent !== window) {
+    // Thử gửi cả object userData nếu không thấy .account
+    const userToReturn = userData.account ? userData.account : userData;
     
-    // Show success message
+    console.log("Dữ liệu gửi về trang cha:", userToReturn); // Debug dòng này
+
+    window.parent.postMessage({ 
+        type: "SIGNUP_SUCCESS", 
+        user: userToReturn 
+    }, "*");
+    
+    showSuccess('✅ Admin created user successfully!');
+    return; 
+    }
+
+    // ---------------------------------------------------------
+    // ✅ TRƯỜNG HỢP 2: ĐĂNG KÝ BÌNH THƯỜNG (NGOÀI MODAL)
+    // ---------------------------------------------------------
+    
+    // Lưu token nếu không phải admin tạo thủ công
+    if (mode !== 'admin') {
+        localStorage.setItem(CONFIG.STORAGE.TOKEN, userData.token);
+        localStorage.setItem(CONFIG.STORAGE.USER, JSON.stringify(userData.account));
+    }
+
+    const isFirstUser = elements.adminNotice.style.display === 'block';
     const message = isFirstUser
         ? '🎉 Congratulations! You are the first user and now have ADMIN privileges!'
         : '✅ Registration successful! Welcome to CarSale!';
     
     showSuccess(message);
     
-    // Add success animation
+    // Hiệu ứng mờ form
     elements.form.style.opacity = '0.7';
     elements.form.style.transform = 'scale(0.98)';
     elements.form.style.transition = 'all 0.3s';
     
-    // Redirect to login after delay
+    // Chỉ nhảy trang khi ở chế độ đăng ký độc lập (không phải iframe)
     setTimeout(() => {
-        window.location.href = CONFIG.ROUTES.LOGIN;
+        if (mode === 'admin' && returnUrl) {
+            window.location.href = returnUrl; 
+        } else if (mode === 'admin') {
+            window.location.href = '/screen/admin/adminhome.html';
+        } else {
+            window.location.href = CONFIG.ROUTES.LOGIN;
+        }
     }, 2000);
 }
 
