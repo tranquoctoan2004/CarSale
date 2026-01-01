@@ -60,6 +60,16 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public boolean isUsernameExists(String username) {
+        return accountRepository.existsByUsername(username);
+    }
+
+    @Override
+    public boolean isEmailExists(String email) {
+        return accountRepository.existsByEmail(email);
+    }
+
+    @Override
     @Transactional
     public AccountResponse register(RegisterRequest request) {
         // Validate username

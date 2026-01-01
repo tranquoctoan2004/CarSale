@@ -60,4 +60,16 @@ public class AuthController {
 
         return ResponseEntity.ok(ApiResponse.success(account));
     }
+
+    @GetMapping("/check-username/{username}")
+    public ResponseEntity<ApiResponse<Boolean>> checkUsername(@PathVariable String username) {
+        boolean exists = authService.isUsernameExists(username);
+        return ResponseEntity.ok(ApiResponse.success(exists));
+    }
+
+    @GetMapping("/check-email/{email}")
+    public ResponseEntity<ApiResponse<Boolean>> checkEmail(@PathVariable String email) {
+        boolean exists = authService.isEmailExists(email);
+        return ResponseEntity.ok(ApiResponse.success(exists));
+    }
 }

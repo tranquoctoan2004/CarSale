@@ -15,4 +15,8 @@ public interface AuthService {
     AccountResponse getCurrentUser(String token);
 
     boolean isAdmin(Integer accountId);
+
+    boolean isUsernameExists(String username);
+
+    boolean isEmailExists(String email);
 }

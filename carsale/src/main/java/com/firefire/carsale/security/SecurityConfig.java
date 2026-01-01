@@ -20,14 +20,15 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(csrf -> csrf.disable()) // Tắt CSRF
                 .authorizeHttpRequests(authz -> authz
-                        .anyRequest().permitAll() // Cho phép tất cả
+                        .anyRequest().permitAll() // Cho phép tất cả các request
                 )
-                // THÊM: Tắt formLogin mặc định
-                .formLogin(form -> form.disable())
-                // THÊM: Tắt logout mặc định
-                .logout(logout -> logout.disable());
+                .formLogin(form -> form.disable()) // Tắt form login mặc định
+                .logout(logout -> logout.disable()) // Tắt logout mặc định
+                // ✅ CẤU HÌNH QUAN TRỌNG Ở ĐÂY:
+                .headers(headers -> headers
+                        .frameOptions(frameOptions -> frameOptions.sameOrigin()));
 
         return http.build();
     }
