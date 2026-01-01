@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.firefire.carsale.dto.filter.UserSearchFilter;
 import com.firefire.carsale.dto.response.AccountResponse;
 import com.firefire.carsale.service.AccountService;
 import com.firefire.carsale.util.ApiResponse;
@@ -35,4 +36,15 @@ public class AccountController {
         accountService.deleteAccount(id);
         return ResponseEntity.ok(ApiResponse.success("Account deleted successfully", null));
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<List<AccountResponse>>> searchAccounts(
+            UserSearchFilter filter,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        List<AccountResponse> accounts = accountService.searchAccounts(filter, page, size);
+
+        return ResponseEntity.ok(ApiResponse.success(accounts));
+    }
+
 }

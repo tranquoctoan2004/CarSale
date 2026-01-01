@@ -25,7 +25,7 @@
         <!-- Page header -->
         <div class="page-header">
           <h2>User Management</h2>
-          <button class="btn-add">
+          <button class="btn-add" id="addUserBtn">
             <i class="fa-solid fa-user-plus"></i> Add New User
           </button>
         </div>
@@ -40,17 +40,10 @@
             class="search-input" />
 
           <select>
-            <option value="">All Roles</option>
-            <option value="ADMIN">Admin</option>
-            <option value="STAFF">Staff</option>
-            <option value="CUSTOMER">Customer</option>
-          </select>
-
-          <select>
-            <option value="">All Status</option>
-            <option value="ACTIVE">Active</option>
-            <option value="PENDING">Pending</option>
-            <option value="BLOCKED">Blocked</option>
+            <option value="filterStatus">All Status</option>
+            <option value="active">ACTIVE</option>
+            <option value="inactive">INACTIVE</option>
+            <option value="banned">BANNED</option>
           </select>
         </div>
 
@@ -119,13 +112,6 @@
             <option value="INACTIVE">INACTIVE</option>
             <option value="BANNED">BANNED</option>
           </select>
-
-          <label>Roles</label>
-          <div class="role-group">
-            <label><input type="checkbox" value="ADMIN" /> ADMIN</label>
-            <label><input type="checkbox" value="STAFF" /> STAFF</label>
-            <label><input type="checkbox" value="CUSTOMER" /> CUSTOMER</label>
-          </div>
 
           <button class="btn-save" id="saveUserBtn">Save Changes</button>
         </div>
