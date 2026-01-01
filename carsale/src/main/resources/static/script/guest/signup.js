@@ -2,606 +2,419 @@
 const CONFIG = {
     API: {
         REGISTER: '/api/auth/register',
-        CHECK_ADMIN: '/api/auth/check-admin-exists',
-        CHECK_USERNAME: '/api/auth/check-username/',
-        CHECK_EMAIL: '/api/auth/check-email/'
+        CHECK_ADMIN: '/api/auth/check-admin-exists'
     },
     ROUTES: {
-        LOGIN: '/screen/user/login.html',
-        TERMS: '/screen/guest/terms.html',
-        PRIVACY: '/screen/guest/privacy.html'
+        LOGIN: '/screen/user/login.html'
     },
     STORAGE: {
         TOKEN: 'token',
         USER: 'user'
-    },
-    TIMEOUT: 10000,
-    DEBOUNCE_DELAY: 500
-};
-
-// ===== STATE MANAGEMENT =====
-const state = {
-    isSubmitting: false,
-    debounceTimers: {},
-    formValidity: {
-        username: { valid: false, available: false },
-        email: { valid: false, available: false },
-        password: { valid: false, strength: 0 },
-        confirmPassword: { valid: false, match: false }
     }
 };
 
-// ===== DOM ELEMENTS =====
-const $ = (id) => document.getElementById(id);
-const elements = {
-    // Form
-    form: $('registerForm'),
-    username: $('username'),
-    fullName: $('fullName'),
-    email: $('email'),
-    phone: $('phone'),
-    password: $('password'),
-    confirmPassword: $('confirmPassword'),
-    terms: $('terms'),
-    
-    // Buttons
-    submitBtn: $('submitBtn'),
-    togglePassword: $('togglePassword'),
-    toggleConfirmPassword: $('toggleConfirmPassword'),
-    googleBtn: $('googleBtn'),
-    
-    // Messages & Status
-    errorMsg: $('errorMessage'),
-    successMsg: $('successMessage'),
-    loading: $('loading'),
-    adminNotice: $('adminNotice'),
-    
-    // Status indicators
-    usernameStatus: $('usernameStatus'),
-    emailStatus: $('emailStatus'),
-    passwordMatch: $('passwordMatch'),
-    strengthBar: $('strengthBar'),
-    strengthText: $('strengthText')
-};
+// ===== STATE =====
+let isSubmitting = false;
 
 // ===== INITIALIZATION =====
-document.addEventListener('DOMContentLoaded', init);
-
-function init() {
-    const token = localStorage.getItem(CONFIG.STORAGE.TOKEN);
-    const user = JSON.parse(localStorage.getItem(CONFIG.STORAGE.USER) || '{}');
-    const params = new URLSearchParams(window.location.search);
-    const mode = params.get('mode');
-
-    // ❗ Chỉ redirect nếu là user thường
-    if (token && !(user.roles?.includes('admin') && mode === 'admin')) {
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if already logged in
+    if (localStorage.getItem(CONFIG.STORAGE.TOKEN)) {
         redirectToDashboard();
         return;
     }
     
-    // Check admin existence
-    checkAdminExists();
+    // Check if admin exists (không bắt lỗi, chỉ thử)
+    tryCheckAdminExists();
     
-    // Setup event listeners
-    setupEventListeners();
+    // Setup form validation và features
+    setupFormFeatures();
     
-    // Auto-focus username field
+    // Handle form submission
+    document.getElementById('registerForm').addEventListener('submit', handleSignup);
+    
+    // Focus on username field
     setTimeout(() => {
-        if (elements.username) elements.username.focus();
+        const usernameInput = document.getElementById('username');
+        if (usernameInput) usernameInput.focus();
     }, 100);
+});
+
+// ===== UI FUNCTIONS =====
+function showMessage(message, isSuccess) {
+    const errorDiv = document.getElementById('errorMessage');
+    const successDiv = document.getElementById('successMessage');
     
-    // Performance monitoring
-    if ('performance' in window) {
-        performance.mark('signup_init_start');
+    if (!errorDiv || !successDiv) return;
+    
+    // Update message
+    const span = isSuccess ? successDiv.querySelector('span') : errorDiv.querySelector('span');
+    if (span) span.textContent = message;
+    
+    // Show/hide appropriate div
+    if (isSuccess) {
+        successDiv.style.display = 'flex';
+        errorDiv.style.display = 'none';
+    } else {
+        errorDiv.style.display = 'flex';
+        successDiv.style.display = 'none';
+    }
+    
+    // Auto hide after 5 seconds (chỉ hide error, success tự redirect)
+    if (!isSuccess) {
+        setTimeout(() => {
+            errorDiv.style.display = 'none';
+        }, 5000);
     }
 }
 
-// ===== EVENT LISTENERS =====
-function setupEventListeners() {
-    // Form submission
-    elements.form.addEventListener('submit', handleSubmit);
+function showLoading(show) {
+    const loadingDiv = document.getElementById('loading');
+    const submitBtn = document.getElementById('submitBtn');
     
-    // Password visibility toggles
-    elements.togglePassword.addEventListener('click', () => togglePasswordVisibility(elements.password, elements.togglePassword));
-    elements.toggleConfirmPassword.addEventListener('click', () => togglePasswordVisibility(elements.confirmPassword, elements.toggleConfirmPassword));
+    if (loadingDiv) {
+        loadingDiv.style.display = show ? 'flex' : 'none';
+    }
     
-    // Real-time validation
-    elements.username.addEventListener('input', debounce(validateUsername, CONFIG.DEBOUNCE_DELAY));
-    elements.email.addEventListener('input', debounce(validateEmail, CONFIG.DEBOUNCE_DELAY));
-    elements.password.addEventListener('input', validatePasswordStrength);
-    elements.confirmPassword.addEventListener('input', validatePasswordMatch);
-    
-    // Enter key support
-    elements.form.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' && !state.isSubmitting) {
-            if (e.target.type !== 'submit' && e.target.type !== 'checkbox') {
-                e.preventDefault();
-                moveToNextField(e.target);
+    if (submitBtn) {
+        submitBtn.disabled = show;
+        submitBtn.innerHTML = show 
+            ? '<span><div class="mini-spinner"></div> Creating Account...</span>' 
+            : '<span>Create Account</span>';
+    }
+}
+
+// ===== ADMIN CHECK (KHÔNG BẮT LỖI) =====
+async function tryCheckAdminExists() {
+    try {
+        const response = await fetch(CONFIG.API.CHECK_ADMIN, {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
+        });
+        
+        if (response.ok) {
+            const result = await response.json();
+            if (result.success && !result.data) {
+                // No admin exists yet - show special notice
+                const adminNotice = document.getElementById('adminNotice');
+                if (adminNotice) {
+                    adminNotice.style.display = 'block';
+                }
             }
         }
-    });
+    } catch (error) {
+        // Không làm gì cả, bỏ qua lỗi
+        console.log('Admin check ignored (optional)');
+    }
+}
+
+// ===== SETUP FORM FEATURES =====
+function setupFormFeatures() {
+    // Password strength indicator
+    const passwordInput = document.getElementById('password');
+    if (passwordInput) {
+        passwordInput.addEventListener('input', validatePasswordStrength);
+    }
+    
+    // Password match validation
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    if (confirmPasswordInput) {
+        confirmPasswordInput.addEventListener('input', validatePasswordMatch);
+    }
+    
+    // Password visibility toggle
+    setupPasswordToggle();
     
     // Google button
-    elements.googleBtn.addEventListener('click', handleGoogleSignup);
-    
-    // Auto-format phone number
-    elements.phone.addEventListener('input', formatPhoneNumber);
-}
-
-// ===== FORM SUBMISSION =====
-async function handleSubmit(e) {
-    e.preventDefault();
-    
-    // Prevent double submission
-    if (state.isSubmitting) return;
-    
-    // Validate form
-    const errors = validateForm();
-    if (errors.length > 0) {
-        showError(errors[0]);
-        shakeForm();
-        return;
+    const googleBtn = document.getElementById('googleBtn');
+    if (googleBtn) {
+        googleBtn.addEventListener('click', () => {
+            alert('Google signup would be implemented here. For now, please use the form above.');
+        });
     }
     
-    // Update UI state
-    updateSubmitState(true);
-    
-    try {
-        // Prepare form data
-        const formData = {
-            username: elements.username.value.trim(),
-            password: elements.password.value,
-            email: elements.email.value.trim(),
-            fullName: elements.fullName.value.trim(),
-            phoneNumber: elements.phone.value.trim() || null
-        };
-        
-        // Send registration request
-        const result = await registerUser(formData);
-        
-        // Handle success
-        await handleRegistrationSuccess(result);
-        
-    } catch (error) {
-        // Handle error
-        handleRegistrationError(error);
-        
-    } finally {
-        // Reset UI state
-        updateSubmitState(false);
-    }
-}
-
-// ===== API FUNCTIONS =====
-async function checkAdminExists() {
-    try {
-        const response = await fetchWithTimeout(CONFIG.API.CHECK_ADMIN, {
-            method: 'GET',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
+    // Phone number formatting
+    const phoneInput = document.getElementById('phone');
+    if (phoneInput) {
+        phoneInput.addEventListener('input', function() {
+            let value = this.value.replace(/\D/g, '');
+            
+            if (value.length > 3 && value.length <= 6) {
+                value = `(${value.slice(0, 3)}) ${value.slice(3)}`;
+            } else if (value.length > 6) {
+                value = `(${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6, 10)}`;
             }
-        }, 5000);
-        
-        const result = await response.json();
-        
-        if (result.success && !result.data) {
-            // No admin exists - show special notice
-            elements.adminNotice.style.display = 'block';
+            
+            this.value = value;
+        });
+    }
+    
+    // Clear field status on focus (để xóa message "Service unavailable")
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            const fieldId = this.id + 'Status';
+            const statusElement = document.getElementById(fieldId);
+            if (statusElement && statusElement.textContent.includes('unavailable')) {
+                statusElement.textContent = '';
+                statusElement.className = 'field-status';
+            }
+        });
+    });
+}
+
+function setupPasswordToggle() {
+    const togglePassword = document.getElementById('togglePassword');
+    const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+    
+    const toggleVisibility = (inputId, button) => {
+        const input = document.getElementById(inputId);
+        if (input) {
+            const type = input.type === 'password' ? 'text' : 'password';
+            input.type = type;
+            
+            // Update icon
+            const icon = button.querySelector('svg');
+            if (icon) {
+                if (type === 'text') {
+                    icon.innerHTML = '<path d="M12 6.5c2.76 0 5 2.24 5 5 0 .51-.1 1-.24 1.46l3.06 3.06c1.39-1.23 2.49-2.77 3.18-4.53C21.27 7.11 17 4 12 4c-1.27 0-2.49.2-3.64.57l2.17 2.17c.46-.14.95-.24 1.47-.24zM2.71 3.16c-.39.39-.39 1.02 0 1.41l1.97 1.97C3.06 7.83 1.77 9.53 1 11.5 2.73 15.89 7 19 12 19c1.52 0 2.97-.3 4.31-.82l2.72 2.72c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L4.13 3.16c-.39-.39-1.02-.39-1.41 0zM12 16.5c-2.76 0-5-2.24-5-5 0-.77.18-1.5.49-2.14l1.57 1.57c-.03.18-.06.37-.06.57 0 1.66 1.34 3 3 3 .2 0 .38-.03.57-.07L14.14 16c-.64.32-1.37.5-2.14.5zm2.97-5.33c-.15-1.4-1.25-2.49-2.64-2.64l2.64 2.64z"/>';
+                } else {
+                    icon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
+                }
+            }
         }
-    } catch (error) {
-        console.log('Could not check admin status:', error);
+    };
+    
+    if (togglePassword) {
+        togglePassword.addEventListener('click', () => toggleVisibility('password', togglePassword));
+    }
+    
+    if (toggleConfirmPassword) {
+        toggleConfirmPassword.addEventListener('click', () => toggleVisibility('confirmPassword', toggleConfirmPassword));
     }
 }
 
-async function checkUsernameAvailability(username) {
-    if (username.length < 3) return false;
-    
-    try {
-        const response = await fetchWithTimeout(`${CONFIG.API.CHECK_USERNAME}${encodeURIComponent(username)}`, {
-            method: 'GET',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        }, 5000);
-        
-        const result = await response.json();
-        return result.success ? !result.data : false;
-    } catch (error) {
-        console.log('Username check failed:', error);
-        return false;
-    }
-}
-
-async function checkEmailAvailability(email) {
-    if (!isValidEmail(email)) return false;
-    
-    try {
-        const response = await fetchWithTimeout(`${CONFIG.API.CHECK_EMAIL}${encodeURIComponent(email)}`, {
-            method: 'GET',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        }, 5000);
-        
-        const result = await response.json();
-        return result.success ? !result.data : false;
-    } catch (error) {
-        console.log('Email check failed:', error);
-        return false;
-    }
-}
-
-async function registerUser(formData) {
-    const response = await fetchWithTimeout(CONFIG.API.REGISTER, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
-        },
-        body: JSON.stringify(formData)
-    }, CONFIG.TIMEOUT);
-    
-    const result = await response.json();
-    
-    if (!response.ok) {
-        throw new Error(result.message || `HTTP ${response.status}`);
-    }
-    
-    if (!result.success) {
-        throw new Error(result.message || 'Registration failed');
-    }
-    
-    return result.data;
-}
-
-// ===== VALIDATION FUNCTIONS =====
-function validateForm() {
-    const errors = [];
-    
-    // Username validation
-    if (!state.formValidity.username.valid) {
-        errors.push('Username must be 3-30 characters (letters, numbers, underscores only)');
-    } else if (!state.formValidity.username.available) {
-        errors.push('Username is already taken');
-    }
-    
-    // Full name validation
-    const fullName = elements.fullName.value.trim();
-    if (!fullName || fullName.length < 2) {
-        errors.push('Full name must be at least 2 characters');
-    }
-    
-    // Email validation
-    if (!state.formValidity.email.valid) {
-        errors.push('Please enter a valid email address');
-    } else if (!state.formValidity.email.available) {
-        errors.push('Email is already registered');
-    }
-    
-    // Password validation
-    if (!state.formValidity.password.valid) {
-        errors.push('Password must be at least 6 characters');
-    }
-    
-    // Password confirmation
-    if (!state.formValidity.confirmPassword.match) {
-        errors.push('Passwords do not match');
-    }
-    
-    // Terms acceptance
-    if (!elements.terms.checked) {
-        errors.push('You must agree to the Terms & Conditions');
-    }
-    
-    return errors;
-}
-
-async function validateUsername() {
-    const username = elements.username.value.trim();
-    const statusEl = elements.usernameStatus;
-    
-    // Reset status
-    statusEl.textContent = '';
-    statusEl.className = 'field-status';
-    
-    // Basic validation
-    if (username.length === 0) {
-        state.formValidity.username.valid = false;
-        return;
-    }
-    
-    const usernameRegex = /^[a-zA-Z0-9_]{3,30}$/;
-    const isValid = usernameRegex.test(username);
-    
-    if (!isValid) {
-        statusEl.textContent = '3-30 characters, letters, numbers, underscores only';
-        statusEl.className = 'field-status invalid';
-        state.formValidity.username.valid = false;
-        return;
-    }
-    
-    // Check availability
-    statusEl.textContent = 'Checking availability...';
-    
-    const isAvailable = await checkUsernameAvailability(username);
-    
-    if (isAvailable) {
-        statusEl.textContent = '✓ Available';
-        statusEl.className = 'field-status valid';
-        state.formValidity.username = { valid: true, available: true };
-    } else {
-        statusEl.textContent = '✗ Username taken';
-        statusEl.className = 'field-status invalid';
-        state.formValidity.username = { valid: true, available: false };
-    }
-}
-
-async function validateEmail() {
-    const email = elements.email.value.trim();
-    const statusEl = elements.emailStatus;
-    
-    // Reset status
-    statusEl.textContent = '';
-    statusEl.className = 'field-status';
-    
-    // Basic validation
-    if (email.length === 0) {
-        state.formValidity.email.valid = false;
-        return;
-    }
-    
-    const isValid = isValidEmail(email);
-    
-    if (!isValid) {
-        statusEl.textContent = 'Please enter a valid email address';
-        statusEl.className = 'field-status invalid';
-        state.formValidity.email.valid = false;
-        return;
-    }
-    
-    // Check availability
-    statusEl.textContent = 'Checking availability...';
-    
-    const isAvailable = await checkEmailAvailability(email);
-    
-    if (isAvailable) {
-        statusEl.textContent = '✓ Available';
-        statusEl.className = 'field-status valid';
-        state.formValidity.email = { valid: true, available: true };
-    } else {
-        statusEl.textContent = '✗ Email already registered';
-        statusEl.className = 'field-status invalid';
-        state.formValidity.email = { valid: true, available: false };
-    }
-}
-
+// ===== PASSWORD VALIDATION =====
 function validatePasswordStrength() {
-    const password = elements.password.value;
-    const strengthBar = elements.strengthBar;
-    const strengthText = elements.strengthText;
+    const password = document.getElementById('password').value;
+    const strengthBar = document.getElementById('strengthBar');
+    const strengthText = document.getElementById('strengthText');
     
-    if (password.length === 0) {
-        strengthBar.style.width = '0%';
-        strengthBar.className = 'strength-bar';
-        strengthText.textContent = 'Password strength: None';
-        state.formValidity.password.valid = false;
-        state.formValidity.password.strength = 0;
+    if (!password) {
+        if (strengthBar) {
+            strengthBar.style.width = '0%';
+            strengthBar.className = 'strength-bar';
+        }
+        if (strengthText) {
+            strengthText.textContent = 'Password strength: None';
+        }
         return;
     }
     
-    // Calculate strength
+    // Tính strength đơn giản
     let strength = 0;
-    
-    // Length check
-    if (password.length >= 6) strength += 20;
-    if (password.length >= 8) strength += 20;
-    if (password.length >= 12) strength += 20;
-    
-    // Complexity checks
-    if (/[A-Z]/.test(password)) strength += 10; // Uppercase
-    if (/[a-z]/.test(password)) strength += 10; // Lowercase
-    if (/[0-9]/.test(password)) strength += 10; // Numbers
-    if (/[^A-Za-z0-9]/.test(password)) strength += 10; // Special chars
-    
-    // Ensure max 100%
-    strength = Math.min(strength, 100);
+    if (password.length >= 6) strength += 25;
+    if (password.length >= 8) strength += 25;
+    if (/[A-Z]/.test(password) && /[a-z]/.test(password)) strength += 25;
+    if (/[0-9]/.test(password) || /[^A-Za-z0-9]/.test(password)) strength += 25;
     
     // Update UI
-    strengthBar.style.width = `${strength}%`;
-    
-    // Set strength class
-    if (strength < 40) {
-        strengthBar.className = 'strength-bar strength-weak';
-        strengthText.textContent = 'Password strength: Weak';
-    } else if (strength < 70) {
-        strengthBar.className = 'strength-bar strength-medium';
-        strengthText.textContent = 'Password strength: Medium';
-    } else if (strength < 90) {
-        strengthBar.className = 'strength-bar strength-strong';
-        strengthText.textContent = 'Password strength: Strong';
-    } else {
-        strengthBar.className = 'strength-bar strength-very-strong';
-        strengthText.textContent = 'Password strength: Very Strong';
+    if (strengthBar) {
+        strengthBar.style.width = `${strength}%`;
+        
+        if (strength < 50) {
+            strengthBar.className = 'strength-bar strength-weak';
+            if (strengthText) strengthText.textContent = 'Password strength: Weak';
+        } else if (strength < 75) {
+            strengthBar.className = 'strength-bar strength-medium';
+            if (strengthText) strengthText.textContent = 'Password strength: Medium';
+        } else {
+            strengthBar.className = 'strength-bar strength-strong';
+            if (strengthText) strengthText.textContent = 'Password strength: Strong';
+        }
     }
     
-    // Update state
-    state.formValidity.password.valid = password.length >= 6;
-    state.formValidity.password.strength = strength;
-    
-    // Also validate password match
+    // Validate match
     validatePasswordMatch();
 }
 
 function validatePasswordMatch() {
-    const password = elements.password.value;
-    const confirmPassword = elements.confirmPassword.value;
-    const statusEl = elements.passwordMatch;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const matchElement = document.getElementById('passwordMatch');
     
-    if (confirmPassword.length === 0) {
-        statusEl.textContent = '';
-        statusEl.className = 'field-status';
-        state.formValidity.confirmPassword = { valid: false, match: false };
+    if (!matchElement) return;
+    
+    if (!confirmPassword) {
+        matchElement.textContent = '';
+        matchElement.className = 'field-status';
         return;
     }
     
     if (password === confirmPassword) {
-        statusEl.textContent = '✓ Passwords match';
-        statusEl.className = 'field-status valid';
-        state.formValidity.confirmPassword = { valid: true, match: true };
+        matchElement.textContent = '✓ Passwords match';
+        matchElement.className = 'field-status valid';
     } else {
-        statusEl.textContent = '✗ Passwords do not match';
-        statusEl.className = 'field-status invalid';
-        state.formValidity.confirmPassword = { valid: false, match: false };
+        matchElement.textContent = '✗ Passwords do not match';
+        matchElement.className = 'field-status invalid';
     }
 }
 
-// ===== SUCCESS HANDLER =====
-async function handleRegistrationSuccess(userData) {
-    const params = new URLSearchParams(window.location.search);
-    const mode = params.get('mode');
-    // Store user data
-    if (mode !== 'admin') {
-    localStorage.setItem(CONFIG.STORAGE.TOKEN, userData.token);
-    localStorage.setItem(CONFIG.STORAGE.USER, JSON.stringify(userData.account));
-    }
-    // Get admin notice status
-    const isFirstUser = elements.adminNotice.style.display === 'block';
-    
-    // Show success message
-    const message = isFirstUser
-        ? '🎉 Congratulations! You are the first user and now have ADMIN privileges!'
-        : '✅ Registration successful! Welcome to CarSale!';
-    
-    showSuccess(message);
-    
-    // Add success animation
-    elements.form.style.opacity = '0.7';
-    elements.form.style.transform = 'scale(0.98)';
-    elements.form.style.transition = 'all 0.3s';
-    
-    // Redirect to login after delay
-    setTimeout(() => {
-        window.location.href = CONFIG.ROUTES.LOGIN;
-    }, 2000);
-}
+// ===== FORM VALIDATION =====
+function validateForm() {
+    const username = document.getElementById('username').value.trim();
+    const fullName = document.getElementById('fullName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const terms = document.getElementById('terms');
 
-// ===== ERROR HANDLER =====
-function handleRegistrationError(error) {
-    console.error('Registration error:', error);
+    // Clear all previous messages
+    showMessage('', false);
     
-    let errorMessage = 'Registration failed. Please try again.';
+    // Kiểm tra required fields
+    const errors = [];
     
-    if (error.name === 'AbortError') {
-        errorMessage = 'Request timeout. Please try again.';
-    } else if (error.message.includes('Network')) {
-        errorMessage = 'Network error. Please check your connection.';
-    } else if (error.message.includes('400') || error.message.includes('Invalid')) {
-        errorMessage = 'Invalid data. Please check your inputs.';
-    } else if (error.message.includes('409') || error.message.includes('exists')) {
-        errorMessage = 'Username or email already exists.';
+    if (!username) errors.push('Username is required');
+    else if (username.length < 3) errors.push('Username must be at least 3 characters');
+    
+    if (!fullName) errors.push('Full name is required');
+    else if (fullName.length < 2) errors.push('Full name must be at least 2 characters');
+    
+    if (!email) errors.push('Email is required');
+    else if (!isValidEmail(email)) errors.push('Please enter a valid email address');
+    
+    if (!password) errors.push('Password is required');
+    else if (password.length < 6) errors.push('Password must be at least 6 characters');
+    
+    if (!confirmPassword) errors.push('Please confirm your password');
+    else if (password !== confirmPassword) errors.push('Passwords do not match');
+    
+    if (!terms || !terms.checked) errors.push('Please agree to the Terms & Conditions');
+    
+    // Hiển thị lỗi đầu tiên nếu có
+    if (errors.length > 0) {
+        showMessage(errors[0], false);
+        return false;
     }
     
-    showError(errorMessage);
-    shakeForm();
+    return true;
 }
 
-// ===== UI HELPERS =====
-function showError(message) {
-    const span = elements.errorMsg.querySelector('span');
-    if (span) span.textContent = message;
-    elements.errorMsg.style.display = 'flex';
-    elements.successMsg.style.display = 'none';
-    elements.loading.style.display = 'none';
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// ===== FORM SUBMISSION =====
+async function handleSignup(event) {
+    event.preventDefault();
     
-    // Auto-hide after 5 seconds
-    setTimeout(() => {
-        elements.errorMsg.style.display = 'none';
-    }, 5000);
-}
-
-function showSuccess(message) {
-    const span = elements.successMsg.querySelector('span');
-    if (span) span.textContent = message;
-    elements.successMsg.style.display = 'flex';
-    elements.errorMsg.style.display = 'none';
-    elements.loading.style.display = 'none';
-}
-
-function updateSubmitState(isSubmitting) {
-    state.isSubmitting = isSubmitting;
-    elements.submitBtn.disabled = isSubmitting;
-    elements.submitBtn.innerHTML = isSubmitting
-        ? '<span>Creating Account...</span>'
-        : '<span>Create Account</span>';
+    if (isSubmitting) return;
     
-    if (isSubmitting) {
-        elements.loading.style.display = 'flex';
-    } else {
-        elements.loading.style.display = 'none';
-    }
-}
+    // Validate form (chỉ client-side)
+    if (!validateForm()) return;
 
-function shakeForm() {
-    elements.form.style.animation = 'none';
-    setTimeout(() => {
-        elements.form.style.animation = 'shake 0.5s';
-    }, 10);
-    
-    // Add shake animation if not present
-    if (!document.querySelector('#shake-style')) {
-        const style = document.createElement('style');
-        style.id = 'shake-style';
-        style.textContent = `
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-                20%, 40%, 60%, 80% { transform: translateX(5px); }
+    isSubmitting = true;
+    showLoading(true);
+
+    try {
+        const formData = {
+            username: document.getElementById('username').value.trim(),
+            password: document.getElementById('password').value,
+            email: document.getElementById('email').value.trim(),
+            fullName: document.getElementById('fullName').value.trim(),
+            phoneNumber: document.getElementById('phone').value.trim() || null
+        };
+
+        console.log('Attempting registration with:', formData);
+
+        // Gửi request đăng ký
+        const response = await fetch(CONFIG.API.REGISTER, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+        
+        console.log('Registration response:', result);
+
+        if (result.success) {
+            // Hiển thị thông báo thành công
+            const isFirstUser = document.getElementById('adminNotice')?.style.display === 'block';
+            const message = isFirstUser 
+                ? '🎉 Congratulations! Registration successful!'
+                : '✅ Registration successful! Welcome to CarSale!';
+            
+            showMessage(message, true);
+            
+            // Lưu token nếu có
+            if (result.data && result.data.token) {
+                localStorage.setItem(CONFIG.STORAGE.TOKEN, result.data.token);
+                if (result.data.account) {
+                    localStorage.setItem(CONFIG.STORAGE.USER, JSON.stringify(result.data.account));
+                }
             }
-        `;
-        document.head.appendChild(style);
-    }
-    
-    // Haptic feedback for mobile
-    if ('vibrate' in navigator) {
-        navigator.vibrate([50, 30, 50]);
+            
+            // Reset form
+            document.getElementById('registerForm').reset();
+            
+            // Reset password strength
+            const strengthBar = document.getElementById('strengthBar');
+            const strengthText = document.getElementById('strengthText');
+            if (strengthBar) strengthBar.style.width = '0%';
+            if (strengthText) strengthText.textContent = 'Password strength: None';
+            
+            // Chuyển hướng sau 2 giây
+            setTimeout(() => {
+                window.location.href = CONFIG.ROUTES.LOGIN;
+            }, 2000);
+            
+        } else {
+            // Xử lý lỗi từ server
+            let errorMessage = result.message || 'Registration failed';
+            
+            // Cải thiện thông báo lỗi
+            if (errorMessage.includes('username') && errorMessage.includes('exists')) {
+                errorMessage = 'Username already exists. Please choose another one.';
+            } else if (errorMessage.includes('email') && errorMessage.includes('exists')) {
+                errorMessage = 'Email already registered. Please use another email.';
+            } else if (errorMessage.includes('password')) {
+                errorMessage = 'Password requirements not met.';
+            }
+            
+            showMessage('❌ ' + errorMessage, false);
+        }
+        
+    } catch (error) {
+        console.error('Registration error:', error);
+        
+        // Xử lý các loại lỗi
+        let errorMessage = 'Registration failed. ';
+        
+        if (error.name === 'TypeError' && error.message.includes('fetch')) {
+            errorMessage += 'Network error. Please check your connection.';
+        } else if (error.name === 'AbortError') {
+            errorMessage += 'Request timeout. Please try again.';
+        } else if (error.message && error.message.includes('500')) {
+            errorMessage += 'Server error. The username or email might already exist.';
+        } else {
+            errorMessage += 'Please try again.';
+        }
+        
+        showMessage('⚠️ ' + errorMessage, false);
+        
+    } finally {
+        showLoading(false);
+        isSubmitting = false;
     }
 }
 
-// ===== UTILITY FUNCTIONS =====
-function togglePasswordVisibility(passwordField, toggleButton) {
-    const type = passwordField.type === 'password' ? 'text' : 'password';
-    passwordField.type = type;
-    
-    // Update icon
-    const icon = toggleButton.querySelector('svg');
-    if (type === 'text') {
-        icon.innerHTML = '<path d="M12 6.5c2.76 0 5 2.24 5 5 0 .51-.1 1-.24 1.46l3.06 3.06c1.39-1.23 2.49-2.77 3.18-4.53C21.27 7.11 17 4 12 4c-1.27 0-2.49.2-3.64.57l2.17 2.17c.46-.14.95-.24 1.47-.24zM2.71 3.16c-.39.39-.39 1.02 0 1.41l1.97 1.97C3.06 7.83 1.77 9.53 1 11.5 2.73 15.89 7 19 12 19c1.52 0 2.97-.3 4.31-.82l2.72 2.72c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L4.13 3.16c-.39-.39-1.02-.39-1.41 0zM12 16.5c-2.76 0-5-2.24-5-5 0-.77.18-1.5.49-2.14l1.57 1.57c-.03.18-.06.37-.06.57 0 1.66 1.34 3 3 3 .2 0 .38-.03.57-.07L14.14 16c-.64.32-1.37.5-2.14.5zm2.97-5.33c-.15-1.4-1.25-2.49-2.64-2.64l2.64 2.64z"/>';
-    } else {
-        icon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
-    }
-}
-
-function moveToNextField(currentField) {
-    const formElements = Array.from(elements.form.elements);
-    const currentIndex = formElements.indexOf(currentField);
-    
-    if (currentIndex < formElements.length - 1) {
-        formElements[currentIndex + 1].focus();
-    }
-}
-
-function formatPhoneNumber() {
-    let value = elements.phone.value.replace(/\D/g, '');
-    
-    if (value.length > 3 && value.length <= 6) {
-        value = `(${value.slice(0, 3)}) ${value.slice(3)}`;
-    } else if (value.length > 6) {
-        value = `(${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6, 10)}`;
-    }
-    
-    elements.phone.value = value;
-}
-
+// ===== REDIRECT =====
 function redirectToDashboard() {
     const userStr = localStorage.getItem(CONFIG.STORAGE.USER);
     
@@ -621,66 +434,34 @@ function redirectToDashboard() {
     }
 }
 
-async function handleGoogleSignup() {
-    alert('Google signup functionality would be implemented here.');
-    // In a real app, you would:
-    // 1. Redirect to Google OAuth
-    // 2. Handle the callback
-    // 3. Create/authenticate user
-}
-
-// ===== HELPER FUNCTIONS =====
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
-function debounce(func, wait) {
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(state.debounceTimers[func.name]);
-            func(...args);
-        };
-        clearTimeout(state.debounceTimers[func.name]);
-        state.debounceTimers[func.name] = setTimeout(later, wait);
-    };
-}
-
-async function fetchWithTimeout(resource, options = {}, timeout = 10000) {
-    const controller = new AbortController();
-    const id = setTimeout(() => controller.abort(), timeout);
+// ===== THÊM CSS CHO MINI SPINNER =====
+document.head.insertAdjacentHTML('beforeend', `
+<style>
+    .mini-spinner {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: mini-spin 1s linear infinite;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
     
-    try {
-        const response = await fetch(resource, {
-            ...options,
-            signal: controller.signal
-        });
-        clearTimeout(id);
-        return response;
-    } catch (error) {
-        clearTimeout(id);
-        throw error;
+    @keyframes mini-spin {
+        to { transform: rotate(360deg); }
     }
-}
-
-// ===== PERFORMANCE MONITORING =====
-window.addEventListener('load', () => {
-    if ('performance' in window) {
-        performance.mark('signup_load_end');
-        performance.measure('signup_load_time', 'signup_init_start', 'signup_load_end');
-        
-        const measure = performance.getEntriesByName('signup_load_time')[0];
-        console.log(`Signup page loaded in ${measure.duration.toFixed(2)}ms`);
+    
+    /* Shake animation for errors */
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
     }
-});
-
-// ===== EXPORT FOR TESTING =====
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        validateUsername,
-        validateEmail,
-        validatePasswordStrength,
-        isValidEmail,
-        handleSubmit
-    };
-}
+    
+    .shake {
+        animation: shake 0.5s;
+    }
+</style>
+`);
