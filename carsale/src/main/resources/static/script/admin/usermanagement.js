@@ -1,12 +1,22 @@
-document.addEventListener("DOMContentLoaded", loadUsers);
+document.addEventListener("DOMContentLoaded", () => {
+  initFilterEvents();
+  fetchUsers(); // load lần đầu
+});
 
 /* =======================
-   LOAD USERS
+   FETCH USERS (BACKEND FILTER)
 ======================= */
-function loadUsers() {
+function fetchUsers({ keyword = "", status = "" } = {}) {
   const token = localStorage.getItem("token");
 
-  fetch("/api/accounts", {
+  const params = new URLSearchParams();
+  if (keyword) {
+    params.append("username", keyword);
+    params.append("email", keyword);
+  }
+  if (status) params.append("status", status);
+
+  fetch(`/api/accounts/search?${params.toString()}`, {
     headers: {
       Authorization: "Bearer " + token
     }
@@ -20,11 +30,52 @@ function loadUsers() {
 }
 
 /* =======================
+   FILTER EVENTS
+======================= */
+function initFilterEvents() {
+  const searchInput = document.querySelector(".search-input");
+  const statusSelect = document.querySelector(".filters select");
+
+  searchInput.addEventListener(
+    "input",
+    debounce(() => applyFilter(), 400)
+  );
+
+  statusSelect.addEventListener("change", applyFilter);
+}
+
+function applyFilter() {
+  const keyword = document.querySelector(".search-input").value.trim();
+  const status = document.querySelector(".filters select").value;
+
+  fetchUsers({
+    keyword,
+    status: status === "filterStatus" ? "" : status
+  });
+}
+
+/* =======================
+   DEBOUNCE
+======================= */
+function debounce(fn, delay) {
+  let timer;
+  return function () {
+    clearTimeout(timer);
+    timer = setTimeout(fn, delay);
+  };
+}
+
+/* =======================
    RENDER TABLE
 ======================= */
 function renderUsers(users) {
   const tbody = document.getElementById("userTableBody");
   tbody.innerHTML = "";
+
+  if (!users.length) {
+    tbody.innerHTML = `<tr><td colspan="7">No users found</td></tr>`;
+    return;
+  }
 
   users.forEach(u => {
     const tr = document.createElement("tr");
@@ -37,9 +88,15 @@ function renderUsers(users) {
       <td class="status ${u.status}">${u.status}</td>
       <td>${u.createdAt?.substring(0, 10) || ""}</td>
       <td>
-        <button class="view" data-id="${u.accountId}">👁</button>
-        <button class="edit" data-id="${u.accountId}">✏️</button>
-        <button class="delete" data-id="${u.accountId}">⛔</button>
+        <button class="view" data-id="${u.accountId}">
+          <i class="fa-solid fa-eye"></i>
+        </button>
+        <button class="edit" data-id="${u.accountId}">
+          <i class="fa-solid fa-pen-to-square"></i>
+        </button>
+        <button class="delete" data-id="${u.accountId}">
+          <i class="fa-solid fa-ban"></i>
+        </button>
       </td>
     `;
 
@@ -55,6 +112,7 @@ document.addEventListener("click", e => {
   if (!btn) return;
 
   const id = btn.dataset.id;
+  if (!id) return;
 
   if (btn.classList.contains("view")) openViewModal(id);
   if (btn.classList.contains("edit")) openEditModal(id);
@@ -90,10 +148,7 @@ function openViewModal(id) {
   fetch(`/api/accounts/${id}`, {
     headers: { Authorization: "Bearer " + token }
   })
-    .then(res => {
-      if (!res.ok) throw new Error();
-      return res.json();
-    })
+    .then(res => res.json())
     .then(r => {
       const u = r.data;
 
@@ -118,10 +173,7 @@ function openEditModal(id) {
   fetch(`/api/accounts/${id}`, {
     headers: { Authorization: "Bearer " + token }
   })
-    .then(res => {
-      if (!res.ok) throw new Error();
-      return res.json();
-    })
+    .then(res => res.json())
     .then(r => {
       const u = r.data;
 
@@ -133,7 +185,7 @@ function openEditModal(id) {
 
       document
         .querySelectorAll(".role-group input")
-        .forEach(cb => cb.checked = u.roles.includes(cb.value));
+        .forEach(cb => (cb.checked = u.roles.includes(cb.value)));
 
       openModal();
     })
@@ -160,15 +212,12 @@ document.getElementById("saveUserBtn").onclick = () => {
       Authorization: "Bearer " + token,
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      status,
-      roles
-    })
+    body: JSON.stringify({ status, roles })
   })
     .then(res => {
       if (!res.ok) throw new Error();
       closeModal();
-      loadUsers();
+      fetchUsers(); // reload list
     })
     .catch(() => alert("Update failed"));
 };
@@ -187,7 +236,12 @@ function deleteUser(id) {
   })
     .then(res => {
       if (!res.ok) throw new Error();
-      loadUsers();
+      fetchUsers();
     })
     .catch(() => alert("Delete failed"));
 }
+document.getElementById("addUserBtn").addEventListener("click", () => {
+  window.location.href =
+    "/screen/guest/signup.html?mode=admin&returnUrl=/screen/admin/usermanagement.html";
+});
+
