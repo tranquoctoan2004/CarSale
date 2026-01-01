@@ -33,7 +33,8 @@ function setupHeaderEvents() {
         }
       }
       
-      localStorage.clear();
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
       // SỬA PATH NÀY
       window.location.href = '../user/login.html';
     });

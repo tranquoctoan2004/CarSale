@@ -485,32 +485,21 @@ async function handleRegistrationSuccess(userData) {
     // ---------------------------------------------------------
     
     // Lưu token nếu không phải admin tạo thủ công
-    if (mode !== 'admin') {
-        localStorage.setItem(CONFIG.STORAGE.TOKEN, userData.token);
-        localStorage.setItem(CONFIG.STORAGE.USER, JSON.stringify(userData.account));
-    }
+    localStorage.removeItem(CONFIG.STORAGE.TOKEN);
+    localStorage.removeItem(CONFIG.STORAGE.USER);
 
-    const isFirstUser = elements.adminNotice.style.display === 'block';
-    const message = isFirstUser
-        ? '🎉 Congratulations! You are the first user and now have ADMIN privileges!'
-        : '✅ Registration successful! Welcome to CarSale!';
+    // 2. Hiển thị thông báo thành công và dặn người dùng đăng nhập
+    showSuccess('✅ Registration successful! Redirecting to login page...');
     
-    showSuccess(message);
-    
-    // Hiệu ứng mờ form
+    // 3. Hiệu ứng làm mờ form
     elements.form.style.opacity = '0.7';
-    elements.form.style.transform = 'scale(0.98)';
-    elements.form.style.transition = 'all 0.3s';
-    
-    // Chỉ nhảy trang khi ở chế độ đăng ký độc lập (không phải iframe)
+    if (mode !== 'admin') {
+    sessionStorage.setItem('signup_username', elements.username.value.trim());
+    sessionStorage.setItem('signup_password', elements.password.value); // Lưu mật khẩu để tự điền
+    }
+    // 4. Chuyển hướng về trang Login sau 2 giây
     setTimeout(() => {
-        if (mode === 'admin' && returnUrl) {
-            window.location.href = returnUrl; 
-        } else if (mode === 'admin') {
-            window.location.href = '/screen/admin/adminhome.html';
-        } else {
-            window.location.href = CONFIG.ROUTES.LOGIN;
-        }
+        window.location.href = CONFIG.ROUTES.LOGIN; // Sẽ là /screen/user/login.html
     }, 2000);
 }
 

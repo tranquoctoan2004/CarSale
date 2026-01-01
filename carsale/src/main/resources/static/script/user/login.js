@@ -1,374 +1,439 @@
-// login.js - 3.2KB Gzipped
-// ========= CONFIGURATION =========
-const CONFIG = {
-    API_URL: '/api/auth/login',
-    TOKEN_KEY: 'token',
-    USER_KEY: 'user',
-    ADMIN_ROUTE: '/screen/admin/adminhome.html',
-    USER_ROUTE: '/screen/user/userhome.html',
-    TIMEOUT: 10000,
-    MAX_RETRIES: 2
-};
+      // ⚡ CẤU HÌNH
+      const CONFIG = {
+        API_URL: "/api/auth/login",
+        TOKEN_KEY: "token",
+        USER_KEY: "user",
+        ADMIN_ROUTE: "/screen/admin/adminhome.html",
+        USER_ROUTE: "/screen/user/userhome.html",
+        SIGNUP_ROUTE: "/screen/guest/signup.html",
+      };
 
-// ========= CACHE DOM ELEMENTS =========
-const ELEMENTS = {
-    form: document.getElementById('loginForm'),
-    username: document.getElementById('username'),
-    password: document.getElementById('password'),
-    remember: document.getElementById('remember'),
-    submitBtn: document.getElementById('submitBtn'),
-    errorMsg: document.getElementById('errorMessage'),
-    successMsg: document.getElementById('successMessage'),
-    loading: document.getElementById('loading')
-};
+      // ⚡ BIẾN TOÀN CỤC
+      let isSubmitting = false;
+      let lastSubmitTime = 0;
+      const SUBMIT_DELAY = 1000; // 1 giây giữa các lần submit
 
-// ========= STATE MANAGEMENT =========
-let state = {
-    isSubmitting: false,
-    lastSubmitTime: 0,
-    retryCount: 0
-};
+      // ⚡ DOM ELEMENTS
+      const $ = (id) => document.getElementById(id);
+      const elements = {
+        form: $("loginForm"),
+        username: $("username"),
+        password: $("password"),
+        remember: $("remember"),
+        togglePwd: $("togglePwd"),
+        submitBtn: $("submitBtn"),
+        errorMsg: $("errorMessage"),
+        successMsg: $("successMessage"),
+        loading: $("loading"),
+      };
 
-// ========= INITIALIZATION =========
-document.addEventListener('DOMContentLoaded', init);
+      // ⚡ KHỞI TẠO ỨNG DỤNG
+      document.addEventListener("DOMContentLoaded", () => {
+        initApp();
+        setupEventListeners();
+      });
 
-function init() {
-    // Auto-redirect if already logged in
-    if (localStorage.getItem(CONFIG.TOKEN_KEY)) {
-        redirectToDashboard();
-        return;
-    }
-
-    // Auto-fill from localStorage
-    autoFillCredentials();
-    
-    // Setup event listeners
-    setupEventListeners();
-    
-    // Performance monitoring
-    if ('performance' in window) {
-        performance.mark('login_init_start');
-    }
-}
-
-// ========= EVENT HANDLERS =========
-function setupEventListeners() {
-    ELEMENTS.form.addEventListener('submit', handleSubmit);
-    
-    // Password toggle
-    const toggleBtn = document.getElementById('togglePwd');
-    if (toggleBtn) {
-        toggleBtn.addEventListener('click', togglePassword);
-    }
-    
-    // Enter key support
-    ELEMENTS.password.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' && !state.isSubmitting) {
-            ELEMENTS.form.requestSubmit();
+      // ⚡ KHỞI TẠO
+      function initApp() {
+        // Kiểm tra đã login chưa
+        if (localStorage.getItem(CONFIG.TOKEN_KEY)) {
+          redirectToDashboard();
+          return;
         }
-    });
-    
-    // Input validation
-    ELEMENTS.username.addEventListener('input', debounce(validateUsername, 300));
-    ELEMENTS.password.addEventListener('input', debounce(validatePassword, 300));
-}
-
-// ========= FORM SUBMISSION =========
-async function handleSubmit(e) {
-    e.preventDefault();
-    
-    // Prevent rapid submissions
-    if (state.isSubmitting || isTooSoon()) return;
-    
-    // Validate form
-    const errors = validateForm();
-    if (errors.length) {
-        showError(errors[0]);
-        return;
-    }
-    
-    // Update UI state
-    updateSubmitState(true);
-    
-    try {
-        // Attempt login
-        const data = await attemptLogin();
-        
-        // Handle success
-        await handleSuccess(data);
-        
-    } catch (error) {
-        // Handle error
-        handleError(error);
-        
-    } finally {
-        // Reset UI state
-        updateSubmitState(false);
-    }
-}
-
-// ========= API CALL =========
-async function attemptLogin() {
-    const credentials = {
-        username: ELEMENTS.username.value.trim(),
-        password: ELEMENTS.password.value.trim()
-    };
-    
-    for (let i = 0; i <= CONFIG.MAX_RETRIES; i++) {
-        try {
-            const response = await fetchWithTimeout(CONFIG.API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: JSON.stringify(credentials)
-            }, CONFIG.TIMEOUT);
-            
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
-            }
-            
-            const result = await response.json();
-            
-            if (!result.success) {
-                throw new Error(result.message || 'Login failed');
-            }
-            
-            return result.data;
-            
-        } catch (error) {
-            if (i === CONFIG.MAX_RETRIES) throw error;
-            await sleep(1000 * (i + 1)); // Exponential backoff
+        autoFillCredentials();
+        // Tự động điền username nếu có remember
+        if (localStorage.getItem("rememberMe") === "true") {
+          const savedUsername = localStorage.getItem("savedUsername");
+          if (savedUsername) {
+            elements.username.value = savedUsername;
+            elements.remember.checked = true;
+            elements.password.focus();
+          }
         }
-    }
-}
 
-// ========= SUCCESS HANDLER =========
-async function handleSuccess(data) {
-    // Store credentials
-    saveCredentials(data);
-    
-    // Save remember me preference
-    if (ELEMENTS.remember.checked) {
-        localStorage.setItem('savedUsername', ELEMENTS.username.value.trim());
-        localStorage.setItem('rememberMe', 'true');
-    }
-    
-    // Show success message
-    showSuccess('Login successful! Redirecting...');
-    
-    // Smooth transition
-    ELEMENTS.form.style.opacity = '0.7';
-    
-    // Redirect with slight delay
-    setTimeout(redirectToDashboard, 1000);
-}
-
-// ========= ERROR HANDLER =========
-function handleError(error) {
-    console.error('Login error:', error);
-    
-    let message = 'Login failed. Please try again.';
-    
-    if (error.name === 'AbortError') {
-        message = 'Request timeout. Please try again.';
-    } else if (error.message.includes('Network')) {
-        message = 'Network error. Please check your connection.';
-    } else if (error.message.includes('401') || error.message.includes('Invalid')) {
-        message = 'Invalid username or password.';
-    } else if (error.message.includes('429')) {
-        message = 'Too many attempts. Please wait a moment.';
-    }
-    
-    showError(message);
-    shakeForm();
-    
-    // Clear password for security
-    ELEMENTS.password.value = '';
-    ELEMENTS.password.focus();
-}
-
-// ========= UTILITY FUNCTIONS =========
-function saveCredentials(data) {
-    localStorage.setItem(CONFIG.TOKEN_KEY, data.token);
-    localStorage.setItem(CONFIG.USER_KEY, JSON.stringify(data.account));
-    
-    // Also set cookie for server-side if needed
-    document.cookie = `token=${data.token}; path=/; max-age=86400; secure; samesite=strict`;
-}
-
-function autoFillCredentials() {
-    if (localStorage.getItem('rememberMe') === 'true') {
-        const username = localStorage.getItem('savedUsername');
-        if (username) {
-            ELEMENTS.username.value = username;
-            ELEMENTS.remember.checked = true;
-            ELEMENTS.password.focus();
+        // Kiểm tra nếu đang trên mobile
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+          document.body.style.padding = "10px";
         }
-    }
-}
+      }
 
-function redirectToDashboard() {
-    const userStr = localStorage.getItem(CONFIG.USER_KEY);
-    
-    if (!userStr) {
-        window.location.href = CONFIG.USER_ROUTE;
-        return;
-    }
-    
-    try {
-        const user = JSON.parse(userStr);
-        const isAdmin = user.roles && user.roles.includes('admin');
-        window.location.href = isAdmin ? CONFIG.ADMIN_ROUTE : CONFIG.USER_ROUTE;
-    } catch {
-        window.location.href = CONFIG.USER_ROUTE;
-    }
-}
+      // ⚡ THIẾT LẬP EVENT LISTENERS
+      function setupEventListeners() {
+        // Form submit
+        elements.form.addEventListener("submit", handleSubmit);
 
-function validateForm() {
-    const errors = [];
-    const username = ELEMENTS.username.value.trim();
-    const password = ELEMENTS.password.value.trim();
-    
-    if (!username) errors.push('Username is required');
-    else if (username.length < 3) errors.push('Username must be at least 3 characters');
-    
-    if (!password) errors.push('Password is required');
-    else if (password.length < 6) errors.push('Password must be at least 6 characters');
-    
-    return errors;
-}
+        // Toggle password visibility
+        elements.togglePwd.addEventListener("click", togglePasswordVisibility);
 
-function validateUsername() {
-    const username = ELEMENTS.username.value.trim();
-    if (username.length > 0 && username.length < 3) {
-        ELEMENTS.username.style.borderColor = 'var(--error)';
-    } else {
-        ELEMENTS.username.style.borderColor = '';
-    }
-}
+        // Enter key support
+        elements.username.addEventListener("keypress", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            elements.password.focus();
+          }
+        });
 
-function validatePassword() {
-    const password = ELEMENTS.password.value.trim();
-    if (password.length > 0 && password.length < 6) {
-        ELEMENTS.password.style.borderColor = 'var(--error)';
-    } else {
-        ELEMENTS.password.style.borderColor = '';
-    }
-}
+        elements.password.addEventListener("keypress", (e) => {
+          if (e.key === "Enter" && !isSubmitting) {
+            e.preventDefault();
+            elements.form.requestSubmit();
+          }
+        });
 
-function togglePassword() {
-    const type = ELEMENTS.password.type === 'password' ? 'text' : 'password';
-    ELEMENTS.password.type = type;
-    
-    const icon = document.querySelector('#togglePwd i');
-    if (icon) {
-        icon.className = type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
-    }
-}
+        // Real-time validation
+        elements.username.addEventListener(
+          "input",
+          debounce(validateUsername, 300)
+        );
+        elements.password.addEventListener(
+          "input",
+          debounce(validatePassword, 300)
+        );
 
-function updateSubmitState(isSubmitting) {
-    state.isSubmitting = isSubmitting;
-    ELEMENTS.submitBtn.disabled = isSubmitting;
-    ELEMENTS.submitBtn.innerHTML = isSubmitting 
-        ? '<span>Authenticating...</span><i class="fas fa-spinner fa-spin ml-2"></i>'
-        : '<span>Sign In</span><i class="fas fa-arrow-right ml-2"></i>';
-    
-    if (isSubmitting) {
-        ELEMENTS.loading.style.display = 'flex';
+        // Prevent form resubmission
+        elements.form.addEventListener("submit", preventDoubleSubmission);
+      }
+
+      // ⚡ XỬ LÝ FORM SUBMIT
+      async function handleSubmit(e) {
+        e.preventDefault();
+
+        // Rate limiting
+        const now = Date.now();
+        if (now - lastSubmitTime < SUBMIT_DELAY) return;
+        lastSubmitTime = now;
+
+        // Validation
+        const errors = validateForm();
+        if (errors.length > 0) {
+          showError(errors[0]);
+          shakeForm();
+          return;
+        }
+
+        // Chuẩn bị submit
+        isSubmitting = true;
+        elements.submitBtn.disabled = true;
+        elements.submitBtn.innerHTML = "<span>Authenticating...</span>";
         hideMessages();
-    } else {
-        ELEMENTS.loading.style.display = 'none';
-    }
-}
+        elements.loading.style.display = "flex";
 
-function isTooSoon() {
-    const now = Date.now();
-    const minDelay = 1000; // 1 second between submissions
-    if (now - state.lastSubmitTime < minDelay) return true;
-    state.lastSubmitTime = now;
-    return false;
-}
+        // Gửi request
+        try {
+          const response = await fetchWithTimeout(
+            CONFIG.API_URL,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest",
+              },
+              body: JSON.stringify({
+                username: elements.username.value.trim(),
+                password: elements.password.value.trim(),
+              }),
+            },
+            10000
+          ); // 10 seconds timeout
 
-function showError(message) {
-    ELEMENTS.errorMsg.querySelector('span').textContent = message;
-    ELEMENTS.errorMsg.style.display = 'flex';
-    ELEMENTS.successMsg.style.display = 'none';
-    
-    // Auto-hide after 5 seconds
-    setTimeout(() => {
-        ELEMENTS.errorMsg.style.display = 'none';
-    }, 5000);
-}
+          const result = await response.json();
 
-function showSuccess(message) {
-    ELEMENTS.successMsg.querySelector('span').textContent = message;
-    ELEMENTS.successMsg.style.display = 'flex';
-    ELEMENTS.errorMsg.style.display = 'none';
-}
+          if (!response.ok) {
+            throw new Error(result.message || `HTTP ${response.status}`);
+          }
 
-function hideMessages() {
-    ELEMENTS.errorMsg.style.display = 'none';
-    ELEMENTS.successMsg.style.display = 'none';
-}
+          if (result.success) {
+            await handleLoginSuccess(result.data);
+          } else {
+            throw new Error(result.message || "Login failed");
+          }
+        } catch (error) {
+          handleLoginError(error);
+        } finally {
+          resetSubmitState();
+        }
+      }
 
-function shakeForm() {
-    ELEMENTS.form.style.animation = 'shake 0.5s';
-    
-    if (!document.querySelector('#shake-style')) {
-        const style = document.createElement('style');
-        style.id = 'shake-style';
-        style.textContent = `
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-                20%, 40%, 60%, 80% { transform: translateX(5px); }
-            }
-        `;
-        document.head.appendChild(style);
-    }
-}
+      // ⚡ XỬ LÝ LOGIN THÀNH CÔNG
+      async function handleLoginSuccess(data) {
+        // Lưu token và user info
+        localStorage.setItem(CONFIG.TOKEN_KEY, data.token);
+        localStorage.setItem(CONFIG.USER_KEY, JSON.stringify(data.account));
 
-// ========= PERFORMANCE HELPERS =========
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
+        // Lưu remember me
+        if (elements.remember.checked) {
+          localStorage.setItem("rememberMe", "true");
+          localStorage.setItem("savedUsername", elements.username.value.trim());
+          localStorage.setItem('savedPassword', elements.password.value);
+        } else {
+          localStorage.removeItem("rememberMe");
+          localStorage.removeItem("savedUsername");
+          localStorage.removeItem('savedPassword');
+        }
+
+        // Hiển thị success message
+        showSuccess("Login successful! Redirecting...");
+
+        // Thêm hiệu ứng
+        elements.form.style.opacity = "0.7";
+        elements.form.style.transform = "scale(0.98)";
+        elements.form.style.transition = "all 0.3s";
+
+        // Redirect sau 1 giây
+        setTimeout(() => {
+          redirectToDashboard();
+        }, 1000);
+      }
+
+      // ⚡ XỬ LÝ LỖI
+      function handleLoginError(error) {
+        console.error("Login error:", error);
+
+        let errorMessage = "Login failed. Please try again.";
+
+        if (error.name === "AbortError" || error.message.includes("timeout")) {
+          errorMessage = "Request timeout. Please check your connection.";
+        } else if (error.message.includes("Network")) {
+          errorMessage =
+            "Network error. Please check your internet connection.";
+        } else if (
+          error.message.includes("401") ||
+          error.message.includes("Invalid")
+        ) {
+          errorMessage = "Invalid username or password.";
+        }
+
+        showError(errorMessage);
+        shakeForm();
+
+        // Clear password và focus lại
+        elements.password.value = "";
+        elements.password.focus();
+      }
+
+      // ⚡ VALIDATION FUNCTIONS
+      function validateForm() {
+        const errors = [];
+        const username = elements.username.value.trim();
+        const password = elements.password.value.trim();
+
+        if (!username) errors.push("Username is required");
+        else if (username.length < 3)
+          errors.push("Username must be at least 3 characters");
+        else if (!/^[a-zA-Z0-9_]+$/.test(username))
+          errors.push(
+            "Username can only contain letters, numbers and underscores"
+          );
+
+        if (!password) errors.push("Password is required");
+        else if (password.length < 6)
+          errors.push("Password must be at least 6 characters");
+
+        return errors;
+      }
+
+      function validateUsername() {
+        const username = elements.username.value.trim();
+        if (username.length > 0 && username.length < 3) {
+          elements.username.style.borderColor = "var(--error)";
+        } else {
+          elements.username.style.borderColor = "";
+        }
+      }
+
+      function validatePassword() {
+        const password = elements.password.value.trim();
+        if (password.length > 0 && password.length < 6) {
+          elements.password.style.borderColor = "var(--error)";
+        } else {
+          elements.password.style.borderColor = "";
+        }
+      }
+
+      // ⚡ UI HELPERS
+      function showError(message) {
+        elements.errorMsg.querySelector("span").textContent = message;
+        elements.errorMsg.style.display = "flex";
+        elements.successMsg.style.display = "none";
+        elements.loading.style.display = "none";
+
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+          elements.errorMsg.style.display = "none";
+        }, 5000);
+      }
+
+      function showSuccess(message) {
+        elements.successMsg.querySelector("span").textContent = message;
+        elements.successMsg.style.display = "flex";
+        elements.errorMsg.style.display = "none";
+        elements.loading.style.display = "none";
+      }
+
+      function hideMessages() {
+        elements.errorMsg.style.display = "none";
+        elements.successMsg.style.display = "none";
+        elements.loading.style.display = "none";
+      }
+
+      function shakeForm() {
+        elements.form.style.animation = "none";
+        setTimeout(() => {
+          elements.form.style.animation = "shake 0.5s";
+        }, 10);
+
+        // Thêm CSS cho shake animation
+        if (!document.querySelector("#shake-style")) {
+          const style = document.createElement("style");
+          style.id = "shake-style";
+          style.textContent = `
+                    @keyframes shake {
+                        0%, 100% { transform: translateX(0); }
+                        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                        20%, 40%, 60%, 80% { transform: translateX(5px); }
+                    }
+                `;
+          document.head.appendChild(style);
+        }
+
+        // Haptic feedback cho mobile
+        if ("vibrate" in navigator) {
+          navigator.vibrate([50, 30, 50]);
+        }
+      }
+
+      // ⚡ UTILITY FUNCTIONS
+      function togglePasswordVisibility() {
+        const type =
+          elements.password.type === "password" ? "text" : "password";
+        elements.password.type = type;
+
+        // Update icon
+        const icon = elements.togglePwd.querySelector("svg");
+        if (type === "text") {
+          icon.innerHTML =
+            '<path d="M12 6.5c2.76 0 5 2.24 5 5 0 .51-.1 1-.24 1.46l3.06 3.06c1.39-1.23 2.49-2.77 3.18-4.53C21.27 7.11 17 4 12 4c-1.27 0-2.49.2-3.64.57l2.17 2.17c.46-.14.95-.24 1.47-.24zM2.71 3.16c-.39.39-.39 1.02 0 1.41l1.97 1.97C3.06 7.83 1.77 9.53 1 11.5 2.73 15.89 7 19 12 19c1.52 0 2.97-.3 4.31-.82l2.72 2.72c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L4.13 3.16c-.39-.39-1.02-.39-1.41 0zM12 16.5c-2.76 0-5-2.24-5-5 0-.77.18-1.5.49-2.14l1.57 1.57c-.03.18-.06.37-.06.57 0 1.66 1.34 3 3 3 .2 0 .38-.03.57-.07L14.14 16c-.64.32-1.37.5-2.14.5zm2.97-5.33c-.15-1.4-1.25-2.49-2.64-2.64l2.64 2.64z"/>';
+        } else {
+          icon.innerHTML =
+            '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
+        }
+      }
+
+      function redirectToDashboard() {
+        const userStr = localStorage.getItem(CONFIG.USER_KEY);
+        if (!userStr) {
+          window.location.href = CONFIG.USER_ROUTE;
+          return;
+        }
+
+        try {
+          const user = JSON.parse(userStr);
+          const isAdmin = user.roles && user.roles.includes("admin");
+          window.location.href = isAdmin
+            ? CONFIG.ADMIN_ROUTE
+            : CONFIG.USER_ROUTE;
+        } catch {
+          window.location.href = CONFIG.USER_ROUTE;
+        }
+      }
+
+      function resetSubmitState() {
+        isSubmitting = false;
+        elements.submitBtn.disabled = false;
+        elements.submitBtn.innerHTML = "<span>Sign In</span>";
+        elements.loading.style.display = "none";
+      }
+
+      function preventDoubleSubmission(e) {
+        if (isSubmitting) {
+          e.preventDefault();
+          return false;
+        }
+      }
+
+      // ⚡ PERFORMANCE UTILITIES
+      function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+          const later = () => {
             clearTimeout(timeout);
             func(...args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
         };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
+      }
 
-async function fetchWithTimeout(url, options, timeout = 10000) {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), timeout);
-    
-    try {
-        const response = await fetch(url, {
+      async function fetchWithTimeout(resource, options = {}, timeout = 8000) {
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), timeout);
+
+        try {
+          const response = await fetch(resource, {
             ...options,
-            signal: controller.signal
-        });
-        clearTimeout(timeoutId);
-        return response;
-    } catch (error) {
-        clearTimeout(timeoutId);
-        throw error;
+            signal: controller.signal,
+          });
+          clearTimeout(id);
+          return response;
+        } catch (error) {
+          clearTimeout(id);
+          throw error;
+        }
+      }
+
+      // ⚡ AUTO-RETRY FAILED REQUESTS (optional)
+      async function fetchWithRetry(url, options, maxRetries = 2) {
+        for (let i = 0; i < maxRetries; i++) {
+          try {
+            return await fetchWithTimeout(url, options);
+          } catch (error) {
+            if (i === maxRetries - 1) throw error;
+            await new Promise((resolve) => setTimeout(resolve, 1000 * (i + 1)));
+          }
+        }
+      }
+      function autoFillCredentials() {
+        // 1. Ưu tiên lấy từ Đăng ký (sessionStorage)
+        const signupUser = sessionStorage.getItem("signup_username");
+        const signupPass = sessionStorage.getItem("signup_password");
+
+        if (signupUser && signupPass) {
+          // Điền vào ô input dùng biến elements có sẵn trong HTML của bạn
+          elements.username.value = signupUser;
+          elements.password.value = signupPass;
+
+          // Kích hoạt sự kiện để UI nhận diện có chữ
+          elements.username.dispatchEvent(
+            new Event("input", { bubbles: true })
+          );
+          elements.password.dispatchEvent(
+            new Event("input", { bubbles: true })
+          );
+
+          // Xóa để bảo mật
+          sessionStorage.removeItem("signup_username");
+          sessionStorage.removeItem("signup_password");
+
+          showSuccess("Account ready! Please log in.");
+          return;
+        }
+
+        // 2. Nếu không có đăng ký mới thì mới xét Remember Me (localStorage)
+        if (localStorage.getItem('rememberMe') === 'true') {
+        const savedU = localStorage.getItem('savedUsername');
+        const savedP = localStorage.getItem('savedPassword');
+        
+        if (savedU) {
+            elements.username.value = savedU;
+            elements.remember.checked = true;
+        }
+        if (savedP) {
+            elements.password.value = savedP;
+        }
+        
+        // Nếu đã có cả 2 thì không cần focus vào username nữa mà focus vào nút login luôn
+        if(savedU && savedP) {
+            elements.submitBtn.focus();
+        }
     }
-}
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-// ========= EXPORTS (if using modules) =========
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        login: handleSubmit,
-        validateForm,
-        redirectToDashboard
-    };
-}
+      }

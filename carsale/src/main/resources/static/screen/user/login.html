@@ -1,583 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#4361ee">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#4361ee" />
     <title>Login | CarSale</title>
-    
+
     <!-- Inline CSS - Không file ngoài -->
-    <style>
-        /* RESET & BASE (2.5KB) */
-        *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-        :root{
-            --primary:#4361ee;--secondary:#4cc9f0;--dark:#121826;--light:#f8f9fa;
-            --error:#f72585;--success:#4cc9f0;--border-radius:12px
-        }
-        body{
-            font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-            background:linear-gradient(135deg,#121826 0%,#1e293b 100%);
-            color:white;min-height:100vh;display:flex;justify-content:center;
-            align-items:center;padding:20px;overflow-x:hidden
-        }
-        
-        /* CONTAINER (0.8KB) */
-        .login-container{
-            width:100%;max-width:420px;animation:fadeIn 0.4s ease
-        }
-        @keyframes fadeIn{
-            from{opacity:0;transform:translateY(20px)}
-            to{opacity:1;transform:translateY(0)}
-        }
-        
-        /* LOGO & HEADER (0.3KB) */
-        .logo{text-align:center;margin-bottom:2rem}
-        .logo-icon{font-size:3rem;display:block;margin-bottom:0.5rem}
-        .logo-text{font-size:2rem;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--secondary));
-            -webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        
-        /* FORM BOX (1.2KB) */
-        .form-box{
-            background:rgba(255,255,255,0.05);backdrop-filter:blur(12px);
-            border:1px solid rgba(255,255,255,0.1);border-radius:var(--border-radius);
-            padding:2rem;box-shadow:0 15px 35px rgba(0,0,0,0.2)
-        }
-        
-        /* INPUT FIELDS (1KB) */
-        .input-field{margin-bottom:1.2rem;position:relative}
-        .input-field input{
-            width:100%;padding:1rem 1rem 1rem 3rem;background:rgba(255,255,255,0.1);
-            border:2px solid rgba(255,255,255,0.2);border-radius:var(--border-radius);
-            color:white;font-size:16px;transition:all 0.2s
-        }
-        .input-field input:focus{
-            outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(67,97,238,0.2);
-            background:rgba(255,255,255,0.15)
-        }
-        .input-field input::placeholder{color:rgba(255,255,255,0.5)}
-        .input-field .icon{
-            position:absolute;left:1rem;top:50%;transform:translateY(-50%);
-            color:rgba(255,255,255,0.6);pointer-events:none
-        }
-        
-        /* PASSWORD TOGGLE (0.3KB) */
-        .toggle-pwd{
-            position:absolute;right:1rem;top:50%;transform:translateY(-50%);
-            background:none;border:none;color:rgba(255,255,255,0.6);cursor:pointer;
-            font-size:1.2rem;padding:0.2rem
-        }
-        
-        /* BUTTONS (0.8KB) */
-        .submit-btn{
-            width:100%;padding:1rem;background:linear-gradient(135deg,var(--primary),var(--secondary));
-            color:white;border:none;border-radius:var(--border-radius);font-size:1rem;
-            font-weight:600;cursor:pointer;transition:all 0.3s;margin-top:0.5rem;
-            position:relative;overflow:hidden
-        }
-        .submit-btn::after{
-            content:'';position:absolute;top:50%;left:50%;width:5px;height:5px;
-            background:rgba(255,255,255,0.5);border-radius:50%;opacity:0;
-            transform:scale(1,1) translate(-50%);transform-origin:50% 50%
-        }
-        .submit-btn:focus:not(:active)::after{
-            animation:ripple 1s ease-out
-        }
-        @keyframes ripple{
-            0%{transform:scale(0,0);opacity:0.5}
-            100%{transform:scale(20,20);opacity:0}
-        }
-        .submit-btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(67,97,238,0.4)}
-        .submit-btn:active{transform:translateY(0)}
-        
-        /* QUICK LINKS (0.4KB) */
-        .quick-links{
-            display:flex;justify-content:space-between;margin-top:1.5rem;
-            font-size:0.9rem;flex-wrap:wrap;gap:0.5rem
-        }
-        .quick-links a{
-            color:rgba(255,255,255,0.7);text-decoration:none;transition:color 0.2s
-        }
-        .quick-links a:hover{color:var(--secondary)}
-        
-        /* REMEMBER ME (0.2KB) */
-        .remember{display:flex;align-items:center;gap:0.5rem;margin:1rem 0}
-        .remember input{width:18px;height:18px;accent-color:var(--primary)}
-        
-        /* MESSAGES (0.6KB) */
-        .message{
-            padding:1rem;border-radius:var(--border-radius);margin:1rem 0;
-            display:none;align-items:center;gap:0.8rem;animation:slideDown 0.3s
-        }
-        @keyframes slideDown{
-            from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}
-        }
-        .error{background:rgba(247,37,133,0.1);border-left:4px solid var(--error);color:var(--error)}
-        .success{background:rgba(76,201,240,0.1);border-left:4px solid var(--success);color:var(--success)}
-        .loading{flex-direction:column;justify-content:center;text-align:center}
-        .spinner{
-            width:2rem;height:2rem;border:3px solid rgba(255,255,255,0.3);
-            border-top-color:var(--primary);border-radius:50%;animation:spin 1s linear infinite
-        }
-        @keyframes spin{to{transform:rotate(360deg)}}
-        
-        /* RESPONSIVE (0.5KB) */
-        @media(max-width:480px){
-            .form-box{padding:1.5rem}
-            .login-container{max-width:95%}
-            .quick-links{flex-direction:column;text-align:center}
-        }
-        
-        /* REDUCED MOTION */
-        @media(prefers-reduced-motion:reduce){
-            *,::before,::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;
-                transition-duration:0.01ms!important}
-        }
-    </style>
-</head>
-<body>
+    <link rel="stylesheet" href="/style/user/login.css" />
+  </head>
+  <body>
     <div class="login-container">
-        <!-- Logo -->
-        <div class="logo">
-            <div class="logo-icon">🚗</div>
-            <div class="logo-text">CarSale</div>
+      <!-- Logo -->
+      <div class="logo">
+        <div class="logo-icon">🚗</div>
+        <div class="logo-text">CarSale</div>
+      </div>
+
+      <!-- Form Box -->
+      <div class="form-box">
+        <!-- Messages -->
+        <div id="errorMessage" class="message error">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+          </svg>
+          <span>Incorrect username or password</span>
         </div>
-        
-        <!-- Form Box -->
-        <div class="form-box">
-            <!-- Messages -->
-            <div id="errorMessage" class="message error">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-                </svg>
-                <span>Incorrect username or password</span>
-            </div>
-            
-            <div id="successMessage" class="message success">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                </svg>
-                <span>Login successful! Redirecting...</span>
-            </div>
-            
-            <div id="loading" class="message loading">
-                <div class="spinner"></div>
-                <span>Authenticating...</span>
-            </div>
-            
-            <!-- Login Form -->
-            <form id="loginForm">
-                <!-- Username -->
-                <div class="input-field">
-                    <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                    </svg>
-                    <input type="text" id="username" placeholder="Username" autocomplete="username" required autofocus>
-                </div>
-                
-                <!-- Password -->
-                <div class="input-field">
-                    <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
-                    </svg>
-                    <input type="password" id="password" placeholder="Password" autocomplete="current-password" required>
-                    <button type="button" class="toggle-pwd" id="togglePwd" aria-label="Show password">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
-                        </svg>
-                    </button>
-                </div>
-                
-                <!-- Remember Me -->
-                <div class="remember">
-                    <input type="checkbox" id="remember">
-                    <label for="remember">Remember me</label>
-                </div>
-                
-                <!-- Submit Button -->
-                <button type="submit" class="submit-btn" id="submitBtn">
-                    <span>Sign In</span>
-                </button>
-            </form>
-            
-            <!-- Quick Links -->
-            <div class="quick-links">
-                <a href="/screen/guest/signup.html">Create new account</a>
-                <a href="/screen/user/forgot-password.html">Forgot password?</a>
-            </div>
+
+        <div id="successMessage" class="message success">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+          </svg>
+          <span>Login successful! Redirecting...</span>
         </div>
+
+        <div id="loading" class="message loading">
+          <div class="spinner"></div>
+          <span>Authenticating...</span>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm">
+          <!-- Username -->
+          <div class="input-field">
+            <svg
+              class="icon"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="currentColor">
+              <path
+                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+            </svg>
+            <input
+              type="text"
+              id="username"
+              placeholder="Username"
+              autocomplete="username"
+              required
+              autofocus />
+          </div>
+
+          <!-- Password -->
+          <div class="input-field">
+            <svg
+              class="icon"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="currentColor">
+              <path
+                d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" />
+            </svg>
+            <input
+              type="password"
+              id="password"
+              placeholder="Password"
+              autocomplete="current-password"
+              required />
+            <button
+              type="button"
+              class="toggle-pwd"
+              id="togglePwd"
+              aria-label="Show password">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="currentColor">
+                <path
+                  d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Remember Me -->
+          <div class="remember">
+            <input type="checkbox" id="remember" />
+            <label for="remember">Remember me</label>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="submit-btn" id="submitBtn">
+            <span>Sign In</span>
+          </button>
+        </form>
+
+        <!-- Quick Links -->
+        <div class="quick-links">
+          <a href="/screen/guest/signup.html">Create new account</a>
+          <a href="/screen/user/forgot-password.html">Forgot password?</a>
+        </div>
+      </div>
     </div>
 
     <!-- Inline JavaScript - Không file ngoài -->
-    <script>
-        // ⚡ CẤU HÌNH
-        const CONFIG = {
-            API_URL: '/api/auth/login',
-            TOKEN_KEY: 'token',
-            USER_KEY: 'user',
-            ADMIN_ROUTE: '/screen/admin/adminhome.html',
-            USER_ROUTE: '/screen/user/userhome.html',
-            SIGNUP_ROUTE: '/screen/guest/signup.html'
-        };
-        
-        // ⚡ BIẾN TOÀN CỤC
-        let isSubmitting = false;
-        let lastSubmitTime = 0;
-        const SUBMIT_DELAY = 1000; // 1 giây giữa các lần submit
-        
-        // ⚡ DOM ELEMENTS
-        const $ = (id) => document.getElementById(id);
-        const elements = {
-            form: $('loginForm'),
-            username: $('username'),
-            password: $('password'),
-            remember: $('remember'),
-            togglePwd: $('togglePwd'),
-            submitBtn: $('submitBtn'),
-            errorMsg: $('errorMessage'),
-            successMsg: $('successMessage'),
-            loading: $('loading')
-        };
-        
-        // ⚡ KHỞI TẠO ỨNG DỤNG
-        document.addEventListener('DOMContentLoaded', () => {
-            initApp();
-            setupEventListeners();
-        });
-        
-        // ⚡ KHỞI TẠO
-        function initApp() {
-            // Kiểm tra đã login chưa
-            if (localStorage.getItem(CONFIG.TOKEN_KEY)) {
-                redirectToDashboard();
-                return;
-            }
-            
-            // Tự động điền username nếu có remember
-            if (localStorage.getItem('rememberMe') === 'true') {
-                const savedUsername = localStorage.getItem('savedUsername');
-                if (savedUsername) {
-                    elements.username.value = savedUsername;
-                    elements.remember.checked = true;
-                    elements.password.focus();
-                }
-            }
-            
-            // Kiểm tra nếu đang trên mobile
-            if (/Mobi|Android/i.test(navigator.userAgent)) {
-                document.body.style.padding = '10px';
-            }
-        }
-        
-        // ⚡ THIẾT LẬP EVENT LISTENERS
-        function setupEventListeners() {
-            // Form submit
-            elements.form.addEventListener('submit', handleSubmit);
-            
-            // Toggle password visibility
-            elements.togglePwd.addEventListener('click', togglePasswordVisibility);
-            
-            // Enter key support
-            elements.username.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    elements.password.focus();
-                }
-            });
-            
-            elements.password.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter' && !isSubmitting) {
-                    e.preventDefault();
-                    elements.form.requestSubmit();
-                }
-            });
-            
-            // Real-time validation
-            elements.username.addEventListener('input', debounce(validateUsername, 300));
-            elements.password.addEventListener('input', debounce(validatePassword, 300));
-            
-            // Prevent form resubmission
-            elements.form.addEventListener('submit', preventDoubleSubmission);
-        }
-        
-        // ⚡ XỬ LÝ FORM SUBMIT
-        async function handleSubmit(e) {
-            e.preventDefault();
-            
-            // Rate limiting
-            const now = Date.now();
-            if (now - lastSubmitTime < SUBMIT_DELAY) return;
-            lastSubmitTime = now;
-            
-            // Validation
-            const errors = validateForm();
-            if (errors.length > 0) {
-                showError(errors[0]);
-                shakeForm();
-                return;
-            }
-            
-            // Chuẩn bị submit
-            isSubmitting = true;
-            elements.submitBtn.disabled = true;
-            elements.submitBtn.innerHTML = '<span>Authenticating...</span>';
-            hideMessages();
-            elements.loading.style.display = 'flex';
-            
-            // Gửi request
-            try {
-                const response = await fetchWithTimeout(CONFIG.API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    body: JSON.stringify({
-                        username: elements.username.value.trim(),
-                        password: elements.password.value.trim()
-                    })
-                }, 10000); // 10 seconds timeout
-                
-                const result = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(result.message || `HTTP ${response.status}`);
-                }
-                
-                if (result.success) {
-                    await handleLoginSuccess(result.data);
-                } else {
-                    throw new Error(result.message || 'Login failed');
-                }
-                
-            } catch (error) {
-                handleLoginError(error);
-            } finally {
-                resetSubmitState();
-            }
-        }
-        
-        // ⚡ XỬ LÝ LOGIN THÀNH CÔNG
-        async function handleLoginSuccess(data) {
-            // Lưu token và user info
-            localStorage.setItem(CONFIG.TOKEN_KEY, data.token);
-            localStorage.setItem(CONFIG.USER_KEY, JSON.stringify(data.account));
-            
-            // Lưu remember me
-            if (elements.remember.checked) {
-                localStorage.setItem('rememberMe', 'true');
-                localStorage.setItem('savedUsername', elements.username.value.trim());
-            } else {
-                localStorage.removeItem('rememberMe');
-                localStorage.removeItem('savedUsername');
-            }
-            
-            // Hiển thị success message
-            showSuccess('Login successful! Redirecting...');
-            
-            // Thêm hiệu ứng
-            elements.form.style.opacity = '0.7';
-            elements.form.style.transform = 'scale(0.98)';
-            elements.form.style.transition = 'all 0.3s';
-            
-            // Redirect sau 1 giây
-            setTimeout(() => {
-                redirectToDashboard();
-            }, 1000);
-        }
-        
-        // ⚡ XỬ LÝ LỖI
-        function handleLoginError(error) {
-            console.error('Login error:', error);
-            
-            let errorMessage = 'Login failed. Please try again.';
-            
-            if (error.name === 'AbortError' || error.message.includes('timeout')) {
-                errorMessage = 'Request timeout. Please check your connection.';
-            } else if (error.message.includes('Network')) {
-                errorMessage = 'Network error. Please check your internet connection.';
-            } else if (error.message.includes('401') || error.message.includes('Invalid')) {
-                errorMessage = 'Invalid username or password.';
-            }
-            
-            showError(errorMessage);
-            shakeForm();
-            
-            // Clear password và focus lại
-            elements.password.value = '';
-            elements.password.focus();
-        }
-        
-        // ⚡ VALIDATION FUNCTIONS
-        function validateForm() {
-            const errors = [];
-            const username = elements.username.value.trim();
-            const password = elements.password.value.trim();
-            
-            if (!username) errors.push('Username is required');
-            else if (username.length < 3) errors.push('Username must be at least 3 characters');
-            else if (!/^[a-zA-Z0-9_]+$/.test(username)) errors.push('Username can only contain letters, numbers and underscores');
-            
-            if (!password) errors.push('Password is required');
-            else if (password.length < 6) errors.push('Password must be at least 6 characters');
-            
-            return errors;
-        }
-        
-        function validateUsername() {
-            const username = elements.username.value.trim();
-            if (username.length > 0 && username.length < 3) {
-                elements.username.style.borderColor = 'var(--error)';
-            } else {
-                elements.username.style.borderColor = '';
-            }
-        }
-        
-        function validatePassword() {
-            const password = elements.password.value.trim();
-            if (password.length > 0 && password.length < 6) {
-                elements.password.style.borderColor = 'var(--error)';
-            } else {
-                elements.password.style.borderColor = '';
-            }
-        }
-        
-        // ⚡ UI HELPERS
-        function showError(message) {
-            elements.errorMsg.querySelector('span').textContent = message;
-            elements.errorMsg.style.display = 'flex';
-            elements.successMsg.style.display = 'none';
-            elements.loading.style.display = 'none';
-            
-            // Auto-hide after 5 seconds
-            setTimeout(() => {
-                elements.errorMsg.style.display = 'none';
-            }, 5000);
-        }
-        
-        function showSuccess(message) {
-            elements.successMsg.querySelector('span').textContent = message;
-            elements.successMsg.style.display = 'flex';
-            elements.errorMsg.style.display = 'none';
-            elements.loading.style.display = 'none';
-        }
-        
-        function hideMessages() {
-            elements.errorMsg.style.display = 'none';
-            elements.successMsg.style.display = 'none';
-            elements.loading.style.display = 'none';
-        }
-        
-        function shakeForm() {
-            elements.form.style.animation = 'none';
-            setTimeout(() => {
-                elements.form.style.animation = 'shake 0.5s';
-            }, 10);
-            
-            // Thêm CSS cho shake animation
-            if (!document.querySelector('#shake-style')) {
-                const style = document.createElement('style');
-                style.id = 'shake-style';
-                style.textContent = `
-                    @keyframes shake {
-                        0%, 100% { transform: translateX(0); }
-                        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-                        20%, 40%, 60%, 80% { transform: translateX(5px); }
-                    }
-                `;
-                document.head.appendChild(style);
-            }
-            
-            // Haptic feedback cho mobile
-            if ('vibrate' in navigator) {
-                navigator.vibrate([50, 30, 50]);
-            }
-        }
-        
-        // ⚡ UTILITY FUNCTIONS
-        function togglePasswordVisibility() {
-            const type = elements.password.type === 'password' ? 'text' : 'password';
-            elements.password.type = type;
-            
-            // Update icon
-            const icon = elements.togglePwd.querySelector('svg');
-            if (type === 'text') {
-                icon.innerHTML = '<path d="M12 6.5c2.76 0 5 2.24 5 5 0 .51-.1 1-.24 1.46l3.06 3.06c1.39-1.23 2.49-2.77 3.18-4.53C21.27 7.11 17 4 12 4c-1.27 0-2.49.2-3.64.57l2.17 2.17c.46-.14.95-.24 1.47-.24zM2.71 3.16c-.39.39-.39 1.02 0 1.41l1.97 1.97C3.06 7.83 1.77 9.53 1 11.5 2.73 15.89 7 19 12 19c1.52 0 2.97-.3 4.31-.82l2.72 2.72c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L4.13 3.16c-.39-.39-1.02-.39-1.41 0zM12 16.5c-2.76 0-5-2.24-5-5 0-.77.18-1.5.49-2.14l1.57 1.57c-.03.18-.06.37-.06.57 0 1.66 1.34 3 3 3 .2 0 .38-.03.57-.07L14.14 16c-.64.32-1.37.5-2.14.5zm2.97-5.33c-.15-1.4-1.25-2.49-2.64-2.64l2.64 2.64z"/>';
-            } else {
-                icon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
-            }
-        }
-        
-        function redirectToDashboard() {
-            const userStr = localStorage.getItem(CONFIG.USER_KEY);
-            if (!userStr) {
-                window.location.href = CONFIG.USER_ROUTE;
-                return;
-            }
-            
-            try {
-                const user = JSON.parse(userStr);
-                const isAdmin = user.roles && user.roles.includes('admin');
-                window.location.href = isAdmin ? CONFIG.ADMIN_ROUTE : CONFIG.USER_ROUTE;
-            } catch {
-                window.location.href = CONFIG.USER_ROUTE;
-            }
-        }
-        
-        function resetSubmitState() {
-            isSubmitting = false;
-            elements.submitBtn.disabled = false;
-            elements.submitBtn.innerHTML = '<span>Sign In</span>';
-            elements.loading.style.display = 'none';
-        }
-        
-        function preventDoubleSubmission(e) {
-            if (isSubmitting) {
-                e.preventDefault();
-                return false;
-            }
-        }
-        
-        // ⚡ PERFORMANCE UTILITIES
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-        
-        async function fetchWithTimeout(resource, options = {}, timeout = 8000) {
-            const controller = new AbortController();
-            const id = setTimeout(() => controller.abort(), timeout);
-            
-            try {
-                const response = await fetch(resource, {
-                    ...options,
-                    signal: controller.signal
-                });
-                clearTimeout(id);
-                return response;
-            } catch (error) {
-                clearTimeout(id);
-                throw error;
-            }
-        }
-        
-        // ⚡ AUTO-RETRY FAILED REQUESTS (optional)
-        async function fetchWithRetry(url, options, maxRetries = 2) {
-            for (let i = 0; i < maxRetries; i++) {
-                try {
-                    return await fetchWithTimeout(url, options);
-                } catch (error) {
-                    if (i === maxRetries - 1) throw error;
-                    await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
-                }
-            }
-        }
-    </script>
-</body>
+    <script src="/script/user/login.js"></script>
+  </body>
 </html>
