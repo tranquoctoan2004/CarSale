@@ -68,8 +68,13 @@ const elements = {
 document.addEventListener('DOMContentLoaded', init);
 
 function init() {
-    // Check if already logged in
-    if (localStorage.getItem(CONFIG.STORAGE.TOKEN)) {
+    const token = localStorage.getItem(CONFIG.STORAGE.TOKEN);
+    const user = JSON.parse(localStorage.getItem(CONFIG.STORAGE.USER) || '{}');
+    const params = new URLSearchParams(window.location.search);
+    const mode = params.get('mode');
+
+    // ❗ Chỉ redirect nếu là user thường
+    if (token && !(user.roles?.includes('admin') && mode === 'admin')) {
         redirectToDashboard();
         return;
     }
@@ -452,10 +457,13 @@ function validatePasswordMatch() {
 
 // ===== SUCCESS HANDLER =====
 async function handleRegistrationSuccess(userData) {
+    const params = new URLSearchParams(window.location.search);
+    const mode = params.get('mode');
     // Store user data
+    if (mode !== 'admin') {
     localStorage.setItem(CONFIG.STORAGE.TOKEN, userData.token);
     localStorage.setItem(CONFIG.STORAGE.USER, JSON.stringify(userData.account));
-    
+    }
     // Get admin notice status
     const isFirstUser = elements.adminNotice.style.display === 'block';
     
