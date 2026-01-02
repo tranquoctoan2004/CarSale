@@ -73,13 +73,12 @@ function init() {
     const token = localStorage.getItem(CONFIG.STORAGE.TOKEN);
     const user = JSON.parse(localStorage.getItem(CONFIG.STORAGE.USER) || '{}');
 
-    // ✅ CHỖ SỬA QUAN TRỌNG:
     // Nếu trang đang nằm trong iframe (window.parent !== window), 
-    // chúng ta sẽ KHÔNG chạy lệnh redirectToDashboard().
+    // không chạy lệnh redirectToDashboard().
     if (window.parent !== window) {
         console.log("Iframe detected: Dừng tự động chuyển hướng để Admin làm việc.");
     } 
-    // Nếu KHÔNG phải iframe, mà đã có token thì mới redirect (như khách đăng ký bình thường)
+    // Nếu không phải iframe, mà đã có token thì mới redirect (như khách đăng ký bình thường)
     else if (token && !(user.roles?.includes('admin') && mode === 'admin')) {
         redirectToDashboard();
         return;
@@ -175,19 +174,17 @@ async function handleSubmit(e) {
 }
 
 // ===== API FUNCTIONS =====
+// Kiểm tra xem hệ thống đã có tài khoản Admin chưa
 async function checkAdminExists() {
     try {
         const response = await fetchWithTimeout(CONFIG.API.CHECK_ADMIN, {
             method: 'GET',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
         }, 5000);
         
         const result = await response.json();
-        
+        // Hiển thị thông báo nếu chưa có Admin (hỗ trợ thiết lập ban đầu)
         if (result.success && !result.data) {
-            // No admin exists - show special notice
             elements.adminNotice.style.display = 'block';
         }
     } catch (error) {
@@ -195,18 +192,18 @@ async function checkAdminExists() {
     }
 }
 
+// Kiểm tra tên đăng nhập có sẵn hay không
 async function checkUsernameAvailability(username) {
     if (username.length < 3) return false;
     
     try {
         const response = await fetchWithTimeout(`${CONFIG.API.CHECK_USERNAME}${encodeURIComponent(username)}`, {
             method: 'GET',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
         }, 5000);
         
         const result = await response.json();
+        // Trả về true nếu thành công và không bị trùng (data là null/false)
         return result.success ? !result.data : false;
     } catch (error) {
         console.log('Username check failed:', error);
@@ -214,15 +211,14 @@ async function checkUsernameAvailability(username) {
     }
 }
 
+// Kiểm tra Email đã được đăng ký hay chưa
 async function checkEmailAvailability(email) {
     if (!isValidEmail(email)) return false;
     
     try {
         const response = await fetchWithTimeout(`${CONFIG.API.CHECK_EMAIL}${encodeURIComponent(email)}`, {
             method: 'GET',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
         }, 5000);
         
         const result = await response.json();
@@ -233,6 +229,7 @@ async function checkEmailAvailability(email) {
     }
 }
 
+// Thực hiện đăng ký tài khoản người dùng mới (Mã chức năng: 23)
 async function registerUser(formData) {
     const response = await fetchWithTimeout(CONFIG.API.REGISTER, {
         method: 'POST',
@@ -240,11 +237,12 @@ async function registerUser(formData) {
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest'
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData) // Dữ liệu lưu vào bảng Accounts
     }, CONFIG.TIMEOUT);
     
     const result = await response.json();
     
+    // Kiểm tra lỗi HTTP hoặc lỗi nghiệp vụ từ Server
     if (!response.ok) {
         throw new Error(result.message || `HTTP ${response.status}`);
     }
@@ -253,9 +251,8 @@ async function registerUser(formData) {
         throw new Error(result.message || 'Registration failed');
     }
     
-    return result.data;
+    return result.data; // Trả về thông tin tài khoản vừa tạo
 }
-
 // ===== VALIDATION FUNCTIONS =====
 function validateForm() {
     const errors = [];
@@ -434,11 +431,13 @@ function validatePasswordStrength() {
     validatePasswordMatch();
 }
 
+// Kiểm tra việc nhập lại mật khẩu có khớp với mật khẩu ban đầu hay không
 function validatePasswordMatch() {
     const password = elements.password.value;
     const confirmPassword = elements.confirmPassword.value;
-    const statusEl = elements.passwordMatch;
+    const statusEl = elements.passwordMatch; // Phần tử hiển thị trạng thái (văn bản/màu sắc)
     
+    // Nếu ô xác nhận để trống, xóa thông báo và đánh dấu chưa hợp lệ
     if (confirmPassword.length === 0) {
         statusEl.textContent = '';
         statusEl.className = 'field-status';
@@ -446,11 +445,14 @@ function validatePasswordMatch() {
         return;
     }
     
+    // So khớp hai giá trị mật khẩu
     if (password === confirmPassword) {
+        // Trường hợp khớp: Hiển thị dấu tích xanh và cập nhật trạng thái hợp lệ
         statusEl.textContent = '✓ Passwords match';
         statusEl.className = 'field-status valid';
         state.formValidity.confirmPassword = { valid: true, match: true };
     } else {
+        // Trường hợp không khớp: Hiển thị dấu x đỏ và đánh dấu lỗi
         statusEl.textContent = '✗ Passwords do not match';
         statusEl.className = 'field-status invalid';
         state.formValidity.confirmPassword = { valid: false, match: false };
@@ -463,7 +465,7 @@ async function handleRegistrationSuccess(userData) {
     const mode = params.get('mode');
     const returnUrl = params.get('returnUrl');
 
-    // ✅ TRƯỜNG HỢP 1: NẾU ĐANG TRONG MODAL (IFRAME)
+    // NẾU ĐANG TRONG MODAL (IFRAME)
     // Chỉ cần kiểm tra xem có cửa sổ cha hay không, không cần quá phụ thuộc vào mode
     if (window.parent !== window) {
     // Thử gửi cả object userData nếu không thấy .account
@@ -480,9 +482,7 @@ async function handleRegistrationSuccess(userData) {
     return; 
     }
 
-    // ---------------------------------------------------------
-    // ✅ TRƯỜNG HỢP 2: ĐĂNG KÝ BÌNH THƯỜNG (NGOÀI MODAL)
-    // ---------------------------------------------------------
+    // ĐĂNG KÝ BÌNH THƯỜNG (NGOÀI MODAL)
     
     // Lưu token nếu không phải admin tạo thủ công
     localStorage.removeItem(CONFIG.STORAGE.TOKEN);
@@ -503,7 +503,7 @@ async function handleRegistrationSuccess(userData) {
     }, 2000);
 }
 
-// ===== ERROR HANDLER =====
+// ERROR HANDLER 
 function handleRegistrationError(error) {
     console.error('Registration error:', error);
     
@@ -523,7 +523,7 @@ function handleRegistrationError(error) {
     shakeForm();
 }
 
-// ===== UI HELPERS =====
+// UI HELPERS
 function showError(message) {
     const span = elements.errorMsg.querySelector('span');
     if (span) span.textContent = message;
@@ -536,22 +536,26 @@ function showError(message) {
         elements.errorMsg.style.display = 'none';
     }, 5000);
 }
-
+// Hiển thị thông báo thành công và ẩn các trạng thái khác
 function showSuccess(message) {
     const span = elements.successMsg.querySelector('span');
-    if (span) span.textContent = message;
-    elements.successMsg.style.display = 'flex';
-    elements.errorMsg.style.display = 'none';
-    elements.loading.style.display = 'none';
+    if (span) span.textContent = message; // Cập nhật nội dung thông báo
+    elements.successMsg.style.display = 'flex'; // Hiện khung thành công
+    elements.errorMsg.style.display = 'none';   // Ẩn khung lỗi
+    elements.loading.style.display = 'none';    // Ẩn biểu tượng chờ
 }
 
+// Cập nhật trạng thái nút bấm và hiệu ứng chờ khi gửi dữ liệu
 function updateSubmitState(isSubmitting) {
     state.isSubmitting = isSubmitting;
-    elements.submitBtn.disabled = isSubmitting;
+    elements.submitBtn.disabled = isSubmitting; // Vô hiệu hóa nút khi đang gửi
+    
+    // Thay đổi nội dung nút bấm dựa trên trạng thái xử lý
     elements.submitBtn.innerHTML = isSubmitting
         ? '<span>Creating Account...</span>'
         : '<span>Create Account</span>';
     
+    // Hiển thị hoặc ẩn vòng xoay loading
     if (isSubmitting) {
         elements.loading.style.display = 'flex';
     } else {
@@ -585,7 +589,7 @@ function shakeForm() {
     }
 }
 
-// ===== UTILITY FUNCTIONS =====
+// UTILITY FUNCTIONS
 function togglePasswordVisibility(passwordField, toggleButton) {
     const type = passwordField.type === 'password' ? 'text' : 'password';
     passwordField.type = type;
@@ -598,18 +602,20 @@ function togglePasswordVisibility(passwordField, toggleButton) {
         icon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
     }
 }
-
+// Tự động chuyển con trỏ sang ô nhập liệu tiếp theo
 function moveToNextField(currentField) {
     const formElements = Array.from(elements.form.elements);
     const currentIndex = formElements.indexOf(currentField);
     
+    // Nếu chưa tới cuối biểu mẫu, focus vào phần tử kế tiếp
     if (currentIndex < formElements.length - 1) {
         formElements[currentIndex + 1].focus();
     }
 }
 
+// Định dạng số điện thoại tự động theo kiểu (000) 000-0000
 function formatPhoneNumber() {
-    let value = elements.phone.value.replace(/\D/g, '');
+    let value = elements.phone.value.replace(/\D/g, ''); // Loại bỏ ký tự không phải số
     
     if (value.length > 3 && value.length <= 6) {
         value = `(${value.slice(0, 3)}) ${value.slice(3)}`;
@@ -620,17 +626,19 @@ function formatPhoneNumber() {
     elements.phone.value = value;
 }
 
+// Điều hướng người dùng về trang chủ dựa trên vai trò (Admin/User)
 function redirectToDashboard() {
     const userStr = localStorage.getItem(CONFIG.STORAGE.USER);
     
     if (!userStr) {
-        window.location.href = CONFIG.ROUTES.LOGIN;
+        window.location.href = CONFIG.ROUTES.LOGIN; // Về login nếu chưa đăng nhập
         return;
     }
     
     try {
         const user = JSON.parse(userStr);
         const isAdmin = user.roles && user.roles.includes('admin');
+        // Phân quyền truy cập vào adminhome hoặc userhome
         window.location.href = isAdmin 
             ? '/screen/admin/adminhome.html'
             : '/screen/user/userhome.html';
@@ -639,41 +647,42 @@ function redirectToDashboard() {
     }
 }
 
+// Xử lý đăng ký tài khoản thông qua Google OAuth
 async function handleGoogleSignup() {
     alert('Google signup functionality would be implemented here.');
-    // In a real app, you would:
-    // 1. Redirect to Google OAuth
-    // 2. Handle the callback
-    // 3. Create/authenticate user
+    // Quy trình: Redirect tới Google -> Handle callback -> Tạo tài khoản
 }
 
-// ===== HELPER FUNCTIONS =====
+// HELPER FUNCTIONS 
+// Kiểm tra định dạng email bằng Regex
 function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
 
+// Trì hoãn thực thi hàm (giảm tải số lượng request API khi nhập liệu)
 function debounce(func, wait) {
     return function executedFunction(...args) {
         const later = () => {
             clearTimeout(state.debounceTimers[func.name]);
             func(...args);
         };
-        clearTimeout(state.debounceTimers[func.name]);
-        state.debounceTimers[func.name] = setTimeout(later, wait);
+        clearTimeout(state.debounceTimers[func.name]); // Hủy timer cũ
+        state.debounceTimers[func.name] = setTimeout(later, wait); // Tạo timer mới
     };
 }
 
+// Gọi API với cơ chế tự động hủy (timeout) sau khoảng thời gian quy định
 async function fetchWithTimeout(resource, options = {}, timeout = 10000) {
     const controller = new AbortController();
-    const id = setTimeout(() => controller.abort(), timeout);
+    const id = setTimeout(() => controller.abort(), timeout); // Tự động ngắt kết nối
     
     try {
         const response = await fetch(resource, {
             ...options,
             signal: controller.signal
         });
-        clearTimeout(id);
+        clearTimeout(id); // Xóa bộ hẹn giờ nếu phản hồi kịp lúc
         return response;
     } catch (error) {
         clearTimeout(id);
@@ -681,10 +690,10 @@ async function fetchWithTimeout(resource, options = {}, timeout = 10000) {
     }
 }
 
-// ===== PERFORMANCE MONITORING =====
+// PERFORMANCE MONITORING
 window.addEventListener('load', () => {
     if ('performance' in window) {
-        performance.mark('signup_load_end');
+        performance.mark('signup_load_end'); // Đánh dấu điểm kết thúc
         performance.measure('signup_load_time', 'signup_init_start', 'signup_load_end');
         
         const measure = performance.getEntriesByName('signup_load_time')[0];
@@ -692,7 +701,7 @@ window.addEventListener('load', () => {
     }
 });
 
-// ===== EXPORT FOR TESTING =====
+// EXPORT FOR TESTING
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         validateUsername,
