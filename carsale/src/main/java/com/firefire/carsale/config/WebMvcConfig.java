@@ -46,7 +46,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         // Khai báo rõ ràng cho cả 2 nguồn ảnh
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:" + projectDir + "/uploads/");
+                .addResourceLocations("file:D:/Big_Project/CarSale/carsale/uploads/");
 
         registry.addResourceHandler("/image/**")
                 .addResourceLocations("classpath:/static/image/");
