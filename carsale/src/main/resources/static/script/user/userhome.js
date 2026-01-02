@@ -100,5 +100,5 @@ window.onclick = function(event) {
 function goToCarsPage() {
     // Chuyển hướng sang trang danh sách xe
     // Bạn có thể thay đổi đường dẫn phù hợp với router của bạn (ví dụ: '/car', '/cars.html', v.v.)
-    window.location.href = 'screen/user/car.html'; 
+    window.location.href = '/screen/user/car.html'; 
 }
