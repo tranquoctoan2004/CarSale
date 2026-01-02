@@ -135,3 +135,93 @@ carsale
 8. config
 9. security (JWT)
 10. dashboard + report
+
+java/com/firefire/carsale/
+├── config/
+│ ├── CorsConfig.java
+│ └── WebMvcConfig.java
+├── controller/
+│ ├── AccountController.java
+│ ├── AuthController.java
+│ └── PageController.java
+├── dto/
+│ ├── filter/
+│ │ ├── CarSearchFilter.java
+│ │ └── UserSearchFilter.java
+│ ├── request/
+│ │ ├── AddToCartRequest.java
+│ │ ├── AdminCreateUserRequest.java
+│ │ ├── AdminUpdateUserRequest.java
+│ │ ├── CarCreateRequest.java
+│ │ ├── CarUpdateRequest.java
+│ │ ├── CommentCreateRequest.java
+│ │ ├── CreateOrderRequest.java
+│ │ ├── LoginRequest.java
+│ │ ├── NewsCreateRequest.java
+│ │ ├── RegisterRequest.java
+│ │ └── UpdateOrderStatusRequest.java
+│ └── response/
+│ ├── AccountResponse.java
+│ ├── BestSellingCarDTO.java
+│ ├── CarResponse.java
+│ ├── CartItemResponse.java
+│ ├── CartResponse.java
+│ ├── CommentResponse.java
+│ ├── DashboardSummary.java
+│ ├── LoginResponse.java
+│ ├── NewsResponse.java
+│ └── OrderResponse.java
+├── entity/
+│ ├── enums/
+│ ├── Account.java
+│ ├── AccountRole.java
+│ ├── Car.java
+│ ├── Cart.java
+│ ├── CartDetail.java
+│ ├── Comment.java
+│ ├── News.java
+│ ├── Order.java
+│ ├── OrderDetail.java
+│ ├── Report.java
+│ └── Role.java
+├── exception/
+│ ├── BadRequestException.java
+│ ├── BusinessException.java
+│ ├── ConflictException.java
+│ ├── ErrorResponse.java
+│ ├── ForbiddenException.java
+│ ├── GlobalExceptionHandler.java
+│ ├── ResourceNotFoundException.java
+│ └── UnauthorizedException.java
+├── repository/
+│ ├── AccountRepository.java
+│ ├── AccountRoleRepository.java
+│ ├── CarRepository.java
+│ ├── CartDetailRepository.java
+│ ├── CartRepository.java
+│ ├── CommentRepository.java
+│ ├── NewsRepository.java
+│ ├── OrderDetailRepository.java
+│ ├── OrderRepository.java
+│ ├── ReportRepository.java
+│ └── RoleRepository.java
+├── security/
+│ ├── AuthInterceptor.java
+│ ├── SecurityConfig.java
+│ └── SessionService.java
+├── seeder/
+│ └── DataSeeder.java
+├── service/
+│ ├── impl/
+│ │ ├── AccountServiceImpl.java
+│ │ └── AuthServiceImpl.java
+│ ├── AccountService.java
+│ └── AuthService.java
+├── util/
+│ ├── ApiResponse.java
+│ ├── DateUtil.java
+│ ├── FileUtil.java
+│ ├── JwtUtil.java
+│ ├── PasswordUtil.java
+│ └── ValidationUtil.java
+└── CarsaleApplication.java
