@@ -1,4 +1,4 @@
-      // ⚡ CẤU HÌNH
+      // CẤU HÌNH
       const CONFIG = {
         API_URL: "/api/auth/login",
         TOKEN_KEY: "token",
@@ -8,12 +8,12 @@
         SIGNUP_ROUTE: "/screen/guest/signup.html",
       };
 
-      // ⚡ BIẾN TOÀN CỤC
+      // BIẾN TOÀN CỤC
       let isSubmitting = false;
       let lastSubmitTime = 0;
       const SUBMIT_DELAY = 1000; // 1 giây giữa các lần submit
 
-      // ⚡ DOM ELEMENTS
+      // DOM ELEMENTS
       const $ = (id) => document.getElementById(id);
       const elements = {
         form: $("loginForm"),
@@ -27,13 +27,13 @@
         loading: $("loading"),
       };
 
-      // ⚡ KHỞI TẠO ỨNG DỤNG
+      // KHỞI TẠO ỨNG DỤNG
       document.addEventListener("DOMContentLoaded", () => {
         initApp();
         setupEventListeners();
       });
 
-      // ⚡ KHỞI TẠO
+      // KHỞI TẠO
       function initApp() {
         // Kiểm tra đã login chưa
         if (localStorage.getItem(CONFIG.TOKEN_KEY)) {
@@ -57,7 +57,7 @@
         }
       }
 
-      // ⚡ THIẾT LẬP EVENT LISTENERS
+      // THIẾT LẬP EVENT LISTENERS
       function setupEventListeners() {
         // Form submit
         elements.form.addEventListener("submit", handleSubmit);
@@ -94,7 +94,7 @@
         elements.form.addEventListener("submit", preventDoubleSubmission);
       }
 
-      // ⚡ XỬ LÝ FORM SUBMIT
+      // XỬ LÝ FORM SUBMIT
       async function handleSubmit(e) {
         e.preventDefault();
 
@@ -154,7 +154,7 @@
         }
       }
 
-      // ⚡ XỬ LÝ LOGIN THÀNH CÔNG
+      // XỬ LÝ LOGIN THÀNH CÔNG
       async function handleLoginSuccess(data) {
         // Lưu token và user info
         localStorage.setItem(CONFIG.TOKEN_KEY, data.token);
@@ -185,7 +185,7 @@
         }, 1000);
       }
 
-      // ⚡ XỬ LÝ LỖI
+      // XỬ LÝ LỖI
       function handleLoginError(error) {
         console.error("Login error:", error);
 
@@ -211,20 +211,21 @@
         elements.password.focus();
       }
 
-      // ⚡ VALIDATION FUNCTIONS
+      // VALIDATION FUNCTIONS
+      // Kiểm tra tính hợp lệ toàn bộ biểu mẫu
       function validateForm() {
         const errors = [];
         const username = elements.username.value.trim();
         const password = elements.password.value.trim();
 
+        // Kiểm tra tài khoản: không trống, tối thiểu 3 ký tự, không chứa ký tự đặc biệt
         if (!username) errors.push("Username is required");
         else if (username.length < 3)
           errors.push("Username must be at least 3 characters");
         else if (!/^[a-zA-Z0-9_]+$/.test(username))
-          errors.push(
-            "Username can only contain letters, numbers and underscores"
-          );
+          errors.push("Username can only contain letters, numbers and underscores");
 
+        // Kiểm tra mật khẩu: không trống và tối thiểu 6 ký tự
         if (!password) errors.push("Password is required");
         else if (password.length < 6)
           errors.push("Password must be at least 6 characters");
@@ -232,6 +233,7 @@
         return errors;
       }
 
+      // Kiểm tra và đổi màu viền ô Username khi nhập liệu
       function validateUsername() {
         const username = elements.username.value.trim();
         if (username.length > 0 && username.length < 3) {
@@ -241,6 +243,7 @@
         }
       }
 
+      // Kiểm tra và đổi màu viền ô Password khi nhập liệu
       function validatePassword() {
         const password = elements.password.value.trim();
         if (password.length > 0 && password.length < 6) {
@@ -250,19 +253,19 @@
         }
       }
 
-      // ⚡ UI HELPERS
+      // HIỂN THỊ THÔNG BÁO LỖI (Ẩn sau 5 giây)
       function showError(message) {
         elements.errorMsg.querySelector("span").textContent = message;
         elements.errorMsg.style.display = "flex";
         elements.successMsg.style.display = "none";
         elements.loading.style.display = "none";
 
-        // Auto-hide after 5 seconds
         setTimeout(() => {
           elements.errorMsg.style.display = "none";
         }, 5000);
       }
 
+      // HIỂN THỊ THÔNG BÁO THÀNH CÔNG
       function showSuccess(message) {
         elements.successMsg.querySelector("span").textContent = message;
         elements.successMsg.style.display = "flex";
@@ -270,19 +273,21 @@
         elements.loading.style.display = "none";
       }
 
+      // ẨN TẤT CẢ THÔNG BÁO VÀ TRẠNG THÁI CHỜ
       function hideMessages() {
         elements.errorMsg.style.display = "none";
         elements.successMsg.style.display = "none";
         elements.loading.style.display = "none";
       }
 
+      // HIỆU ỨNG RUNG FORM KHI CÓ LỖI (Kèm rung vật lý trên mobile)
       function shakeForm() {
         elements.form.style.animation = "none";
         setTimeout(() => {
           elements.form.style.animation = "shake 0.5s";
         }, 10);
 
-        // Thêm CSS cho shake animation
+        // Chèn mã CSS keyframes cho hiệu ứng rung nếu chưa có
         if (!document.querySelector("#shake-style")) {
           const style = document.createElement("style");
           style.id = "shake-style";
@@ -296,13 +301,13 @@
           document.head.appendChild(style);
         }
 
-        // Haptic feedback cho mobile
+        // Tạo phản hồi rung trên thiết bị di động hỗ trợ
         if ("vibrate" in navigator) {
           navigator.vibrate([50, 30, 50]);
         }
       }
 
-      // ⚡ UTILITY FUNCTIONS
+      // UTILITY FUNCTIONS
       function togglePasswordVisibility() {
         const type =
           elements.password.type === "password" ? "text" : "password";
@@ -319,24 +324,27 @@
         }
       }
 
+      // Điều hướng người dùng dựa trên vai trò (Admin hoặc Customer)
       function redirectToDashboard() {
         const userStr = localStorage.getItem(CONFIG.USER_KEY);
         if (!userStr) {
-          window.location.href = CONFIG.USER_ROUTE;
+          window.location.href = CONFIG.USER_ROUTE; // Về trang mặc định nếu chưa đăng nhập
           return;
         }
 
         try {
           const user = JSON.parse(userStr);
+          // Kiểm tra quyền truy cập từ thông tin lưu trữ
           const isAdmin = user.roles && user.roles.includes("admin");
           window.location.href = isAdmin
-            ? CONFIG.ADMIN_ROUTE
-            : CONFIG.USER_ROUTE;
+            ? CONFIG.ADMIN_ROUTE // Trang quản trị xe
+            : CONFIG.USER_ROUTE; // Trang người dùng mua xe
         } catch {
           window.location.href = CONFIG.USER_ROUTE;
         }
       }
 
+      // Khôi phục trạng thái ban đầu của nút bấm sau khi xử lý xong
       function resetSubmitState() {
         isSubmitting = false;
         elements.submitBtn.disabled = false;
@@ -344,6 +352,7 @@
         elements.loading.style.display = "none";
       }
 
+      // Chống gửi trùng lặp dữ liệu khi người dùng nhấn nút nhiều lần
       function preventDoubleSubmission(e) {
         if (isSubmitting) {
           e.preventDefault();
@@ -351,7 +360,8 @@
         }
       }
 
-      // ⚡ PERFORMANCE UTILITIES
+      // PERFORMANCE UTILITIES
+      // Kỹ thuật Debounce: Trì hoãn thực thi hàm (tối ưu khi nhập liệu tìm kiếm xe)
       function debounce(func, wait) {
         let timeout;
         return function executedFunction(...args) {
@@ -364,24 +374,24 @@
         };
       }
 
+      // Gọi API kèm cơ chế tự động hủy yêu cầu nếu phản hồi quá lâu (Timeout)
       async function fetchWithTimeout(resource, options = {}, timeout = 8000) {
         const controller = new AbortController();
-        const id = setTimeout(() => controller.abort(), timeout);
+        const id = setTimeout(() => controller.abort(), timeout); // Tự động ngắt kết nối
 
         try {
           const response = await fetch(resource, {
             ...options,
             signal: controller.signal,
           });
-          clearTimeout(id);
+          clearTimeout(id); // Hủy bộ đếm nếu phản hồi kịp lúc
           return response;
         } catch (error) {
           clearTimeout(id);
           throw error;
         }
       }
-
-      // ⚡ AUTO-RETRY FAILED REQUESTS (optional)
+      // AUTO-RETRY FAILED REQUESTS (optional)
       async function fetchWithRetry(url, options, maxRetries = 2) {
         for (let i = 0; i < maxRetries; i++) {
           try {
