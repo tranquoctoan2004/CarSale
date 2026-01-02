@@ -8,10 +8,10 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ApiResponse {
+public class ApiResponse<T> { // Thêm <T> ở đây
     private boolean success;
     private String message;
-    private Object data;
+    private T data; // Đổi Object thành T
     private LocalDateTime timestamp;
 
     public ApiResponse(boolean success, String message) {
@@ -21,22 +21,22 @@ public class ApiResponse {
         this.timestamp = LocalDateTime.now();
     }
 
-    public ApiResponse(boolean success, String message, Object data) {
+    public ApiResponse(boolean success, String message, T data) { // Đổi Object thành T
         this.success = success;
         this.message = message;
         this.data = data;
         this.timestamp = LocalDateTime.now();
     }
 
-    public static ApiResponse success(String message) {
-        return new ApiResponse(true, message);
+    public static <T> ApiResponse<T> success(String message) {
+        return new ApiResponse<>(true, message);
     }
 
-    public static ApiResponse success(String message, Object data) {
-        return new ApiResponse(true, message, data);
+    public static <T> ApiResponse<T> success(String message, T data) {
+        return new ApiResponse<>(true, message, data);
     }
 
-    public static ApiResponse error(String message) {
-        return new ApiResponse(false, message);
+    public static <T> ApiResponse<T> error(String message) {
+        return new ApiResponse<>(false, message);
     }
 }
