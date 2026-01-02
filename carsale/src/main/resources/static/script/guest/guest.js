@@ -21,6 +21,11 @@ document.addEventListener('DOMContentLoaded', function() {
     initWelcomeAnimation();
 });
 
+// Redirect to login page function
+function redirectToLogin() {
+    window.location.href = '/screen/user/login.html';
+}
+
 // Star rating system (visual only)
 function initStarRating() {
     const stars = document.querySelectorAll('.star');
@@ -73,13 +78,13 @@ function initSearch() {
     if (searchInput && searchBtn) {
         searchBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.href = '../user/login.html';
+            redirectToLogin();
         });
         
         searchInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
-                window.location.href = '../user/login.html';
+                redirectToLogin();
             }
         });
     }
@@ -87,19 +92,11 @@ function initSearch() {
 
 // Add event listeners to all buttons that need login
 function initLoginButtons() {
-    // Wishlist buttons
-    document.querySelectorAll('.btn-wishlist').forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.location.href = '../user/login.html';
-        });
-    });
-    
     // Details buttons
     document.querySelectorAll('.btn-details').forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.href = '../user/login.html';
+            redirectToLogin();
         });
     });
     
@@ -107,7 +104,7 @@ function initLoginButtons() {
     document.querySelectorAll('.btn-cart').forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.href = '../user/login.html';
+            redirectToLogin();
         });
     });
     
@@ -116,7 +113,7 @@ function initLoginButtons() {
     if (submitBtn) {
         submitBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.href = '../user/login.html';
+            redirectToLogin();
         });
     }
     
@@ -125,7 +122,7 @@ function initLoginButtons() {
     if (newsletterBtn) {
         newsletterBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.href = '../user/login.html';
+            redirectToLogin();
         });
     }
     
@@ -133,7 +130,7 @@ function initLoginButtons() {
     document.querySelectorAll('.social-btn').forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.href = '../user/login.html';
+            redirectToLogin();
         });
     });
     
@@ -142,7 +139,7 @@ function initLoginButtons() {
         if (link.getAttribute('href') && link.getAttribute('href') !== 'guest.html') {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
-                window.location.href = '../user/login.html';
+                redirectToLogin();
             });
         }
     });
@@ -151,9 +148,27 @@ function initLoginButtons() {
     document.querySelectorAll('.footer-bottom a').forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.href = '../user/login.html';
+            redirectToLogin();
         });
     });
+    
+    // Cart button
+    const cartBtn = document.querySelector('.cart-btn');
+    if (cartBtn) {
+        cartBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            redirectToLogin();
+        });
+    }
+    
+    // User button
+    const userBtn = document.querySelector('.user-btn');
+    if (userBtn) {
+        userBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            redirectToLogin();
+        });
+    }
 }
 
 // Navigation select
@@ -162,7 +177,11 @@ function initNavigation() {
     if (navSelect) {
         navSelect.addEventListener('change', function() {
             if (this.value) {
-                window.location.href = this.value;
+                if (this.value === 'index.html') {
+                    window.location.href = this.value;
+                } else {
+                    redirectToLogin();
+                }
             }
         });
     }
