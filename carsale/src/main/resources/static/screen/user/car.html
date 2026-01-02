@@ -8,31 +8,32 @@
     <link rel="stylesheet" href="/style/user/car.css" />
   </head>
   <body>
-    <!-- Header -->
     <div id="header"></div>
 
-    <!-- Main content -->
     <main class="main-container">
-      <!-- Left banner -->
       <aside class="banner left-banner">
-        <img src="../image/banner-left.gif" alt="Banner Left" />
+        <img src="../image/banner-left.gif" />
       </aside>
 
-      <!-- Center content -->
       <section class="content">
         <h2>Available Cars</h2>
-        <div class="car-list" id="carList">
-          <!-- Car 1 -->
-        </div>
+
+        <!-- ✅ SORT -->
+        <select id="sortSelect">
+          <option value="createdAt,desc">🆕 Newest</option>
+          <option value="createdAt,asc">📅 Oldest</option>
+          <option value="price,asc">💲 Price Low → High</option>
+          <option value="price,desc">💰 Price High → Low</option>
+        </select>
+
+        <div class="car-list" id="carList"></div>
       </section>
 
-      <!-- Right banner -->
       <aside class="banner right-banner">
-        <img src="../image/banner-right.gif" alt="Banner Right" />
+        <img src="../image/banner-right.gif" />
       </aside>
     </main>
 
-    <!-- Footer -->
     <div id="footer"></div>
     <script src="/script/common/layout.js"></script>
     <script src="/script/user/car.js"></script>

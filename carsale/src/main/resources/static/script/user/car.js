@@ -1,14 +1,34 @@
 document.addEventListener("DOMContentLoaded", () => {
   loadCars();
+
+  const sortSelect = document.getElementById("sortSelect");
+  if (sortSelect) {
+    sortSelect.addEventListener("change", () => {
+      loadCars(sortSelect.value);
+    });
+  }
 });
 
-function loadCars() {
-  fetch("/api/cars")
+function loadCars(sort) {
+  let url = "/api/cars";
+
+  if (sort) {
+    url += `?sort=${sort}`;
+  }
+
+  fetch(url)
     .then(res => res.json())
     .then(result => {
-      if (!result.success) return;
+      console.log("API RESULT:", result); // debug
+
+      if (!result.success || !Array.isArray(result.data)) {
+        console.error("Invalid API response:", result);
+        return;
+      }
 
       const carList = document.getElementById("carList");
+      if (!carList) return;
+
       carList.innerHTML = "";
 
       result.data.forEach(car => {
