@@ -33,7 +33,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/api/**", "/admin/**", "/dashboard/**") // Những đường dẫn cần bảo vệ
                 .excludePathPatterns(
                         "/api/auth/**",
-                        "/images/**",
+                        "/image/**",
                         "/uploads/**",
                         "/style/**",
                         "/script/**",

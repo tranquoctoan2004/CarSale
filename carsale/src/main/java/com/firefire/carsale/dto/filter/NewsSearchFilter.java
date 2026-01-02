@@ -1,12 +1,11 @@
-package com.firefire.carsale.dto.request;
+package com.firefire.carsale.dto.filter;
 
 import com.firefire.carsale.entity.enums.NewsStatus;
+
 import lombok.Data;
 
 @Data
-public class NewsCreateRequest {
+public class NewsSearchFilter {
     private String title;
-    private String content;
     private NewsStatus status;
-    private String imageUrl;
 }

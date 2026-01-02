@@ -18,40 +18,44 @@ public class AuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         String path = request.getRequestURI();
+        String method = request.getMethod();
 
-        // === CHO PHÉP TRUY CẬP KHÔNG CẦN TOKEN ===
-        // 1. Static resources
+        // 1. Tài nguyên tĩnh (Static resources)
+        // Lưu ý: Đổi /images/ thành /image/ để khớp với WebMvcConfig
         if (path.startsWith("/screen/") ||
                 path.startsWith("/style/") ||
                 path.startsWith("/script/") ||
-                path.startsWith("/images/") || // Đã sửa từ /image/ thành /images/
-                path.startsWith("/uploads/")) { // THÊM DÒNG NÀY để không chặn ảnh upload
+                path.startsWith("/image/") ||
+                path.startsWith("/uploads/") ||
+                path.endsWith(".ico")) {
             return true;
         }
 
-        // 2. Guest pages
+        // 2. Các trang giao diện cho khách (Guest pages)
         if (path.equals("/") ||
                 path.equals("/login") ||
                 path.equals("/signup") ||
                 path.equals("/about") ||
                 path.equals("/cars") ||
-                path.equals("/terms") ||
                 path.equals("/news")) {
             return true;
         }
 
-        // 3. API public
+        // 3. API Công khai (Public API)
+        // Fix: Chỉ cho phép GET nếu KHÔNG PHẢI đường dẫn admin
+        boolean isPublicGet = "GET".equalsIgnoreCase(method) &&
+                (path.startsWith("/api/cars") || path.startsWith("/api/news")) &&
+                !path.startsWith("/api/admin/");
+
         if (path.startsWith("/api/auth/") ||
                 path.startsWith("/api/accounts/register") ||
                 path.startsWith("/api/accounts/login") ||
-                (path.startsWith("/api/cars") && "GET".equals(request.getMethod()))) {
+                isPublicGet) {
             return true;
         }
 
-        /* ================== ADMIN ================== */
-
+        /* ================== KIỂM TRA QUYỀN ADMIN ================== */
         if (path.startsWith("/admin") || path.startsWith("/api/admin")) {
-
             String authHeader = request.getHeader("Authorization");
 
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -64,6 +68,7 @@ public class AuthInterceptor implements HandlerInterceptor {
                 return handleUnauthorized(request, response);
             }
 
+            // Kiểm tra role admin
             if (!sessionService.hasRole(token, "admin")) {
                 return handleForbidden(request, response);
             }
@@ -71,51 +76,31 @@ public class AuthInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        /* ================== USER ================== */
-
-        if (path.equals("/dashboard")
-                || path.equals("/orders")
-                || path.equals("/payment")
-                || path.equals("/profile")) {
+        /* ================== TRANG CỦA USER (Cần đăng nhập) ================== */
+        if (path.equals("/dashboard") ||
+                path.equals("/orders") ||
+                path.equals("/profile")) {
 
             String authHeader = request.getHeader("Authorization");
-
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 response.sendRedirect("/login");
                 return false;
             }
 
             String token = authHeader.substring(7);
-
             if (!sessionService.isValidSession(token)) {
                 response.sendRedirect("/login");
                 return false;
             }
-
             return true;
         }
 
-        /* ================== OTHER API ================== */
-
+        /* ================== CÁC API KHÁC (Catch-all) ================== */
         if (path.startsWith("/api/")) {
-
             String authHeader = request.getHeader("Authorization");
-
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("{\"error\":\"Unauthorized\"}");
-                return false;
+                return handleUnauthorized(request, response);
             }
-
-            String token = authHeader.substring(7);
-
-            if (!sessionService.isValidSession(token)) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("{\"error\":\"Invalid token\"}");
-                return false;
-            }
-
-            return true;
         }
 
         return true;
@@ -123,10 +108,11 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     private boolean handleUnauthorized(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-
         if (request.getRequestURI().startsWith("/api/")) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("{\"error\":\"Unauthorized\"}");
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter()
+                    .write("{\"status\":401, \"error\":\"Unauthorized\", \"message\":\"Bạn cần đăng nhập\"}");
         } else {
             response.sendRedirect("/login");
         }
@@ -135,14 +121,14 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     private boolean handleForbidden(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-
         if (request.getRequestURI().startsWith("/api/")) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            response.getWriter().write("{\"error\":\"Forbidden - Admin only\"}");
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter()
+                    .write("{\"status\":403, \"error\":\"Forbidden\", \"message\":\"Quyền Admin mới được truy cập\"}");
         } else {
             response.sendRedirect("/403");
         }
         return false;
     }
-
 }
