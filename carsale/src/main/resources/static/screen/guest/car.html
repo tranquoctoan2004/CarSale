@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CarSale - Premium Cars</title>
+    <link rel="stylesheet" href="../../style/guest/guest.css">
+    <link rel="stylesheet" href="../../style/guest/car.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="top-bar">
+        <a href="guest.html" class="logo">
+            <img src="../../image/logo.png" alt="CarShop Logo">
+            <span>CarSale</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="guest.html"><i class="fas fa-home"></i> Home</a>
+            <a href="car.html" class="active"><i class="fas fa-car"></i> Cars</a>
+            <a href="news.html"><i class="fas fa-newspaper"></i> News</a>
+            <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+        </nav>
+
+        <select class="nav-select">
+            <option value="guest.html">Home</option>
+            <option value="car.html" selected>Cars</option>
+            <option value="news.html">News</option>
+            <option value="about.html">About</option>
+        </select>
+
+        <div class="icons">
+            <div class="search-container">
+                <input type="text" placeholder="Search cars, brands..." class="search" id="searchInput">
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <button class="cart-btn">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </button>
+            <button class="user-btn">
+                <i class="fas fa-user"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-container">
+        <!-- Left Banner -->
+        <aside class="banner left-banner">
+            <div class="banner-content">
+                <img src="https://images.unsplash.com/photo-1566474591190-88d03865f6b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Limited Time Offer">
+                <div class="banner-overlay">
+                    <h3>SUMMER SALE</h3>
+                    <p>Up to 30% OFF</p>
+                    <small>On selected models</small>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Center Content -->
+        <section class="content car-container">
+            <!-- Page Header -->
+            <div class="welcome-section">
+                <h1><i class="fas fa-car"></i> Browse Our Car Collection</h1>
+                <p>Find your perfect vehicle from our premium selection</p>
+            </div>
+
+            <!-- Sort Section -->
+            <div class="sort-section">
+                <select class="sort-select" id="sortSelect">
+                    <option value="newest">🆕 Newest First</option>
+                    <option value="oldest">📅 Oldest First</option>
+                    <option value="price-low">💲 Price: Low to High</option>
+                    <option value="price-high">💰 Price: High to Low</option>
+                    <option value="popular">🔥 Most Popular</option>
+                </select>
+            </div>
+
+            <!-- Result Count -->
+            <div class="result-count" id="resultCount">Showing 6 cars</div>
+
+            <!-- Cars Grid -->
+            <div class="cards" id="carGrid">
+                <!-- Cars will be loaded here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Right Banner -->
+        <aside class="banner right-banner">
+            <div class="banner-content">
+                <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Financing Options">
+                <div class="banner-overlay">
+                    <h3>EASY FINANCING</h3>
+                    <p>Low APR from 2.9%</p>
+                    <small>Flexible payment plans</small>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2025 CarShop. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            <div class="payment-methods">
+                <i class="fab fa-cc-visa"></i>
+                <i class="fab fa-cc-mastercard"></i>
+                <i class="fab fa-cc-amex"></i>
+                <i class="fab fa-cc-paypal"></i>
+                <i class="fab fa-cc-apple-pay"></i>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../../script/guest/guest.js"></script>
+    <script src="../../script/guest/car.js"></script>
+</body>
+</html>

@@ -4,42 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CarShop - Premium Cars</title>
-    <link rel="stylesheet" href="style/guest/guest.css">
+    <link rel="stylesheet" href="../../style/guest/guest.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
 </head>
 <body>
     <!-- Top Navigation Bar -->
     <header class="top-bar">
-        <a href="index.html" class="logo">
-            <img src="./image/logo.png" alt="CarShop Logo">
-            <span>CarSale</span>
+        <a href="guest.html" class="logo">
+            <img src="../../image/logo.png" alt="CarShop Logo">
+            <span>CarShop</span>
         </a>
 
         <nav class="nav-links">
-            <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
-            <a href="#"><i class="fas fa-car"></i> Cars</a>
-            <a href="#"><i class="fas fa-newspaper"></i> News</a>
-            <a href="#"><i class="fas fa-info-circle"></i> About</a>
+            <a href="guest.html" class="active"><i class="fas fa-home"></i> Home</a>
+            <a href="screen/guest/car.html"><i class="fas fa-car"></i> Cars</a>
+            <a href="screen/guest/news.html"><i class="fas fa-newspaper"></i> News</a>
+            <a href="screen/guest/about.html"><i class="fas fa-info-circle"></i> About</a>
         </nav>
 
         <select class="nav-select">
-            <option value="index.html">Home</option>
-            <option value="#cars">Cars</option>
-            <option value="#news">News</option>
-            <option value="#about">About</option>
+            <option value="guest.html" selected>Home</option>
+            <option value="screen/guest/car.html">Cars</option>
+            <option value="screen/guest/news.html">News</option>
+            <option value="screen/guest/about.html">About</option>
         </select>
 
         <div class="icons">
             <div class="search-container">
-                <input type="text" placeholder="Search cars, brands..." class="search">
+                <input type="text" placeholder="Search cars, brands..." class="search" id="searchInput">
                 <button class="search-btn"><i class="fas fa-search"></i></button>
             </div>
-            <button class="cart-btn" onclick="redirectToLogin()">
+            <button class="cart-btn">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-count">0</span>
             </button>
-            <button class="user-btn" onclick="redirectToLogin()">
+            <button class="user-btn">
                 <i class="fas fa-user"></i>
             </button>
         </div>
@@ -63,7 +63,7 @@
         <section class="content">
             <!-- Welcome Section -->
             <div class="welcome-section">
-                <h1><i class="fas fa-car"></i> Welcome to CarSale</h1>
+                <h1><i class="fas fa-car"></i> Welcome to CarShop</h1>
                 <p>Find your dream car from our premium collection</p>
             </div>
 
@@ -94,13 +94,10 @@
                             <p class="current-price">$28,500</p>
                         </div>
                         <div class="card-actions">
-                            <button class="btn-wishlist" onclick="redirectToLogin()">
-                                <i class="far fa-heart"></i> Wishlist
-                            </button>
-                            <button class="btn-details" onclick="redirectToLogin()">
+                            <button class="btn-details">
                                 <i class="fas fa-info-circle"></i> Details
                             </button>
-                            <button class="btn-cart" onclick="redirectToLogin()">
+                            <button class="btn-cart">
                                 <i class="fas fa-shopping-cart"></i> Add to Cart
                             </button>
                         </div>
@@ -123,13 +120,10 @@
                             <p class="current-price">$24,200</p>
                         </div>
                         <div class="card-actions">
-                            <button class="btn-wishlist" onclick="redirectToLogin()">
-                                <i class="far fa-heart"></i> Wishlist
-                            </button>
-                            <button class="btn-details" onclick="redirectToLogin()">
+                            <button class="btn-details">
                                 <i class="fas fa-info-circle"></i> Details
                             </button>
-                            <button class="btn-cart" onclick="redirectToLogin()">
+                            <button class="btn-cart">
                                 <i class="fas fa-shopping-cart"></i> Add to Cart
                             </button>
                         </div>
@@ -152,13 +146,10 @@
                             <p class="current-price">$42,800</p>
                         </div>
                         <div class="card-actions">
-                            <button class="btn-wishlist" onclick="redirectToLogin()">
-                                <i class="far fa-heart"></i> Wishlist
-                            </button>
-                            <button class="btn-details" onclick="redirectToLogin()">
+                            <button class="btn-details">
                                 <i class="fas fa-info-circle"></i> Details
                             </button>
-                            <button class="btn-cart" onclick="redirectToLogin()">
+                            <button class="btn-cart">
                                 <i class="fas fa-shopping-cart"></i> Add to Cart
                             </button>
                         </div>
@@ -181,72 +172,10 @@
                             <p class="current-price">$65,300</p>
                         </div>
                         <div class="card-actions">
-                            <button class="btn-wishlist" onclick="redirectToLogin()">
-                                <i class="far fa-heart"></i> Wishlist
-                            </button>
-                            <button class="btn-details" onclick="redirectToLogin()">
+                            <button class="btn-details">
                                 <i class="fas fa-info-circle"></i> Details
                             </button>
-                            <button class="btn-cart" onclick="redirectToLogin()">
-                                <i class="fas fa-shopping-cart"></i> Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Car 5 -->
-                <div class="card">
-                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1580273916550-e323be2ae537?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
-                        <span class="discount-badge">-10%</span>
-                    </div>
-                    <div class="card-content">
-                        <h3>Mercedes C-Class</h3>
-                        <div class="car-details">
-                            <span><i class="fas fa-gas-pump"></i> Petrol</span>
-                            <span><i class="fas fa-cogs"></i> Automatic</span>
-                            <span><i class="fas fa-users"></i> 5 Seats</span>
-                        </div>
-                        <div class="price-section">
-                            <p class="original-price">$54,000</p>
-                            <p class="current-price">$48,900</p>
-                        </div>
-                        <div class="card-actions">
-                            <button class="btn-wishlist" onclick="redirectToLogin()">
-                                <i class="far fa-heart"></i> Wishlist
-                            </button>
-                            <button class="btn-details" onclick="redirectToLogin()">
-                                <i class="fas fa-info-circle"></i> Details
-                            </button>
-                            <button class="btn-cart" onclick="redirectToLogin()">
-                                <i class="fas fa-shopping-cart"></i> Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Car 6 -->
-                <div class="card">
-                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1544636331-e26879cd4d9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
-                        <span class="eco-badge">ELECTRIC</span>
-                    </div>
-                    <div class="card-content">
-                        <h3>Tesla Model 3</h3>
-                        <div class="car-details">
-                            <span><i class="fas fa-bolt"></i> Electric</span>
-                            <span><i class="fas fa-cogs"></i> Automatic</span>
-                            <span><i class="fas fa-users"></i> 5 Seats</span>
-                        </div>
-                        <div class="price-section">
-                            <p class="current-price">$39,990</p>
-                        </div>
-                        <div class="card-actions">
-                            <button class="btn-wishlist" onclick="redirectToLogin()">
-                                <i class="far fa-heart"></i> Wishlist
-                            </button>
-                            <button class="btn-details" onclick="redirectToLogin()">
-                                <i class="fas fa-info-circle"></i> Details
-                            </button>
-                            <button class="btn-cart" onclick="redirectToLogin()">
+                            <button class="btn-cart">
                                 <i class="fas fa-shopping-cart"></i> Add to Cart
                             </button>
                         </div>
@@ -315,33 +244,6 @@
                             <span class="verified-badge"><i class="fas fa-check-circle"></i> Verified Purchase</span>
                         </div>
                     </div>
-
-                    <!-- Review 3 -->
-                    <div class="review-card">
-                        <div class="review-header">
-                            <div class="reviewer-info">
-                                <img src="https://images.unsplash.com/photo-1507591064344-4c6ce005-128b-97dc11e2f8dd?w=100&h=100&fit=crop&crop=face" alt="David Tran">
-                                <div>
-                                    <h4>David Tran</h4>
-                                    <div class="review-rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="review-date">November 8, 2025</span>
-                        </div>
-                        <p class="review-text">
-                            "Smooth process from start to finish. The test drive was arranged quickly and the paperwork was handled professionally. 
-                            Will definitely come back for my next car!"
-                        </p>
-                        <div class="review-footer">
-                            <span class="verified-badge"><i class="fas fa-check-circle"></i> Verified Purchase</span>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -366,7 +268,7 @@
                             <span class="star" data-value="5"><i class="far fa-star"></i></span>
                         </div>
                     </div>
-                    <button class="submit-btn" onclick="redirectToLogin()">
+                    <button class="submit-btn">
                         <i class="fas fa-paper-plane"></i> Submit Review
                     </button>
                 </div>
@@ -388,52 +290,6 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4><i class="fas fa-info-circle"></i> About CarShop</h4>
-                <p>Your trusted partner for premium cars since 2010. We offer the best selection of new and certified pre-owned vehicles.</p>
-                <div class="trust-badges">
-                    <span><i class="fas fa-shield-alt"></i> Trusted Seller</span>
-                    <span><i class="fas fa-award"></i> Certified Quality</span>
-                </div>
-            </div>
-
-            <div class="footer-section">
-                <h4><i class="fas fa-link"></i> Quick Links</h4>
-                <ul>
-                    <li><a href="#"><i class="fas fa-chevron-right"></i> New Arrivals</a></li>
-                    <li><a href="#"><i class="fas fa-chevron-right"></i> Best Deals</a></li>
-                    <li><a href="#"><i class="fas fa-chevron-right"></i> Electric Vehicles</a></li>
-                    <li><a href="#"><i class="fas fa-chevron-right"></i> Test Drive Booking</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h4><i class="fas fa-envelope"></i> Contact Us</h4>
-                <p><i class="fas fa-map-marker-alt"></i> 123 Auto Street, Car City, CC 10001</p>
-                <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
-                <p><i class="fas fa-envelope"></i> info@carshop.com</p>
-                <p><i class="fas fa-clock"></i> Mon-Fri: 9AM-8PM, Sat: 10AM-6PM</p>
-            </div>
-
-            <div class="footer-section">
-                <h4><i class="fas fa-users"></i> Follow Us</h4>
-                <div class="social-links">
-                    <a href="#" class="social-btn facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-btn twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-btn instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-btn youtube"><i class="fab fa-youtube"></i></a>
-                </div>
-                <div class="newsletter">
-                    <p>Subscribe for updates</p>
-                    <div class="subscribe-form">
-                        <input type="email" placeholder="Your email">
-                        <button onclick="redirectToLogin()"><i class="fas fa-paper-plane"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="footer-bottom">
             <p>&copy; 2025 CarShop. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
             <div class="payment-methods">
@@ -447,6 +303,6 @@
     </footer>
 
     <!-- JavaScript -->
-    <script src="script/guest/guest.js"></script>
+    <script src="../../script/guest/guest.js"></script>
 </body>
 </html>
