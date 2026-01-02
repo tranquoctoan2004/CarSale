@@ -1,141 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shop Layout</title>
+    <title>Shop Layout - CarSale</title>
     <link rel="stylesheet" href="/style/global/user.css" />
     <link rel="stylesheet" href="/style/user/userhome.css" />
-  </head>
-  <body>
-    <!-- Header -->
+
+
+</head>
+<body>
     <div id="header"></div>
 
-    <!-- Main Content -->
     <main class="main-container">
-      <aside class="banner left-banner"><img src="" alt="Banner Left" /></aside>
+        <aside class="banner">
+            <img src="/image/banner-left.gif" alt="Banner Left" onerror="this.style.display='none'"/>
+        </aside>
 
-      <section class="content">
-        <div class="bestseller">
-          <h2>Bestseller</h2>
-          <p id="welcomeMessage">Loading...</p>
-          <p id="userStats"></p>
-        </div>
+        <section class="content">
+            <div class="bestseller">
+                <h2 style="margin:0">Bestseller</h2>
+                <p id="welcomeMessage" style="font-size: 14px; font-weight: normal; color: #666;">Loading showroom...</p>
+            </div>
 
-        <div class="cards">
-          <div class="card">
-            <div class="img"></div>
-            <div class="actions">
-              <button>♥</button>
-              <button>&#x24D8;</button>
-              <button>🛒</button>
+            <div class="cards" id="bestseller-container">
+                <p style="grid-column: span 4; text-align: center;">Fetching cars...</p>
             </div>
-          </div>
-          <div class="card">
-            <div class="img"></div>
-            <div class="actions">
-              <button>♥</button>
-              <button>&#x24D8;</button>
-              <button>🛒</button>
-            </div>
-          </div>
-          <div class="card">
-            <div class="img"></div>
-            <div class="actions">
-              <button>♥</button>
-              <button>&#x24D8;</button>
-              <button>🛒</button>
-            </div>
-          </div>
-          <div class="card">
-            <div class="img"></div>
-            <div class="actions">
-              <button>♥</button>
-              <button>&#x24D8;</button>
-              <button>🛒</button>
-            </div>
-          </div>
-          <div class="card">
-            <div class="img"></div>
-            <div class="actions">
-              <button>♥</button>
-              <button>&#x24D8;</button>
-              <button>🛒</button>
-            </div>
-          </div>
-          <div class="card">
-            <div class="img"></div>
-            <div class="actions">
-              <button>♥</button>
-              <button>&#x24D8;</button>
-              <button>🛒</button>
-            </div>
-          </div>
-        </div>
-        <!-- Review Section -->
-        <div class="review-section">
-          <h2>Customer Reviews</h2>
 
-          <div class="review">
-            <div class="review-header">
-              <img src="images/user1.png" alt="User 1" class="review-avatar" />
-              <div>
-                <h4>John Doe</h4>
-                <span class="review-date">November 10, 2025</span>
-              </div>
+            <div class="review-section">
+                <h2>Customer Reviews</h2>
+                <div class="review">
+                    <div class="review-header">
+                        <img src="https://ui-avatars.com/api/?name=John+Doe&background=ffcc00" class="review-avatar" alt="User">
+                        <div>
+                            <h4>John Doe</h4>
+                            <span class="review-date">November 10, 2025</span>
+                        </div>
+                    </div>
+                    <p class="review-text">Great experience! The car was in perfect condition.</p>
+                </div>
             </div>
-            <p class="review-text">
-              Great experience! The car was in perfect condition and the service
-              was fast.
-            </p>
-          </div>
 
-          <div class="review">
-            <div class="review-header">
-              <img src="images/user2.png" alt="User 2" class="review-avatar" />
-              <div>
-                <h4>Sarah Lee</h4>
-                <span class="review-date">November 9, 2025</span>
-              </div>
+            <div class="comment">
+                <h2>Leave a Comment</h2>
+                <textarea id="commentInput" placeholder="How do you feel about our collection?"></textarea>
+                <div class="comment-actions">
+                    <button class="submit" onclick="submitComment()">Submit</button>
+                    <button class="delete" onclick="document.getElementById('commentInput').value=''">Delete</button>
+                </div>
             </div>
-            <p class="review-text">
-              I love how easy it is to browse cars here. Definitely recommend
-              this shop!
-            </p>
-          </div>
+        </section>
 
-          <div class="review">
-            <div class="review-header">
-              <img src="images/user3.png" alt="User 3" class="review-avatar" />
-              <div>
-                <h4>David Tran</h4>
-                <span class="review-date">November 8, 2025</span>
-              </div>
-            </div>
-            <p class="review-text">
-              Smooth process and friendly staff. Will come back again for sure.
-            </p>
-          </div>
-        </div>
-
-        <div class="comment">
-          <h2>Comment</h2>
-          <textarea placeholder="Leave a comment..."></textarea>
-          <button class="submit">Submit</button>
-          <button class="delete">Delete</button>
-          <button class="edit">Edit</button>
-        </div>
-      </section>
-
-      <aside class="banner right-banner">
-        <img src="" alt="Banner Right" />
-      </aside>
+        <aside class="banner">
+            <img src="/image/banner-right.gif" alt="Banner Right" onerror="this.style.display='none'"/>
+        </aside>
     </main>
 
-    <!-- Footer -->
+    <div id="carModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div class="modal-body" id="modalBody">
+                <img id="modalImg" src="" alt="Car">
+                <div class="modal-info">
+                    <h2 id="modalTitle">Car Name</h2>
+                    <p class="price-tag" id="modalPrice" style="font-size: 24px;">$0</p>
+                    <p id="modalDesc">Description goes here...</p>
+                    <button class="submit" id="modalCartBtn" style="width: 100%; margin-top: 20px;">Add to Cart 🛒</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="footer"></div>
-    <!-- Script -->
+
     <script src="/script/common/layout.js"></script>
-    <script src="/script/user/auth-check.js"></script>
-  </body>
+    <script src="/script/user/userhome.js"></script>
+</body>
 </html>
