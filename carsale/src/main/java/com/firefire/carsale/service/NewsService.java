@@ -18,4 +18,5 @@ public interface NewsService {
     NewsResponse updateNews(Integer id, NewsUpdateRequest request, MultipartFile image);
 
     void deleteNews(Integer id);
+    
 }

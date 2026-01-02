@@ -50,11 +50,11 @@ async function loadComments(username = "") {
             renderComments(result.data);
         }
     } catch (error) {
-        // Silent catch for loading errors
+        console.error("Failed to load comments", error);
     }
 }
 
-// 5. Render Comments to HTML
+// 5. Render Comments to HTML (ĐÃ CẬP NHẬT PHẦN ADMIN REPLY)
 function renderComments(comments) {
     const container = document.getElementById('commentsContainer');
     if (!container) return;
@@ -65,7 +65,7 @@ function renderComments(comments) {
     }
 
     container.innerHTML = comments.map(cmt => `
-        <div class="review" style="position: relative; border-bottom: 1px solid #eee; padding: 15px 0;">
+        <div class="review" style="position: relative; border-bottom: 1px solid #eee; padding: 15px 0; margin-bottom: 10px;">
             <div class="review-header" style="display: flex; align-items: center; gap: 10px;">
                 <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(cmt.fullName)}&background=ffcc00&color=fff" 
                      style="width: 40px; height: 40px; border-radius: 50%;">
@@ -78,7 +78,16 @@ function renderComments(comments) {
                 ${'★'.repeat(cmt.rating)}${'☆'.repeat(5 - cmt.rating)}
             </div>
             <p style="margin: 8px 0; color: #444;">${cmt.content}</p>
-            
+
+            ${cmt.adminReply ? `
+                <div class="admin-reply-box" style="margin-left: 35px; margin-top: 10px; background: #f9f9f9; border-left: 4px solid #ffcc00; padding: 12px; border-radius: 4px;">
+                    <div style="font-weight: bold; color: #333; font-size: 0.9em; margin-bottom: 4px;">
+                        <i class="fa-solid fa-reply fa-rotate-180"></i> Phản hồi từ Admin (${cmt.adminReply.adminName})
+                    </div>
+                    <p style="margin: 0; color: #555; font-style: italic; font-size: 0.95em;">${cmt.adminReply.content}</p>
+                    <small style="color: #aaa; font-size: 0.8em;">${cmt.adminReply.createdAt}</small>
+                </div>
+            ` : ''}
             ${cmt.accountId === currentUserId ? `
                 <div class="review-actions" style="position: absolute; top: 10px; right: 0;">
                     <button onclick="prepareEdit(${cmt.commentId}, '${cmt.content.replace(/'/g, "\\'")}', ${cmt.rating})" 

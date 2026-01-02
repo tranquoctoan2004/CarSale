@@ -4,155 +4,69 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Comment Management</title>
-
     <link rel="stylesheet" href="/style/global/admin.css" />
     <link rel="stylesheet" href="/style/admin/commentmanagement.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   </head>
-
   <body>
-    <!-- HEADER -->
     <div id="header"></div>
-
     <div class="main-layout">
-      <!-- SIDEBAR -->
       <div id="sidebar"></div>
-
-      <!-- CONTENT -->
       <section class="content">
         <div class="page-header">
           <h2>Comment Management</h2>
         </div>
 
-        <!-- Search + Filter -->
         <div class="filters">
           <input
             type="text"
+            id="searchInput"
             placeholder="Search by user or content..."
             class="search-input" />
-          <select>
-            <option>All Status</option>
-            <option>Pending</option>
-            <option>Approved</option>
+          <select id="statusFilter">
+            <option value="">All Status</option>
+            <option value="visible">Visible</option>
+            <option value="hidden">Hidden</option>
           </select>
         </div>
 
-        <!-- Comments Table -->
         <div class="table-box">
-          <h3>Comments (3)</h3>
-
+          <h3>Comments (<span id="commentCount">0</span>)</h3>
           <table class="data-table">
             <thead>
               <tr>
                 <th>ID</th>
                 <th>User</th>
                 <th>Comment</th>
-                <th>Status</th>
+                <th>Rating</th>
+                <th>Date</th>
                 <th>Actions</th>
               </tr>
             </thead>
-
-            <tbody>
-              <!-- COMMENT 1 -->
-              <tr>
-                <td>C001</td>
-                <td>Hoang</td>
-                <td>Great car, I love it!</td>
-                <td class="active">Approved</td>
-                <td>
-                  <button class="view" title="View">
-                    <i class="fa-solid fa-eye"></i>
-                  </button>
-
-                  <button class="reply" title="Reply" data-comment-id="1">
-                    <i class="fa-solid fa-reply"></i>
-                  </button>
-
-                  <button class="delete" title="Delete">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-
-              <!-- REPLY -->
-              <tr class="reply-row">
-                <td colspan="5">
-                  <div class="reply-box">
-                    <strong>Admin Reply:</strong>
-                    <p>
-                      Thank you for your feedback! We’re glad you like the car.
-                    </p>
-                    <span class="reply-date">2025-03-15</span>
-                  </div>
-                </td>
-              </tr>
-
-              <!-- COMMENT 2 -->
-              <tr>
-                <td>C002</td>
-                <td>Lan</td>
-                <td>When will the new model arrive?</td>
-                <td class="pending">Pending</td>
-                <td>
-                  <button class="view" title="View">
-                    <i class="fa-solid fa-eye"></i>
-                  </button>
-
-                  <button class="reply" title="Reply" data-comment-id="2">
-                    <i class="fa-solid fa-reply"></i>
-                  </button>
-
-                  <button class="delete" title="Delete">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-
-              <!-- COMMENT 3 -->
-              <tr>
-                <td>C003</td>
-                <td>Khoa</td>
-                <td>Does this come with warranty?</td>
-                <td class="active">Approved</td>
-                <td>
-                  <button class="view" title="View">
-                    <i class="fa-solid fa-eye"></i>
-                  </button>
-
-                  <button class="reply" title="Reply" data-comment-id="3">
-                    <i class="fa-solid fa-reply"></i>
-                  </button>
-
-                  <button class="delete" title="Delete">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
+            <tbody id="commentTableBody"></tbody>
           </table>
         </div>
       </section>
     </div>
 
-    <!-- REPLY MODAL -->
     <div class="modal" id="replyModal">
       <div class="modal-content">
         <h3>Reply to Comment</h3>
-
+        <p id="replyingTo" style="font-size: 0.9em; color: #666"></p>
         <textarea
           id="replyContent"
           rows="4"
           placeholder="Enter your reply here..."></textarea>
-
         <div class="modal-actions">
-          <button class="btn-cancel">Cancel</button>
-          <button class="btn-submit">Submit Reply</button>
+          <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+          <button class="btn-submit" id="confirmReplyBtn">Submit Reply</button>
         </div>
       </div>
     </div>
 
     <script src="/script/common/layoutadmin.js"></script>
+    <script src="/script/admin/adminComment.js"></script>
   </body>
 </html>

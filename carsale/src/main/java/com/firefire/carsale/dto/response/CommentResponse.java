@@ -18,4 +18,6 @@ public class CommentResponse {
     private Integer rating;
     private String reviewDate;
     private Integer carId; // Trả về ID xe nếu có liên kết qua orderDetail
+
+    private CommentReplyResponse adminReply;
 }

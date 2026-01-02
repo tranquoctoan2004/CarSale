@@ -1,6 +1,7 @@
 package com.firefire.carsale.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.firefire.carsale.dto.request.CommentCreateRequest;
@@ -99,4 +100,5 @@ public class CommentController {
         commentService.deleteComment(id, currentUid);
         return ResponseEntity.ok(ApiResponse.success("Đã xóa bình luận thành công"));
     }
+
 }
