@@ -3,61 +3,82 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Payment Page</title>
+    <title>Order Confirmation - Car Sale</title>
     <link rel="stylesheet" href="/style/user/payment.css" />
   </head>
   <body>
     <div class="payment-container">
-      <!-- LEFT: QR IMAGE -->
       <div class="qr-section">
-        <h2>Scan QR Code</h2>
+        <h2>Order Summary</h2>
+        <div id="order-items-list" class="items-summary">
+          <p>Loading items...</p>
+        </div>
+
+        <div class="total-amount-box">
+          <p>Total Payment:</p>
+          <h1 id="display-total">$0.00</h1>
+        </div>
 
         <img src="/image/qrCode.jpg" alt="QR Code" class="qr-image" />
 
         <div class="transfer-info">
           <h3>Transfer Content</h3>
-          <p class="transfer-template">
-            <strong>"Phone number + Car ID"</strong>
+          <p class="transfer-template" id="transfer-note">
+            <strong>"USERNAME PAYMENT"</strong>
           </p>
         </div>
-
-        <p>Please scan this QR code to proceed with payment.</p>
       </div>
 
-      <!-- RIGHT: PAYMENT FORM -->
       <div class="form-section">
-        <h2>Payment Information</h2>
-
+        <h2>Customer Information</h2>
         <form id="paymentForm">
-          <label>Full Name</label>
-          <input type="text" placeholder="Enter your name" />
+          <div class="user-display-grid">
+            <div>
+              <label>Username</label>
+              <input
+                type="text"
+                id="username"
+                readonly
+                class="readonly-input" />
+            </div>
+            <div>
+              <label>Email</label>
+              <input type="text" id="email" readonly class="readonly-input" />
+            </div>
+          </div>
 
-          <label>Address</label>
-          <input type="text" placeholder="Enter your address" />
+          <label>Full Name</label>
+          <input
+            type="text"
+            id="fullName"
+            placeholder="Your full name"
+            required />
 
           <label>Phone Number</label>
-          <input type="text" placeholder="Enter your phone number" />
+          <input
+            type="text"
+            id="phoneNumber"
+            placeholder="Your phone number"
+            required />
 
-          <label>Car Name</label>
-          <input type="text" placeholder="Enter car name" />
-
-          <label>Car ID</label>
-          <input type="text" placeholder="Enter car ID" />
-
-          <label>Upload Payment Proof</label>
-          <input type="file" accept="image/*" />
+          <div class="proof-upload">
+            <label>Upload Payment Proof (Screenshot)</label>
+            <input type="file" id="paymentProof" accept="image/*" required />
+          </div>
 
           <div class="btn-group">
-            <button type="submit" class="submit-btn">Submit Payment</button>
+            <button type="submit" class="submit-btn">Confirm Order</button>
             <button
               type="button"
               class="cancel-btn"
               onclick="window.history.back()">
-              Cancel
+              Back to Cart
             </button>
           </div>
         </form>
       </div>
     </div>
+
+    <script src="/script/user/payment.js"></script>
   </body>
 </html>

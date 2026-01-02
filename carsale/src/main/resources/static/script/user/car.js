@@ -110,5 +110,37 @@ window.onclick = function(event) {
 };
 
 function addToCart(carId) {
-  alert("Added to cart: Car ID " + carId);
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        alert("Vui lòng đăng nhập để thêm vào giỏ hàng!");
+        window.location.href = "/screen/user/login.html";
+        return;
+    }
+
+    const requestData = {
+        carId: carId,
+        quantity: 1
+    };
+
+    fetch("/api/cart/add", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(requestData)
+    })
+    .then(res => res.json())
+    .then(result => {
+        if (result.success) {
+            alert("Added to cart successfully!");
+        } else {
+            alert("Lỗi: " + result.message);
+        }
+    })
+    .catch(err => {
+        console.error("Error adding to cart:", err);
+        alert("Could not connect to the server.");
+    });
 }
