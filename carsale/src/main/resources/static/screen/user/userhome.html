@@ -1,79 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shop Layout - CarSale</title>
     <link rel="stylesheet" href="/style/global/user.css" />
     <link rel="stylesheet" href="/style/user/userhome.css" />
-
-
-</head>
-<body>
+  </head>
+  <body>
     <div id="header"></div>
 
     <main class="main-container">
-        <aside class="banner">
-            <img src="/image/banner-left.gif" alt="Banner Left" onerror="this.style.display='none'"/>
-        </aside>
+      <aside class="banner">
+        <img
+          src="/image/banner-left.gif"
+          alt="Banner Left"
+          onerror="this.style.display='none'" />
+      </aside>
 
-        <section class="content">
-            <div class="bestseller">
-                <h2 style="margin:0">Bestseller</h2>
-                <p id="welcomeMessage" style="font-size: 14px; font-weight: normal; color: #666;">Loading showroom...</p>
+      <section class="content">
+        <div class="bestseller">
+          <h2 style="margin: 0">Bestseller</h2>
+          <p
+            id="welcomeMessage"
+            style="font-size: 14px; font-weight: normal; color: #666">
+            Loading showroom...
+          </p>
+        </div>
+        <div class="view-more-container">
+          <button class="view-more-btn" onclick="goToCarsPage()">
+            View All Cars <span>→</span>
+          </button>
+        </div>
+        <div class="cards" id="bestseller-container">
+          <p style="grid-column: span 4; text-align: center">
+            Fetching cars...
+          </p>
+        </div>
+
+        <div class="review-section">
+          <h2>Customer Reviews</h2>
+          <div class="review">
+            <div class="review-header">
+              <img
+                src="https://ui-avatars.com/api/?name=John+Doe&background=ffcc00"
+                class="review-avatar"
+                alt="User" />
+              <div>
+                <h4>John Doe</h4>
+                <span class="review-date">November 10, 2025</span>
+              </div>
             </div>
+            <p class="review-text">
+              Great experience! The car was in perfect condition.
+            </p>
+          </div>
+        </div>
 
-            <div class="cards" id="bestseller-container">
-                <p style="grid-column: span 4; text-align: center;">Fetching cars...</p>
-            </div>
+        <div class="comment">
+          <h2>Leave a Comment</h2>
+          <textarea
+            id="commentInput"
+            placeholder="How do you feel about our collection?"></textarea>
+          <div class="comment-actions">
+            <button class="submit" onclick="submitComment()">Submit</button>
+            <button
+              class="delete"
+              onclick="document.getElementById('commentInput').value=''">
+              Delete
+            </button>
+          </div>
+        </div>
+      </section>
 
-            <div class="review-section">
-                <h2>Customer Reviews</h2>
-                <div class="review">
-                    <div class="review-header">
-                        <img src="https://ui-avatars.com/api/?name=John+Doe&background=ffcc00" class="review-avatar" alt="User">
-                        <div>
-                            <h4>John Doe</h4>
-                            <span class="review-date">November 10, 2025</span>
-                        </div>
-                    </div>
-                    <p class="review-text">Great experience! The car was in perfect condition.</p>
-                </div>
-            </div>
-
-            <div class="comment">
-                <h2>Leave a Comment</h2>
-                <textarea id="commentInput" placeholder="How do you feel about our collection?"></textarea>
-                <div class="comment-actions">
-                    <button class="submit" onclick="submitComment()">Submit</button>
-                    <button class="delete" onclick="document.getElementById('commentInput').value=''">Delete</button>
-                </div>
-            </div>
-        </section>
-
-        <aside class="banner">
-            <img src="/image/banner-right.gif" alt="Banner Right" onerror="this.style.display='none'"/>
-        </aside>
+      <aside class="banner">
+        <img
+          src="/image/banner-right.gif"
+          alt="Banner Right"
+          onerror="this.style.display='none'" />
+      </aside>
     </main>
 
     <div id="carModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <div class="modal-body" id="modalBody">
-                <img id="modalImg" src="" alt="Car">
-                <div class="modal-info">
-                    <h2 id="modalTitle">Car Name</h2>
-                    <p class="price-tag" id="modalPrice" style="font-size: 24px;">$0</p>
-                    <p id="modalDesc">Description goes here...</p>
-                    <button class="submit" id="modalCartBtn" style="width: 100%; margin-top: 20px;">Add to Cart 🛒</button>
-                </div>
-            </div>
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <div class="modal-body" id="modalBody">
+          <img id="modalImg" src="" alt="Car" />
+          <div class="modal-info">
+            <h2 id="modalTitle">Car Name</h2>
+            <p class="price-tag" id="modalPrice" style="font-size: 24px">$0</p>
+            <p id="modalDesc">Description goes here...</p>
+            <button
+              class="submit"
+              id="modalCartBtn"
+              style="width: 100%; margin-top: 20px">
+              Add to Cart 🛒
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
     <div id="footer"></div>
 
     <script src="/script/common/layout.js"></script>
     <script src="/script/user/userhome.js"></script>
-</body>
+  </body>
 </html>
