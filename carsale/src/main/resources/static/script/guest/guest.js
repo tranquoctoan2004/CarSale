@@ -1,6 +1,34 @@
 // Common redirect function for all guest pages
 function redirectToLogin() {
-    window.location.href = '../screen/user/login.html';
+    window.location.href = '/user/login.html';
+}
+
+// Initialize card buttons
+function initCardButtons() {
+    // Details buttons in cards
+    document.querySelectorAll('.btn-details').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            redirectToLogin();
+        });
+    });
+    
+    // Cart buttons in cards
+    document.querySelectorAll('.btn-cart').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            redirectToLogin();
+        });
+    });
+    
+    // Submit review button
+    const submitBtn = document.querySelector('.submit-btn');
+    if (submitBtn) {
+        submitBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            redirectToLogin();
+        });
+    }
 }
 
 // Initialize navigation for guest pages
@@ -193,6 +221,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize all common functionality
     initNavigation();
     initCommonButtons();
+    initCardButtons();  // Thêm dòng này
     initKeyboardShortcuts();
     
     // Initialize specific components if they exist

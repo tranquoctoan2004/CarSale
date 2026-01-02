@@ -17,17 +17,17 @@
         </a>
 
         <nav class="nav-links">
-            <a href="guest.html" class="active"><i class="fas fa-home"></i> Home</a>
-            <a href="screen/guest/car.html"><i class="fas fa-car"></i> Cars</a>
-            <a href="screen/guest/news.html"><i class="fas fa-newspaper"></i> News</a>
-            <a href="screen/guest/about.html"><i class="fas fa-info-circle"></i> About</a>
+            <a href="/screen/guest/guest.html" class="active"><i class="fas fa-home"></i> Home</a>
+            <a href="/screen/guest/car.html"><i class="fas fa-car"></i> Cars</a>  <!-- Sửa đường dẫn -->
+            <a href="/screen/guest/news.html"><i class="fas fa-newspaper"></i> News</a>  <!-- Sửa đường dẫn -->
+            <a href="/screen/guest/about.html"><i class="fas fa-info-circle"></i> About</a>  <!-- Sửa đường dẫn -->
         </nav>
 
         <select class="nav-select">
-            <option value="guest.html" selected>Home</option>
-            <option value="screen/guest/car.html">Cars</option>
-            <option value="screen/guest/news.html">News</option>
-            <option value="screen/guest/about.html">About</option>
+            <option value="/screen/guest/guest.html" selected>Home</option>
+            <option value="/screen/guest/car.html">Cars</option>  <!-- Sửa đường dẫn -->
+            <option value="/screen/guest/news.html">News</option>  <!-- Sửa đường dẫn -->
+            <option value="/screen/guest/about.html">About</option>  <!-- Sửa đường dẫn -->
         </select>
 
         <div class="icons">
@@ -76,7 +76,7 @@
             </div>
 
             <!-- Cars Grid -->
-            <div class="cards">
+            <div class="cards" id="carGrid">
                 <!-- Car 1 -->
                 <div class="card">
                     <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1549399542-7e3f8b79c341?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
@@ -304,5 +304,33 @@
 
     <!-- JavaScript -->
     <script src="../../script/guest/guest.js"></script>
+    <script>
+        // Thêm event listeners cho các nút trong cards
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gắn sự kiện cho các nút Details và Add to Cart
+            document.querySelectorAll('.btn-details').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    redirectToLogin();
+                });
+            });
+            
+            document.querySelectorAll('.btn-cart').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    redirectToLogin();
+                });
+            });
+            
+            // Gắn sự kiện cho nút Submit Review
+            const submitBtn = document.querySelector('.submit-btn');
+            if (submitBtn) {
+                submitBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    redirectToLogin();
+                });
+            }
+        });
+    </script>
 </body>
 </html>
