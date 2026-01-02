@@ -29,15 +29,26 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // registry.addInterceptor(authInterceptor)
-        // .addPathPatterns("/api/**")
-        // .excludePathPatterns("/api/auth/**", "/api/accounts/register",
-        // "/api/accounts/login");
+        registry.addInterceptor(authInterceptor)
+                .addPathPatterns("/api/**", "/admin/**", "/dashboard/**") // Những đường dẫn cần bảo vệ
+                .excludePathPatterns(
+                        "/api/auth/**",
+                        "/images/**",
+                        "/uploads/**",
+                        "/style/**",
+                        "/script/**",
+                        "/*.html");
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // Không làm gì cả - để mặc định
-        // Spring Boot sẽ tự xử lý favicon.ico nếu có file
+        String projectDir = System.getProperty("user.dir");
+
+        // Khai báo rõ ràng cho cả 2 nguồn ảnh
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:" + projectDir + "/uploads/");
+
+        registry.addResourceHandler("/image/**")
+                .addResourceLocations("classpath:/static/image/");
     }
 }
