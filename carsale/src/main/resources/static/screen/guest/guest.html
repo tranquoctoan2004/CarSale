@@ -1,336 +1,372 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CarShop - Premium Cars</title>
-    <link rel="stylesheet" href="../../style/guest/guest.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
-</head>
-<body>
+    <link rel="stylesheet" href="../../style/guest/guest.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="icon" type="image/x-icon" href="../../images/favicon.ico" />
+  </head>
+  <body>
     <!-- Top Navigation Bar -->
     <header class="top-bar">
-        <a href="guest.html" class="logo">
-            <img src="../../image/logo.png" alt="CarShop Logo">
-            <span>CarShop</span>
-        </a>
+      <a href="guest.html" class="logo">
+        <img src="../../image/logo.png" alt="CarShop Logo" />
+        <span>CarSale</span>
+      </a>
 
-        <nav class="nav-links">
-            <a href="/screen/guest/guest.html" class="active"><i class="fas fa-home"></i> Home</a>
-            <a href="/screen/guest/car.html"><i class="fas fa-car"></i> Cars</a>  <!-- Sửa đường dẫn -->
-            <a href="/screen/guest/news.html"><i class="fas fa-newspaper"></i> News</a>  <!-- Sửa đường dẫn -->
-            <a href="/screen/guest/about.html"><i class="fas fa-info-circle"></i> About</a>  <!-- Sửa đường dẫn -->
-        </nav>
+      <nav class="nav-links">
+        <a href="/screen/guest/guest.html" class="active"
+          ><i class="fas fa-home"></i> Home</a
+        >
+        <a href="/screen/guest/car.html"><i class="fas fa-car"></i> Cars</a>
+        <!-- Sửa đường dẫn -->
+        <a href="/screen/guest/news.html"
+          ><i class="fas fa-newspaper"></i> News</a
+        >
+        <!-- Sửa đường dẫn -->
+        <a href="/screen/guest/about.html"
+          ><i class="fas fa-info-circle"></i> About</a
+        >
+        <!-- Sửa đường dẫn -->
+      </nav>
 
-        <select class="nav-select">
-            <option value="/screen/guest/guest.html" selected>Home</option>
-            <option value="/screen/guest/car.html">Cars</option>  <!-- Sửa đường dẫn -->
-            <option value="/screen/guest/news.html">News</option>  <!-- Sửa đường dẫn -->
-            <option value="/screen/guest/about.html">About</option>  <!-- Sửa đường dẫn -->
-        </select>
+      <select class="nav-select">
+        <option value="/screen/guest/guest.html" selected>Home</option>
+        <option value="/screen/guest/car.html">Cars</option>
+        <!-- Sửa đường dẫn -->
+        <option value="/screen/guest/news.html">News</option>
+        <!-- Sửa đường dẫn -->
+        <option value="/screen/guest/about.html">About</option>
+        <!-- Sửa đường dẫn -->
+      </select>
 
-        <div class="icons">
-            <div class="search-container">
-                <input type="text" placeholder="Search cars, brands..." class="search" id="searchInput">
-                <button class="search-btn"><i class="fas fa-search"></i></button>
-            </div>
-            <button class="cart-btn">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="cart-count">0</span>
-            </button>
-            <button class="user-btn">
-                <i class="fas fa-user"></i>
-            </button>
+      <div class="icons">
+        <div class="search-container">
+          <input
+            type="text"
+            placeholder="Search cars, brands..."
+            class="search"
+            id="searchInput" />
+          <button class="search-btn"><i class="fas fa-search"></i></button>
         </div>
+        <button class="cart-btn">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count">0</span>
+        </button>
+        <button class="user-btn">
+          <i class="fas fa-user"></i>
+        </button>
+      </div>
     </header>
 
     <!-- Main Content Area -->
     <main class="main-container">
-        <!-- Left Banner -->
-        <aside class="banner left-banner">
-            <div class="banner-content">
-                <img src="https://images.unsplash.com/photo-1566474591190-88d03865f6b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Limited Time Offer">
-                <div class="banner-overlay">
-                    <h3>SUMMER SALE</h3>
-                    <p>Up to 30% OFF</p>
-                    <small>On selected models</small>
-                </div>
+      <!-- Left Banner -->
+      <aside class="banner left-banner">
+        <div class="banner-content">
+          <img
+            src="https://images.unsplash.com/photo-1566474591190-88d03865f6b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            alt="Limited Time Offer" />
+          <div class="banner-overlay">
+            <h3>SUMMER SALE</h3>
+            <p>Up to 30% OFF</p>
+            <small>On selected models</small>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Center Content -->
+      <section class="content">
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+          <h1><i class="fas fa-car"></i> Welcome to CarShop</h1>
+          <p>Find your dream car from our premium collection</p>
+        </div>
+
+        <!-- Bestseller Section -->
+        <div class="bestseller">
+          <div class="section-header">
+            <h2><i class="fas fa-crown"></i> Bestseller Cars</h2>
+            <p class="section-subtitle">Most popular choices this month</p>
+          </div>
+        </div>
+
+        <!-- Cars Grid -->
+        <div class="cards" id="carGrid">
+          <!-- Car 1 -->
+          <div class="card">
+            <div
+              class="card-image"
+              style="
+                background-image: url('https://images.unsplash.com/photo-1549399542-7e3f8b79c341?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');
+              ">
+              <span class="discount-badge">-15%</span>
             </div>
-        </aside>
-
-        <!-- Center Content -->
-        <section class="content">
-            <!-- Welcome Section -->
-            <div class="welcome-section">
-                <h1><i class="fas fa-car"></i> Welcome to CarShop</h1>
-                <p>Find your dream car from our premium collection</p>
+            <div class="card-content">
+              <h3>Toyota Camry 2024</h3>
+              <div class="car-details">
+                <span><i class="fas fa-gas-pump"></i> Hybrid</span>
+                <span><i class="fas fa-cogs"></i> Automatic</span>
+                <span><i class="fas fa-users"></i> 5 Seats</span>
+              </div>
+              <div class="price-section">
+                <p class="original-price">$33,500</p>
+                <p class="current-price">$28,500</p>
+              </div>
+              <div class="card-actions">
+                <button class="btn-details">
+                  <i class="fas fa-info-circle"></i> Details
+                </button>
+                <button class="btn-cart">
+                  <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+              </div>
             </div>
+          </div>
 
-            <!-- Bestseller Section -->
-            <div class="bestseller">
-                <div class="section-header">
-                    <h2><i class="fas fa-crown"></i> Bestseller Cars</h2>
-                    <p class="section-subtitle">Most popular choices this month</p>
-                </div>
+          <!-- Car 2 -->
+          <div class="card">
+            <div
+              class="card-image"
+              style="
+                background-image: url('https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');
+              ">
+              <span class="new-badge">NEW</span>
             </div>
-
-            <!-- Cars Grid -->
-            <div class="cards" id="carGrid">
-                <!-- Car 1 -->
-                <div class="card">
-                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1549399542-7e3f8b79c341?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
-                        <span class="discount-badge">-15%</span>
-                    </div>
-                    <div class="card-content">
-                        <h3>Toyota Camry 2024</h3>
-                        <div class="car-details">
-                            <span><i class="fas fa-gas-pump"></i> Hybrid</span>
-                            <span><i class="fas fa-cogs"></i> Automatic</span>
-                            <span><i class="fas fa-users"></i> 5 Seats</span>
-                        </div>
-                        <div class="price-section">
-                            <p class="original-price">$33,500</p>
-                            <p class="current-price">$28,500</p>
-                        </div>
-                        <div class="card-actions">
-                            <button class="btn-details">
-                                <i class="fas fa-info-circle"></i> Details
-                            </button>
-                            <button class="btn-cart">
-                                <i class="fas fa-shopping-cart"></i> Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Car 2 -->
-                <div class="card">
-                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
-                        <span class="new-badge">NEW</span>
-                    </div>
-                    <div class="card-content">
-                        <h3>Honda Civic 2024</h3>
-                        <div class="car-details">
-                            <span><i class="fas fa-gas-pump"></i> Petrol</span>
-                            <span><i class="fas fa-cogs"></i> Automatic</span>
-                            <span><i class="fas fa-users"></i> 5 Seats</span>
-                        </div>
-                        <div class="price-section">
-                            <p class="current-price">$24,200</p>
-                        </div>
-                        <div class="card-actions">
-                            <button class="btn-details">
-                                <i class="fas fa-info-circle"></i> Details
-                            </button>
-                            <button class="btn-cart">
-                                <i class="fas fa-shopping-cart"></i> Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Car 3 -->
-                <div class="card">
-                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1553440569-bcc63803a83d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
-                        <span class="hot-badge">HOT</span>
-                    </div>
-                    <div class="card-content">
-                        <h3>Ford Mustang GT</h3>
-                        <div class="car-details">
-                            <span><i class="fas fa-gas-pump"></i> Petrol</span>
-                            <span><i class="fas fa-cogs"></i> Manual</span>
-                            <span><i class="fas fa-users"></i> 4 Seats</span>
-                        </div>
-                        <div class="price-section">
-                            <p class="current-price">$42,800</p>
-                        </div>
-                        <div class="card-actions">
-                            <button class="btn-details">
-                                <i class="fas fa-info-circle"></i> Details
-                            </button>
-                            <button class="btn-cart">
-                                <i class="fas fa-shopping-cart"></i> Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Car 4 -->
-                <div class="card">
-                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1555212697-194d092e3b8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
-                        <span class="premium-badge">PREMIUM</span>
-                    </div>
-                    <div class="card-content">
-                        <h3>BMW X5 2024</h3>
-                        <div class="car-details">
-                            <span><i class="fas fa-gas-pump"></i> Diesel</span>
-                            <span><i class="fas fa-cogs"></i> Automatic</span>
-                            <span><i class="fas fa-users"></i> 7 Seats</span>
-                        </div>
-                        <div class="price-section">
-                            <p class="current-price">$65,300</p>
-                        </div>
-                        <div class="card-actions">
-                            <button class="btn-details">
-                                <i class="fas fa-info-circle"></i> Details
-                            </button>
-                            <button class="btn-cart">
-                                <i class="fas fa-shopping-cart"></i> Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div class="card-content">
+              <h3>Honda Civic 2024</h3>
+              <div class="car-details">
+                <span><i class="fas fa-gas-pump"></i> Petrol</span>
+                <span><i class="fas fa-cogs"></i> Automatic</span>
+                <span><i class="fas fa-users"></i> 5 Seats</span>
+              </div>
+              <div class="price-section">
+                <p class="current-price">$24,200</p>
+              </div>
+              <div class="card-actions">
+                <button class="btn-details">
+                  <i class="fas fa-info-circle"></i> Details
+                </button>
+                <button class="btn-cart">
+                  <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+              </div>
             </div>
+          </div>
 
-            <!-- Customer Reviews -->
-            <div class="review-section">
-                <div class="section-header">
-                    <h2><i class="fas fa-star"></i> Customer Reviews</h2>
-                    <p class="section-subtitle">What our customers say about us</p>
-                </div>
+          <!-- Car 3 -->
+          <div class="card">
+            <div
+              class="card-image"
+              style="
+                background-image: url('https://images.unsplash.com/photo-1553440569-bcc63803a83d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');
+              ">
+              <span class="hot-badge">HOT</span>
+            </div>
+            <div class="card-content">
+              <h3>Ford Mustang GT</h3>
+              <div class="car-details">
+                <span><i class="fas fa-gas-pump"></i> Petrol</span>
+                <span><i class="fas fa-cogs"></i> Manual</span>
+                <span><i class="fas fa-users"></i> 4 Seats</span>
+              </div>
+              <div class="price-section">
+                <p class="current-price">$42,800</p>
+              </div>
+              <div class="card-actions">
+                <button class="btn-details">
+                  <i class="fas fa-info-circle"></i> Details
+                </button>
+                <button class="btn-cart">
+                  <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
 
-                <div class="reviews-container">
-                    <!-- Review 1 -->
-                    <div class="review-card">
-                        <div class="review-header">
-                            <div class="reviewer-info">
-                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" alt="John Doe">
-                                <div>
-                                    <h4>John Doe</h4>
-                                    <div class="review-rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="review-date">November 10, 2025</span>
-                        </div>
-                        <p class="review-text">
-                            "Excellent experience! The car was in perfect condition and the delivery was faster than expected. 
-                            The staff was professional and helpful throughout the process."
-                        </p>
-                        <div class="review-footer">
-                            <span class="verified-badge"><i class="fas fa-check-circle"></i> Verified Purchase</span>
-                        </div>
+          <!-- Car 4 -->
+          <div class="card">
+            <div
+              class="card-image"
+              style="
+                background-image: url('https://images.unsplash.com/photo-1555212697-194d092e3b8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');
+              ">
+              <span class="premium-badge">PREMIUM</span>
+            </div>
+            <div class="card-content">
+              <h3>BMW X5 2024</h3>
+              <div class="car-details">
+                <span><i class="fas fa-gas-pump"></i> Diesel</span>
+                <span><i class="fas fa-cogs"></i> Automatic</span>
+                <span><i class="fas fa-users"></i> 7 Seats</span>
+              </div>
+              <div class="price-section">
+                <p class="current-price">$65,300</p>
+              </div>
+              <div class="card-actions">
+                <button class="btn-details">
+                  <i class="fas fa-info-circle"></i> Details
+                </button>
+                <button class="btn-cart">
+                  <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customer Reviews -->
+        <div class="review-section">
+          <div class="section-header">
+            <h2><i class="fas fa-star"></i> Customer Reviews</h2>
+            <p class="section-subtitle">What our customers say about us</p>
+          </div>
+
+          <div class="reviews-container">
+            <!-- Review 1 -->
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer-info">
+                  <img
+                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face"
+                    alt="John Doe" />
+                  <div>
+                    <h4>John Doe</h4>
+                    <div class="review-rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
                     </div>
-
-                    <!-- Review 2 -->
-                    <div class="review-card">
-                        <div class="review-header">
-                            <div class="reviewer-info">
-                                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face" alt="Sarah Lee">
-                                <div>
-                                    <h4>Sarah Lee</h4>
-                                    <div class="review-rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="review-date">November 9, 2025</span>
-                        </div>
-                        <p class="review-text">
-                            "Love how easy it is to browse and compare cars on this website! 
-                            The financing options were clear and I got exactly what I wanted. Definitely recommend!"
-                        </p>
-                        <div class="review-footer">
-                            <span class="verified-badge"><i class="fas fa-check-circle"></i> Verified Purchase</span>
-                        </div>
-                    </div>
+                  </div>
                 </div>
+                <span class="review-date">November 10, 2025</span>
+              </div>
+              <p class="review-text">
+                "Excellent experience! The car was in perfect condition and the
+                delivery was faster than expected. The staff was professional
+                and helpful throughout the process."
+              </p>
+              <div class="review-footer">
+                <span class="verified-badge"
+                  ><i class="fas fa-check-circle"></i> Verified Purchase</span
+                >
+              </div>
             </div>
 
-            <!-- Comment Section -->
-            <div class="comment-section">
-                <div class="section-header">
-                    <h2><i class="fas fa-comments"></i> Share Your Experience</h2>
-                    <p class="section-subtitle">We value your feedback</p>
-                </div>
-                <div class="comment-form">
-                    <div class="form-group">
-                        <label for="comment">Your Review:</label>
-                        <textarea id="comment" placeholder="Tell us about your experience with CarShop..." rows="5"></textarea>
+            <!-- Review 2 -->
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer-info">
+                  <img
+                    src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face"
+                    alt="Sarah Lee" />
+                  <div>
+                    <h4>Sarah Lee</h4>
+                    <div class="review-rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="far fa-star"></i>
                     </div>
-                    <div class="form-group">
-                        <label>Rating:</label>
-                        <div class="rating-input">
-                            <span class="star" data-value="1"><i class="far fa-star"></i></span>
-                            <span class="star" data-value="2"><i class="far fa-star"></i></span>
-                            <span class="star" data-value="3"><i class="far fa-star"></i></span>
-                            <span class="star" data-value="4"><i class="far fa-star"></i></span>
-                            <span class="star" data-value="5"><i class="far fa-star"></i></span>
-                        </div>
-                    </div>
-                    <button class="submit-btn">
-                        <i class="fas fa-paper-plane"></i> Submit Review
-                    </button>
+                  </div>
                 </div>
+                <span class="review-date">November 9, 2025</span>
+              </div>
+              <p class="review-text">
+                "Love how easy it is to browse and compare cars on this website!
+                The financing options were clear and I got exactly what I
+                wanted. Definitely recommend!"
+              </p>
+              <div class="review-footer">
+                <span class="verified-badge"
+                  ><i class="fas fa-check-circle"></i> Verified Purchase</span
+                >
+              </div>
             </div>
-        </section>
+          </div>
+        </div>
 
-        <!-- Right Banner -->
-        <aside class="banner right-banner">
-            <div class="banner-content">
-                <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Financing Options">
-                <div class="banner-overlay">
-                    <h3>EASY FINANCING</h3>
-                    <p>Low APR from 2.9%</p>
-                    <small>Flexible payment plans</small>
-                </div>
+        <!-- Comment Section -->
+        <div class="comment-section">
+          <div class="section-header">
+            <h2><i class="fas fa-comments"></i> Share Your Experience</h2>
+            <p class="section-subtitle">We value your feedback</p>
+          </div>
+          <div class="comment-form">
+            <div class="form-group">
+              <label for="comment">Your Review:</label>
+              <textarea
+                id="comment"
+                placeholder="Tell us about your experience with CarShop..."
+                rows="5"></textarea>
             </div>
-        </aside>
+            <div class="form-group">
+              <label>Rating:</label>
+              <div class="rating-input">
+                <span class="star" data-value="1"
+                  ><i class="far fa-star"></i
+                ></span>
+                <span class="star" data-value="2"
+                  ><i class="far fa-star"></i
+                ></span>
+                <span class="star" data-value="3"
+                  ><i class="far fa-star"></i
+                ></span>
+                <span class="star" data-value="4"
+                  ><i class="far fa-star"></i
+                ></span>
+                <span class="star" data-value="5"
+                  ><i class="far fa-star"></i
+                ></span>
+              </div>
+            </div>
+            <button class="submit-btn">
+              <i class="fas fa-paper-plane"></i> Submit Review
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Banner -->
+      <aside class="banner right-banner">
+        <div class="banner-content">
+          <img
+            src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            alt="Financing Options" />
+          <div class="banner-overlay">
+            <h3>EASY FINANCING</h3>
+            <p>Low APR from 2.9%</p>
+            <small>Flexible payment plans</small>
+          </div>
+        </div>
+      </aside>
     </main>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-bottom">
-            <p>&copy; 2025 CarShop. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
-            <div class="payment-methods">
-                <i class="fab fa-cc-visa"></i>
-                <i class="fab fa-cc-mastercard"></i>
-                <i class="fab fa-cc-amex"></i>
-                <i class="fab fa-cc-paypal"></i>
-                <i class="fab fa-cc-apple-pay"></i>
-            </div>
+      <div class="footer-bottom">
+        <p>
+          &copy; 2025 CarShop. All rights reserved. |
+          <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+        </p>
+        <div class="payment-methods">
+          <i class="fab fa-cc-visa"></i>
+          <i class="fab fa-cc-mastercard"></i>
+          <i class="fab fa-cc-amex"></i>
+          <i class="fab fa-cc-paypal"></i>
+          <i class="fab fa-cc-apple-pay"></i>
         </div>
+      </div>
     </footer>
 
     <!-- JavaScript -->
     <script src="../../script/guest/guest.js"></script>
-    <script>
-        // Thêm event listeners cho các nút trong cards
-        document.addEventListener('DOMContentLoaded', function() {
-            // Gắn sự kiện cho các nút Details và Add to Cart
-            document.querySelectorAll('.btn-details').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    redirectToLogin();
-                });
-            });
-            
-            document.querySelectorAll('.btn-cart').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    redirectToLogin();
-                });
-            });
-            
-            // Gắn sự kiện cho nút Submit Review
-            const submitBtn = document.querySelector('.submit-btn');
-            if (submitBtn) {
-                submitBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    redirectToLogin();
-                });
-            }
-        });
-    </script>
-</body>
+  </body>
 </html>
