@@ -3,10 +3,15 @@ package com.firefire.carsale.controller;
 import com.firefire.carsale.dto.request.NewsCreateRequest;
 import com.firefire.carsale.dto.request.NewsUpdateRequest;
 import com.firefire.carsale.dto.response.NewsResponse;
+import com.firefire.carsale.entity.News;
 import com.firefire.carsale.entity.enums.NewsStatus;
+import com.firefire.carsale.repository.NewsRepository;
 import com.firefire.carsale.service.NewsService;
 import com.firefire.carsale.util.ApiResponse;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;

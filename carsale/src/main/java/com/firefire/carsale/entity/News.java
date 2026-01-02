@@ -1,5 +1,6 @@
 package com.firefire.carsale.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.firefire.carsale.entity.enums.NewsStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -37,5 +38,6 @@ public class News {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_account_id", nullable = false)
+    @JsonIgnoreProperties({ "news", "password", "role", "handler", "hibernateLazyInitializer" })
     private Account author;
 }
