@@ -3,139 +3,131 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shop Layout</title>
+    <title>CarSale - Home</title>
     <link rel="stylesheet" href="/style/global/user.css" />
     <link rel="stylesheet" href="/style/user/userhome.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   </head>
   <body>
-    <!-- Header -->
     <div id="header"></div>
 
-    <!-- Main Content -->
     <main class="main-container">
-      <aside class="banner left-banner"><img src="" alt="Banner Left" /></aside>
+      <aside class="banner">
+        <img
+          src="/image/banner-left.gif"
+          alt="Banner Left"
+          onerror="this.style.display='none'" />
+      </aside>
 
       <section class="content">
         <div class="bestseller">
           <h2>Bestseller</h2>
-          <p id="welcomeMessage">Loading...</p>
-          <p id="userStats"></p>
+          <p id="welcomeMessage" style="color: #666">Loading showroom...</p>
         </div>
+        <div class="view-more-container">
+          <button
+            class="view-more-btn"
+            onclick="location.href='/screen/user/car.html'">
+            View All Cars <span>→</span>
+          </button>
+        </div>
+        <div class="cards" id="bestseller-container"></div>
 
-        <div class="cards">
-          <div class="card">
-            <div class="img"></div>
-            <div class="actions">
-              <button>♥</button>
-              <button>&#x24D8;</button>
-              <button>🛒</button>
-            </div>
-          </div>
-          <div class="card">
-            <div class="img"></div>
-            <div class="actions">
-              <button>♥</button>
-              <button>&#x24D8;</button>
-              <button>🛒</button>
-            </div>
-          </div>
-          <div class="card">
-            <div class="img"></div>
-            <div class="actions">
-              <button>♥</button>
-              <button>&#x24D8;</button>
-              <button>🛒</button>
-            </div>
-          </div>
-          <div class="card">
-            <div class="img"></div>
-            <div class="actions">
-              <button>♥</button>
-              <button>&#x24D8;</button>
-              <button>🛒</button>
-            </div>
-          </div>
-          <div class="card">
-            <div class="img"></div>
-            <div class="actions">
-              <button>♥</button>
-              <button>&#x24D8;</button>
-              <button>🛒</button>
-            </div>
-          </div>
-          <div class="card">
-            <div class="img"></div>
-            <div class="actions">
-              <button>♥</button>
-              <button>&#x24D8;</button>
-              <button>🛒</button>
-            </div>
-          </div>
-        </div>
-        <!-- Review Section -->
         <div class="review-section">
-          <h2>Customer Reviews</h2>
-
-          <div class="review">
-            <div class="review-header">
-              <img src="images/user1.png" alt="User 1" class="review-avatar" />
-              <div>
-                <h4>John Doe</h4>
-                <span class="review-date">November 10, 2025</span>
-              </div>
+          <div class="review-header-flex">
+            <h2>Customer Reviews</h2>
+            <div class="search-comment-wrapper">
+              <input
+                type="text"
+                id="searchUserCmt"
+                placeholder="Search by username..."
+                oninput="debounceSearch()" />
+              <i class="fa-solid fa-magnifying-glass"></i>
             </div>
-            <p class="review-text">
-              Great experience! The car was in perfect condition and the service
-              was fast.
-            </p>
           </div>
-
-          <div class="review">
-            <div class="review-header">
-              <img src="images/user2.png" alt="User 2" class="review-avatar" />
-              <div>
-                <h4>Sarah Lee</h4>
-                <span class="review-date">November 9, 2025</span>
-              </div>
-            </div>
-            <p class="review-text">
-              I love how easy it is to browse cars here. Definitely recommend
-              this shop!
-            </p>
-          </div>
-
-          <div class="review">
-            <div class="review-header">
-              <img src="images/user3.png" alt="User 3" class="review-avatar" />
-              <div>
-                <h4>David Tran</h4>
-                <span class="review-date">November 8, 2025</span>
-              </div>
-            </div>
-            <p class="review-text">
-              Smooth process and friendly staff. Will come back again for sure.
-            </p>
-          </div>
+          <div id="commentsContainer" class="comments-list"></div>
         </div>
 
-        <div class="comment">
-          <h2>Comment</h2>
-          <textarea placeholder="Leave a comment..."></textarea>
-          <button class="submit">Submit</button>
-          <button class="delete">Delete</button>
-          <button class="edit">Edit</button>
+        <div class="comment-form-box">
+          <h2 id="formTitle">Leave a Comment</h2>
+          <input type="hidden" id="editingCommentId" value="" />
+
+          <div class="rating-stars">
+            <span>Your Rating:</span>
+            <div class="star-group">
+              <input
+                type="radio"
+                name="rating"
+                value="5"
+                id="st5"
+                checked /><label for="st5">★</label>
+              <input type="radio" name="rating" value="4" id="st4" /><label
+                for="st4"
+                >★</label
+              >
+              <input type="radio" name="rating" value="3" id="st3" /><label
+                for="st3"
+                >★</label
+              >
+              <input type="radio" name="rating" value="2" id="st2" /><label
+                for="st2"
+                >★</label
+              >
+              <input type="radio" name="rating" value="1" id="st1" /><label
+                for="st1"
+                >★</label
+              >
+            </div>
+          </div>
+
+          <textarea
+            id="commentInput"
+            placeholder="Tell us what you think about our cars..."></textarea>
+
+          <div class="comment-actions">
+            <button
+              id="btnSubmitCmt"
+              class="submit"
+              onclick="handleCommentSubmit()">
+              Submit Review
+            </button>
+            <button
+              id="btnCancelEdit"
+              class="delete"
+              onclick="resetCommentForm()"
+              style="display: none">
+              Cancel
+            </button>
+            <button
+              class="clear-btn"
+              onclick="document.getElementById('commentInput').value=''">
+              Clear
+            </button>
+          </div>
         </div>
       </section>
 
-      <aside class="banner right-banner">
-        <img src="" alt="Banner Right" />
+      <aside class="banner">
+        <img
+          src="/image/banner-right.gif"
+          alt="Banner Right"
+          onerror="this.style.display='none'" />
       </aside>
     </main>
 
-    <!-- Footer -->
+    <div id="carModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <div class="modal-body" id="modalBody"></div>
+      </div>
+    </div>
+
     <div id="footer"></div>
-    <!-- Script -->
+
     <script src="/script/common/layout.js"></script>
-    <script src="/script/user/auth-check.js"></script>
+    <script src="/script/user/userhome.js"></script>
+    <script src="/script/user/userhomeComment.js"></script>
   </body>
 </html>

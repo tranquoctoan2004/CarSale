@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>News Management</title>
+    <title>News Management - Admin Panel</title>
 
     <link rel="stylesheet" href="/style/global/admin.css" />
     <link rel="stylesheet" href="/style/admin/newsmanagement.css" />
@@ -13,144 +13,249 @@
   </head>
 
   <body>
-    <!-- HEADER -->
     <div id="header"></div>
 
     <div class="main-layout">
-      <!-- SIDEBAR -->
       <div id="sidebar"></div>
 
-      <!-- CONTENT -->
       <section class="content">
-        <!-- Header -->
         <div class="page-header">
-          <h2>News Management</h2>
-          <button class="btn-add" id="btnAddNews">+ Add New News</button>
+          <div class="header-title">
+            <h2>News Management</h2>
+            <p>Create, edit and manage latest news and articles.</p>
+          </div>
+          <button class="btn-add-modern" onclick="openAddNewsModal()">
+            <i class="fa-solid fa-plus"></i> <span>Add New News</span>
+          </button>
         </div>
 
-        <!-- Search + Filters -->
-        <div class="filters">
-          <input
-            type="text"
-            placeholder="Search by title or author..."
-            class="search-input" />
-
-          <select>
-            <option>All Status</option>
-            <option>Published</option>
-            <option>Draft</option>
-          </select>
+        <div class="filter-card">
+          <div class="filter-row">
+            <div class="search-box-container" style="flex: 2">
+              <i class="fa-solid fa-magnifying-glass search-icon"></i>
+              <input
+                type="text"
+                id="newsSearchInput"
+                placeholder="Search by title..."
+                class="modern-input" />
+            </div>
+            <div class="select-box-container" style="flex: 1">
+              <select id="newsStatusFilter" class="modern-select">
+                <option value="">All Status</option>
+                <option value="published">Published</option>
+                <option value="draft">Draft</option>
+                <option value="archived">Archived</option>
+              </select>
+            </div>
+          </div>
         </div>
 
-        <!-- News Table -->
         <div class="table-box">
-          <h3>News List (3)</h3>
-
+          <div class="table-header">
+            <h3>Articles List</h3>
+            <span id="totalNews" class="badge">Loading...</span>
+          </div>
           <table class="data-table">
             <thead>
               <tr>
-                <th>Title</th>
+                <th>ID</th>
+                <th>Image</th>
+                <th style="width: 30%">Title</th>
                 <th>Author</th>
                 <th>Publish Date</th>
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
             </thead>
-
-            <tbody>
-              <!-- NEWS 1 -->
+            <tbody id="newsTableBody">
               <tr>
-                <td>New Car Model Released</td>
-                <td>Admin</td>
-                <td>2025-11-20</td>
-                <td class="active">Published</td>
-                <td>
-                  <button class="view" title="View">
-                    <i class="fa-solid fa-eye"></i>
-                  </button>
-
-                  <button class="edit" title="Edit" data-news-id="1">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-
-                  <button class="delete" title="Delete">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-
-              <!-- NEWS 2 -->
-              <tr>
-                <td>Holiday Discount Campaign</td>
-                <td>Marketing</td>
-                <td>2025-11-18</td>
-                <td class="pending">Draft</td>
-                <td>
-                  <button class="view" title="View">
-                    <i class="fa-solid fa-eye"></i>
-                  </button>
-
-                  <button class="edit" title="Edit" data-news-id="2">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-
-                  <button class="delete" title="Delete">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-
-              <!-- NEWS 3 -->
-              <tr>
-                <td>Website Maintenance Notice</td>
-                <td>Admin</td>
-                <td>2025-11-15</td>
-                <td class="active">Published</td>
-                <td>
-                  <button class="view" title="View">
-                    <i class="fa-solid fa-eye"></i>
-                  </button>
-
-                  <button class="edit" title="Edit" data-news-id="3">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-
-                  <button class="delete" title="Delete">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
+                <td colspan="7" style="text-align: center; padding: 40px">
+                  <i
+                    class="fa-solid fa-circle-notch fa-spin"
+                    style="font-size: 24px; color: var(--primary-color)"></i>
+                  <p style="margin-top: 10px; color: #666">Loading news...</p>
                 </td>
               </tr>
             </tbody>
           </table>
+          <div id="pagination" class="pagination-container"></div>
         </div>
       </section>
     </div>
 
-    <!-- ADD / EDIT NEWS MODAL -->
-    <div class="modal" id="newsModal">
-      <div class="modal-content">
-        <h3 id="modalTitle">Add News</h3>
+    <div id="addNewsModal" class="modal">
+      <div class="modal-content" style="max-width: 700px">
+        <div class="modal-header">
+          <h3 id="modalTitle">Add New News</h3>
+          <span class="close" onclick="closeAddNewsModal()">&times;</span>
+        </div>
+        <form id="addNewsForm">
+          <input type="hidden" name="newsId" id="newsId" />
 
-        <input type="text" id="newsTitle" placeholder="News title" />
+          <div class="form-grid">
+            <div class="form-group" style="grid-column: span 2">
+              <label>Title <span class="required">*</span></label>
+              <input
+                type="text"
+                id="newsTitle"
+                name="title"
+                placeholder="Enter article title"
+                required />
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select name="status" id="newsStatus">
+                <option value="draft">Draft</option>
+                <option value="published">Published</option>
+                <option value="archived">Archived</option>
+              </select>
+            </div>
+          </div>
 
-        <textarea
-          id="newsContent"
-          rows="5"
-          placeholder="News content..."></textarea>
+          <div class="form-group full-width">
+            <label>Content <span class="required">*</span></label>
+            <textarea
+              name="content"
+              id="newsContent"
+              rows="6"
+              placeholder="Article content goes here..."
+              required></textarea>
+          </div>
 
-        <select id="newsStatus">
-          <option value="PUBLISHED">Published</option>
-          <option value="DRAFT">Draft</option>
-        </select>
+          <div class="form-group full-width">
+            <label>News Image</label>
+            <input
+              type="file"
+              name="image"
+              id="imageInput"
+              accept="image/*"
+              onchange="previewImage(this)" />
+            <div id="previewContainer" class="mt-2" style="display: none">
+              <p style="margin-bottom: 5px; font-size: 0.9em; color: #666">
+                Image Preview:
+              </p>
+              <img
+                id="imgPreview"
+                src=""
+                style="
+                  max-width: 200px;
+                  max-height: 150px;
+                  border-radius: 8px;
+                  border: 1px solid #ddd;
+                " />
+            </div>
+          </div>
 
+          <div class="modal-actions">
+            <button
+              type="button"
+              class="btn-cancel"
+              onclick="closeAddNewsModal()">
+              Cancel
+            </button>
+            <button type="submit" class="btn-save">Save Article</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="viewNewsModal" class="modal">
+      <div class="modal-content" style="max-width: 700px">
+        <div class="modal-header">
+          <h3>Article Details</h3>
+          <span class="close" onclick="closeViewNewsModal()">&times;</span>
+        </div>
+        <div class="form-grid view-only">
+          <div class="form-group" style="grid-column: span 3">
+            <label>Title</label>
+            <input
+              id="viewNewsTitle"
+              readonly
+              class="modern-input readonly-field" />
+          </div>
+          <div class="form-group">
+            <label>Author</label>
+            <input
+              id="viewNewsAuthor"
+              readonly
+              class="modern-input readonly-field" />
+          </div>
+          <div class="form-group">
+            <label>Publish Date</label>
+            <input
+              id="viewNewsDate"
+              readonly
+              class="modern-input readonly-field" />
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <input
+              id="viewNewsStatus"
+              readonly
+              class="modern-input readonly-field" />
+          </div>
+
+          <div class="form-group full-width">
+            <label>Content</label>
+            <textarea
+              id="viewNewsContent"
+              rows="6"
+              readonly
+              class="modern-input readonly-field"
+              style="resize: none"></textarea>
+          </div>
+          <div class="form-group full-width">
+            <label>Article Image</label>
+            <div
+              class="view-image-box"
+              style="
+                background: #f9f9f9;
+                border-radius: 8px;
+                padding: 10px;
+                text-align: center;
+              ">
+              <img
+                id="viewNewsImage"
+                src=""
+                alt="News Image"
+                style="
+                  max-width: 100%;
+                  max-height: 300px;
+                  object-fit: contain;
+                " />
+            </div>
+          </div>
+        </div>
         <div class="modal-actions">
-          <button class="btn-cancel">Cancel</button>
-          <button class="btn-submit">Save</button>
+          <button class="btn-cancel" onclick="closeViewNewsModal()">
+            Close
+          </button>
+          <button class="btn-save" id="btnEditFromView">
+            <i class="fa-solid fa-pen-to-square"></i> Edit this Article
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- JS load layout -->
     <script src="/script/common/layoutadmin.js"></script>
+    <script src="/script/admin/newsmanagement.js"></script>
+
+    <script>
+      function previewImage(input) {
+        const preview = document.getElementById("imgPreview");
+        const container = document.getElementById("previewContainer");
+        if (input.files && input.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            preview.src = e.target.result;
+            container.style.display = "block";
+          };
+          reader.readAsDataURL(input.files[0]);
+        } else {
+          preview.src = "";
+          container.style.display = "none";
+        }
+      }
+    </script>
   </body>
 </html>

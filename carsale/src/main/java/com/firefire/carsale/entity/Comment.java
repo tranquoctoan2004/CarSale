@@ -27,7 +27,7 @@ public class Comment {
     private Account account;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_detail_id", nullable = false, unique = true)
+    @JoinColumn(name = "order_detail_id", nullable = true, unique = true)
     @JsonIgnore
     private OrderDetail orderDetail;
 

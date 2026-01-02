@@ -379,7 +379,7 @@ body {
 
 .card-actions {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 1fr;
     gap: 0.5rem;
 }
 
@@ -400,12 +400,6 @@ body {
     border: 1px solid #dee2e6;
 }
 
-.btn-wishlist:hover {
-    background: #e74c3c;
-    color: white;
-    border-color: #e74c3c;
-}
-
 .btn-details:hover {
     background: #3498db;
     color: white;
@@ -419,13 +413,6 @@ body {
 }
 
 /* ===== REVIEWS ===== */
-.review-section {
-    background: white;
-    padding: 1.5rem;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-}
-
 .reviews-container {
     display: grid;
     gap: 1.2rem;
@@ -497,13 +484,6 @@ body {
 }
 
 /* ===== COMMENT SECTION ===== */
-.comment-section {
-    background: white;
-    padding: 1.5rem;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-}
-
 .comment-form {
     max-width: 800px;
     margin: 0 auto;
@@ -582,156 +562,25 @@ body {
 .footer {
     background: linear-gradient(135deg, var(--primary), #2d3748);
     color: white;
-    padding: 2rem 1.5rem 1rem;
+    padding: 1.5rem;
     margin-top: 2rem;
-}
-
-.footer-content {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.footer-section h4 {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    color: var(--accent);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.footer-section p {
-    margin-bottom: 0.8rem;
-    opacity: 0.9;
-    line-height: 1.5;
-    font-size: 0.95rem;
-}
-
-.trust-badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.8rem;
-    margin-top: 1rem;
-}
-
-.trust-badges span {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 0.4rem 0.8rem;
-    border-radius: 4px;
-    font-size: 0.85rem;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-}
-
-.footer-section ul {
-    list-style: none;
-}
-
-.footer-section ul li {
-    margin-bottom: 0.6rem;
-}
-
-.footer-section ul li a {
-    color: rgba(255, 255, 255, 0.9);
-    text-decoration: none;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.95rem;
-}
-
-.footer-section ul li a:hover {
-    color: var(--accent);
-    transform: translateX(5px);
-}
-
-.social-links {
-    display: flex;
-    gap: 0.8rem;
-    margin-bottom: 1.2rem;
-}
-
-.social-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-decoration: none;
-    transition: var(--transition);
-    font-size: 1rem;
-}
-
-.facebook { background: #3b5998; }
-.twitter { background: #1da1f2; }
-.instagram { background: #e4405f; }
-.youtube { background: #cd201f; }
-
-.social-btn:hover {
-    transform: translateY(-2px);
-    opacity: 0.9;
-}
-
-.newsletter p {
-    margin-bottom: 0.8rem;
-    font-weight: 600;
-    font-size: 0.95rem;
-}
-
-.subscribe-form {
-    display: flex;
-    gap: 0.4rem;
-}
-
-.subscribe-form input {
-    flex: 1;
-    padding: 0.6rem;
-    border: none;
-    border-radius: var(--radius);
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    font-size: 0.9rem;
-}
-
-.subscribe-form input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-.subscribe-form button {
-    background: var(--accent);
-    color: var(--dark);
-    border: none;
-    border-radius: var(--radius);
-    width: 40px;
-    cursor: pointer;
-    transition: var(--transition);
-    font-size: 0.9rem;
-}
-
-.subscribe-form button:hover {
-    background: #ed8936;
 }
 
 .footer-bottom {
     text-align: center;
-    padding-top: 1.5rem;
     color: rgba(255, 255, 255, 0.7);
     font-size: 0.9rem;
+}
+
+.footer-bottom p {
+    margin-bottom: 1rem;
 }
 
 .footer-bottom a {
     color: var(--accent);
     text-decoration: none;
     margin: 0 0.4rem;
+    cursor: pointer;
 }
 
 .footer-bottom a:hover {
@@ -742,7 +591,6 @@ body {
     display: flex;
     justify-content: center;
     gap: 1.2rem;
-    margin-top: 1rem;
     font-size: 1.5rem;
     color: rgba(255, 255, 255, 0.7);
 }

@@ -1,149 +1,579 @@
-/* ===================================== */
-/* ===== NEWS MANAGEMENT - HEADER ====== */
-/* ===================================== */
-/* Tiêu đề trang quản lý tin tức + nút thêm bài viết */
+/* ==========================================================================
+   ADMIN COMMON STYLES (Dùng chung cho Car & News)
+   ========================================================================== */
+
+:root {
+  --primary: #4a90e2;
+  --primary-dark: #357abd;
+  --success: #22c55e;
+  --success-dark: #16a34a;
+  --warning: #f59e0b;
+  --warning-dark: #d97706;
+  --danger: #ef4444;
+  --danger-dark: #dc2626;
+  --info: #3b82f6;
+  --info-dark: #2563eb;
+  --gray-light: #f8fafc;
+  --gray-border: #e2e8f0;
+  --text-main: #1a202c;
+  --text-muted: #718096;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* ===== 1. Page Header (Tiêu đề + Nút thêm) ===== */
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--gray-border);
 }
 
-.page-header h2 {
+.header-title h2 {
   font-size: 24px;
+  color: var(--text-main);
+  margin-bottom: 4px;
 }
 
-/* Nút Add New News */
-.btn-add {
-  padding: 8px 15px;
-  background: #1a73e8;
+.header-title p {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.btn-add-modern {
+  background: linear-gradient(
+    135deg,
+    var(--primary) 0%,
+    var(--primary-dark) 100%
+  );
   color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
   border: none;
-  border-radius: 5px;
+  font-weight: 600;
   cursor: pointer;
-}
-
-.btn-add:hover {
-  background: #1663c7;
-}
-
-/* ===================================== */
-/* ===== SEARCH & FILTER (NEWS) ========= */
-/* ===================================== */
-/* Thanh tìm kiếm + lọc trạng thái bài viết */
-.filters {
+  transition: all 0.3s ease;
   display: flex;
-  gap: 25px;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-add-modern::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.btn-add-modern:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+}
+
+.btn-add-modern:hover::before {
+  left: 100%;
+}
+
+/* ===== 2. Filter Section (Bộ lọc & Tìm kiếm) ===== */
+.filter-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 25px;
+  border: 1px solid var(--gray-border);
+}
+
+.filter-row {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.search-box-container {
+  position: relative;
+  flex: 2;
+}
+
+.search-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #a0aec0;
+  pointer-events: none;
+}
+
+.modern-input,
+.modern-select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid var(--gray-border);
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s;
+  background: var(--gray-light);
+  font-family: inherit;
+}
+
+.modern-input {
+  padding-left: 45px;
+}
+
+.modern-input:focus,
+.modern-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+}
+
+.select-box-container {
+  flex: 1;
+}
+
+/* ===== 3. Data Table (Bảng dữ liệu) ===== */
+.table-box {
+  background: white;
+  border: 1px solid var(--gray-border);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
 }
 
-.filters input,
-.filters select {
-  padding: 10px 15px;
-  border: 1px solid #ccc;
-  border-radius: 15px;
+.table-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-main);
 }
 
-/* Ô tìm kiếm theo tiêu đề / tác giả */
-.filters input {
-  width: 50%;
-}
-
-/* Bộ lọc trạng thái (Published / Draft) */
-.filters select:last-child {
-  margin-left: auto; /* đẩy sang phải */
+.badge {
+  padding: 4px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+  letter-spacing: 0.3px;
+  display: inline-block;
+  min-width: 80px;
   text-align: center;
-  width: 15%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* ===================================== */
-/* ===== NEWS TABLE CONTAINER =========== */
-/* ===================================== */
-/* Khung chứa bảng danh sách tin tức */
-.table-box {
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 20px;
-}
-
-.table-box h3 {
-  margin-bottom: 15px;
-}
-
-/* ===================================== */
-/* ===== NEWS DATA TABLE ================ */
-/* ===================================== */
 .data-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
-/* Header bảng */
 .data-table th {
-  background: #f1f3f6;
-  padding: 12px;
+  background-color: var(--gray-light);
+  padding: 16px 12px;
   text-align: left;
-  border-bottom: 2px solid #ddd;
+  font-weight: 600;
+  color: #4a5568;
+  border-bottom: 2px solid var(--gray-border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-/* Nội dung bảng */
 .data-table td {
-  padding: 10px 12px;
-  border-bottom: 1px solid #eee;
+  padding: 16px 12px;
+  border-bottom: 1px solid #f1f5f9;
   vertical-align: middle;
+  color: #444;
 }
 
-/* ===================================== */
-/* ===== NEWS STATUS ==================== */
-/* ===================================== */
-/* Trạng thái Published */
-.data-table .active {
-  color: #28a745;
-  font-weight: bold;
+.data-table tbody tr {
+  transition: all 0.2s ease;
 }
 
-/* Trạng thái Draft */
-.data-table .pending {
-  color: #d9534f;
-  font-weight: bold;
+.data-table tbody tr:hover {
+  background-color: #f1f9ff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* ===================================== */
-/* ===== ACTION BUTTONS (NEWS) =========== */
-/* ===================================== */
-/* Nút View / Edit / Delete */
-.data-table td button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  margin-right: 30px;
-  padding: 5px;
-  border-radius: 5px;
+/* Thumbnail ảnh trong bảng */
+.table-img {
+  width: 60px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 2px solid var(--gray-border);
   transition: transform 0.2s;
 }
 
-/* Xem chi tiết bài viết */
-.data-table td button.view {
-  color: #1a73e8;
-}
-.data-table td button.view:hover {
-  transform: scale(1.5);
+.table-img:hover {
+  transform: scale(1.1);
 }
 
-/* Chỉnh sửa bài viết */
-.data-table td button.edit {
-  color: #ffc107;
-}
-.data-table td button.edit:hover {
-  transform: scale(1.5);
+/* ===== 4. Buttons & Status Badges ===== */
+
+/* Nút thao tác (Icon buttons) - CẢI THIỆN ĐỂ DỄ PHÂN BIỆT */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
 }
 
-/* Xoá bài viết */
-.data-table td button.delete {
-  color: #d9534f;
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
 }
-.data-table td button.delete:hover {
-  transform: scale(1.5);
+
+.btn-icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+.btn-icon:active::after {
+  animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(20, 20);
+    opacity: 0;
+  }
+}
+
+.btn-view {
+  background: linear-gradient(135deg, var(--info) 0%, var(--info-dark) 100%);
+  color: white;
+}
+
+.btn-edit {
+  background: linear-gradient(
+    135deg,
+    var(--warning) 0%,
+    var(--warning-dark) 100%
+  );
+  color: white;
+}
+
+.btn-delete {
+  background: linear-gradient(
+    135deg,
+    var(--danger) 0%,
+    var(--danger-dark) 100%
+  );
+  color: white;
+}
+
+.btn-icon:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  filter: brightness(1.1);
+}
+
+.btn-icon:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Status Badges - CẢI THIỆN ĐỂ DỄ NHÌN */
+.badge-success {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: white;
+  border: 2px solid #16a34a;
+}
+
+.badge-warning {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+  border: 2px solid #d97706;
+}
+
+.badge-danger {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  border: 2px solid #dc2626;
+}
+
+.badge-secondary {
+  background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+  color: white;
+  border: 2px solid #64748b;
+}
+
+/* Additional status for completeness */
+.badge-info {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border: 2px solid #2563eb;
+}
+
+/* ===== 5. Modal System ===== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  padding: 40px 20px;
+  overflow-y: auto;
+}
+
+.modal-content {
+  background: white;
+  margin: auto;
+  width: 100%;
+  max-width: 720px;
+  border-radius: 16px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+  animation: slideDown 0.3s ease-out;
+  overflow: hidden;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--gray-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(
+    90deg,
+    var(--primary-light) 0%,
+    var(--primary) 100%
+  );
+}
+
+.modal-header h3 {
+  color: white;
+  margin: 0;
+}
+
+.close {
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  opacity: 0.9;
+}
+
+.close:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 24px;
+}
+
+.full-width {
+  grid-column: span 2;
+}
+
+/* Modal action buttons */
+.modal-actions {
+  padding: 20px 24px;
+  background: #f9fafb;
+  border-top: 1px solid var(--gray-border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  border-radius: 0 0 16px 16px;
+}
+
+.btn-cancel {
+  padding: 12px 28px;
+  border: 2px solid #cbd5e1;
+  border-radius: 8px;
+  background: white;
+  color: #64748b;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  color: #475569;
+  transform: translateY(-1px);
+}
+
+.btn-save {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(
+    135deg,
+    var(--success) 0%,
+    var(--success-dark) 100%
+  );
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.btn-save:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(34, 197, 94, 0.4);
+  filter: brightness(1.1);
+}
+
+/* Form inputs in modal */
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--gray-border);
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s;
+  background: white;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+}
+
+.required {
+  color: var(--danger);
+}
+
+/* View only fields */
+.readonly-field {
+  background-color: #f8fafc !important;
+  cursor: not-allowed;
+  border: 2px dashed #cbd5e1;
+  color: #64748b;
+}
+
+/* Xem chi tiết ảnh trong Modal */
+.view-image-box {
+  width: 100%;
+  text-align: center;
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  padding: 20px;
+  border-radius: 12px;
+  border: 2px dashed #cbd5e1;
+}
+
+.view-image-box img {
+  max-width: 100%;
+  max-height: 250px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.view-image-box img:hover {
+  transform: scale(1.02);
+}
+
+/* ===== 6. Pagination ===== */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid var(--gray-border);
+}
+
+.pagination-btn {
+  padding: 8px 16px;
+  border: 2px solid var(--gray-border);
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 600;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.pagination-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

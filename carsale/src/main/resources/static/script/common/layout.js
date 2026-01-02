@@ -1,11 +1,11 @@
 async function loadLayout() {
     // load header
-    const header = await fetch("../components/header.html")
+    const header = await fetch("/screen/components/header.html")
         .then(res => res.text());
     document.getElementById("header").innerHTML = header;
 
     // load footer
-    const footer = await fetch("../components/footer.html")
+    const footer = await fetch("/screen/components/footer.html")
         .then(res => res.text());
     document.getElementById("footer").innerHTML = footer;
 }
@@ -36,7 +36,7 @@ function setupHeaderEvents() {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       // SỬA PATH NÀY
-      window.location.href = '../user/login.html';
+      window.location.href = '/screen/user/login.html';
     });
   }
   

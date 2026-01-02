@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car News - CarSale</title>
+    <link rel="stylesheet" href="../../style/guest/guest.css">
+    <link rel="stylesheet" href="../../style/guest/news.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="top-bar">
+        <a href="guest.html" class="logo">
+            <img src="../../image/logo.png" alt="CarShop Logo">
+            <span>CarSale</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="guest.html"><i class="fas fa-home"></i> Home</a>
+            <a href="car.html"><i class="fas fa-car"></i> Cars</a>
+            <a href="news.html" class="active"><i class="fas fa-newspaper"></i> News</a>
+            <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+        </nav>
+
+        <select class="nav-select">
+            <option value="guest.html">Home</option>
+            <option value="car.html">Cars</option>
+            <option value="news.html" selected>News</option>
+            <option value="about.html">About</option>
+        </select>
+
+        <div class="icons">
+            <div class="search-container">
+                <input type="text" placeholder="Search news..." class="search" id="searchInput">
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <button class="cart-btn">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </button>
+            <button class="user-btn">
+                <i class="fas fa-user"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-container">
+        <!-- Left Banner -->
+        <aside class="banner left-banner">
+            <div class="banner-content">
+                <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Car Technology">
+                <div class="banner-overlay">
+                    <h3>TECH TRENDS</h3>
+                    <p>Future of Mobility</p>
+                    <small>Latest innovations</small>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Center Content -->
+        <section class="content news-container">
+            <!-- Welcome Section -->
+            <div class="welcome-section">
+                <h1><i class="fas fa-newspaper"></i> Latest Car News & Reviews</h1>
+                <p>Stay updated with the latest trends, reviews, and industry news</p>
+            </div>
+
+            <!-- News Grid -->
+            <div class="news-list">
+                <!-- News 1 -->
+                <article class="news-card">
+                    <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1553440569-bcc63803a83d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                        <span class="news-category tech-category">Technology</span>
+                    </div>
+                    <div class="news-content">
+                        <div class="news-meta">
+                            <div class="news-date">
+                                <i class="far fa-calendar"></i>
+                                <span>December 15, 2024</span>
+                            </div>
+                            <div class="news-read-time">
+                                <i class="far fa-clock"></i>
+                                <span>5 min read</span>
+                            </div>
+                        </div>
+                        <h2 class="news-title">Electric SUV Revolution: What's Coming in 2025</h2>
+                        <p class="news-excerpt">
+                            Major automakers are gearing up to launch next-generation electric SUVs with 
+                            improved range, faster charging, and autonomous driving features. We take a 
+                            look at what to expect from Tesla, Ford, and Volkswagen in the coming year.
+                        </p>
+                        <div class="news-tags">
+                            <span class="news-tag">Electric Vehicles</span>
+                            <span class="news-tag">SUV</span>
+                            <span class="news-tag">2025 Models</span>
+                            <span class="news-tag">Technology</span>
+                        </div>
+                        <div class="news-footer">
+                            <div class="news-author">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" alt="John Carter" class="author-avatar">
+                                <div class="author-info">
+                                    <h4>John Carter</h4>
+                                    <p>Senior Automotive Editor</p>
+                                </div>
+                            </div>
+                            <button class="read-more-btn">
+                                <i class="fas fa-book-open"></i> Read More
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- News 2 -->
+                <article class="news-card">
+                    <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1555212697-194d092e3b8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                        <span class="news-category review-category">Review</span>
+                    </div>
+                    <div class="news-content">
+                        <div class="news-meta">
+                            <div class="news-date">
+                                <i class="far fa-calendar"></i>
+                                <span>December 12, 2024</span>
+                            </div>
+                            <div class="news-read-time">
+                                <i class="far fa-clock"></i>
+                                <span>4 min read</span>
+                            </div>
+                        </div>
+                        <h2 class="news-title">2024 BMW X5: Luxury SUV Perfected</h2>
+                        <p class="news-excerpt">
+                            After a week with the refreshed 2024 BMW X5, we can confidently say it sets 
+                            new standards for luxury SUVs. From its silky-smooth inline-6 engine to the 
+                            exquisite interior craftsmanship, this is BMW at its finest.
+                        </p>
+                        <div class="news-tags">
+                            <span class="news-tag">BMW</span>
+                            <span class="news-tag">Luxury SUV</span>
+                            <span class="news-tag">Review</span>
+                            <span class="news-tag">Performance</span>
+                        </div>
+                        <div class="news-footer">
+                            <div class="news-author">
+                                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face" alt="Sarah Miller" class="author-avatar">
+                                <div class="author-info">
+                                    <h4>Sarah Miller</h4>
+                                    <p>Luxury Car Specialist</p>
+                                </div>
+                            </div>
+                            <button class="read-more-btn">
+                                <i class="fas fa-book-open"></i> Read More
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- News 3 -->
+                <article class="news-card">
+                    <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1549399542-7e3f8b79c341?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                        <span class="news-category industry-category">Industry</span>
+                    </div>
+                    <div class="news-content">
+                        <div class="news-meta">
+                            <div class="news-date">
+                                <i class="far fa-calendar"></i>
+                                <span>December 10, 2024</span>
+                            </div>
+                            <div class="news-read-time">
+                                <i class="far fa-clock"></i>
+                                <span>6 min read</span>
+                            </div>
+                        </div>
+                        <h2 class="news-title">Toyota's Hydrogen Strategy: Beyond Electric Cars</h2>
+                        <p class="news-excerpt">
+                            While most automakers focus on battery electric vehicles, Toyota is doubling 
+                            down on hydrogen fuel cell technology. We explore their roadmap and what it 
+                            means for the future of sustainable transportation.
+                        </p>
+                        <div class="news-tags">
+                            <span class="news-tag">Toyota</span>
+                            <span class="news-tag">Hydrogen</span>
+                            <span class="news-tag">Sustainability</span>
+                            <span class="news-tag">Future Tech</span>
+                        </div>
+                        <div class="news-footer">
+                            <div class="news-author">
+                                <img src="https://images.unsplash.com/photo-1507591064344-4c6ce005-128b-97dc11e2f8dd?w=100&h=100&fit=crop&crop=face" alt="Michael Chen" class="author-avatar">
+                                <div class="author-info">
+                                    <h4>Michael Chen</h4>
+                                    <p>Technology Analyst</p>
+                                </div>
+                            </div>
+                            <button class="read-more-btn">
+                                <i class="fas fa-book-open"></i> Read More
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- News 4 -->
+                <article class="news-card">
+                    <div class="news-image" style="background-image: url('https://images.unsplash.com/photo-1580273916550-e323be2ae537?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                        <span class="news-category electric-category">Electric</span>
+                    </div>
+                    <div class="news-content">
+                        <div class="news-meta">
+                            <div class="news-date">
+                                <i class="far fa-calendar"></i>
+                                <span>December 8, 2024</span>
+                            </div>
+                            <div class="news-read-time">
+                                <i class="far fa-clock"></i>
+                                <span>3 min read</span>
+                            </div>
+                        </div>
+                        <h2 class="news-title">Mercedes EQE vs Tesla Model S: Luxury EV Showdown</h2>
+                        <p class="news-excerpt">
+                            In the battle of premium electric sedans, Mercedes' new EQE takes on the 
+                            established Tesla Model S. Which offers better luxury, performance, and 
+                            technology? Our comparison reveals the surprising winner.
+                        </p>
+                        <div class="news-tags">
+                            <span class="news-tag">Mercedes</span>
+                            <span class="news-tag">Tesla</span>
+                            <span class="news-tag">Electric Cars</span>
+                            <span class="news-tag">Comparison</span>
+                        </div>
+                        <div class="news-footer">
+                            <div class="news-author">
+                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="David Wilson" class="author-avatar">
+                                <div class="author-info">
+                                    <h4>David Wilson</h4>
+                                    <p>EV Expert</p>
+                                </div>
+                            </div>
+                            <button class="read-more-btn">
+                                <i class="fas fa-book-open"></i> Read More
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Newsletter Signup -->
+            <div class="newsletter-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-envelope"></i> Stay Updated</h2>
+                    <p class="section-subtitle">Subscribe to our newsletter for weekly car news</p>
+                </div>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Enter your email address" class="newsletter-input" disabled>
+                    <button class="newsletter-btn">
+                        <i class="fas fa-paper-plane"></i> Subscribe
+                    </button>
+                </div>
+                <p class="newsletter-note"><small>By subscribing, you agree to our Privacy Policy</small></p>
+            </div>
+        </section>
+
+        <!-- Right Banner -->
+        <aside class="banner right-banner">
+            <div class="banner-content">
+                <img src="https://images.unsplash.com/photo-1493238792000-8113da705763?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Car Reviews">
+                <div class="banner-overlay">
+                    <h3>EXPERT REVIEWS</h3>
+                    <p>In-Depth Analysis</p>
+                    <small>From our specialists</small>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2024 CarSale. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            <div class="payment-methods">
+                <i class="fab fa-cc-visa"></i>
+                <i class="fab fa-cc-mastercard"></i>
+                <i class="fab fa-cc-amex"></i>
+                <i class="fab fa-cc-paypal"></i>
+                <i class="fab fa-cc-apple-pay"></i>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../../script/guest/guest.js"></script>
+    <script src="../../script/guest/news.js"></script>
+</body>
+</html>
