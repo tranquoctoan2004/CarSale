@@ -3,58 +3,59 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Car Management</title>
+    <title>Car Management - Admin Panel</title>
 
     <link rel="stylesheet" href="/style/global/admin.css" />
     <link rel="stylesheet" href="/style/admin/carmanagement.css" />
+    <link rel="stylesheet" href="/style/admin/custom-filter.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   </head>
 
   <body>
-    <!-- HEADER -->
     <div id="header"></div>
 
     <div class="main-layout">
-      <!-- SIDEBAR -->
       <div id="sidebar"></div>
 
-      <!-- CONTENT -->
       <section class="content">
-        <!-- Header + Add -->
         <div class="page-header">
-          <h2>Car Management</h2>
-          <button class="btn-add" onclick="openAddCarModal()">
-            + Add New Car
-          </button>
-        </div>
-        <p>Manage car inventory information</p>
-
-        <!-- Search + Filter -->
-        <div class="filters">
-          <input
-            type="text"
-            name="keyword"
-            placeholder="Search by car name or brand..."
-            class="search-input" />
-
-          <select name="status">
-            <option value="">All Status</option>
-            <option value="available">Available</option>
-            <option value="sold">Sold</option>
-            <option value="out_of_stock">Out of Stock</option>
-          </select>
-
-          <button class="btn-search">
-            <i class="fa-solid fa-magnifying-glass"></i>
+          <div class="header-title">
+            <h2>Car Management</h2>
+            <p>Monitor your inventory and update vehicle information.</p>
+          </div>
+          <button class="btn-add-modern" onclick="openAddCarModal()">
+            <i class="fa-solid fa-plus"></i> <span>Add New Car</span>
           </button>
         </div>
 
-        <!-- Car Table -->
+        <div class="filter-card">
+          <div class="filter-row">
+            <div class="search-box-container">
+              <i class="fa-solid fa-magnifying-glass search-icon"></i>
+              <input
+                type="text"
+                id="searchKeyword"
+                placeholder="Search by car name or brand..."
+                class="modern-input" />
+            </div>
+            <div class="select-box-container">
+              <select id="searchStatus" class="modern-select">
+                <option value="">All Status</option>
+                <option value="available">Available</option>
+                <option value="sold">Sold</option>
+                <option value="out_of_stock">Out of Stock</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
         <div class="table-box">
-          <h3>Car List</h3>
-
+          <div class="table-header">
+            <h3>Inventory List</h3>
+            <span id="totalItems" class="badge"></span>
+          </div>
           <table class="data-table">
             <thead>
               <tr>
@@ -67,53 +68,11 @@
                 <th>Actions</th>
               </tr>
             </thead>
-
-            <tbody>
-              <!-- Example Row -->
+            <tbody id="carTableBody">
               <tr>
-                <td>1</td>
-                <td>Toyota Camry</td>
-                <td>Toyota</td>
-                <td>$28,500</td>
-                <td class="status available">Available</td>
-                <td>
-                  <img
-                    src="/images/camry.jpg"
-                    alt="Toyota Camry"
-                    class="car-img" />
-                </td>
-                <td>
-                  <button class="view" title="View Detail">
-                    <i class="fa-solid fa-eye"></i>
-                  </button>
-                  <button class="edit" title="Edit">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  <button class="delete" title="Delete">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </td>
-              </tr>
-
-              <tr>
-                <td>2</td>
-                <td>BMW X5</td>
-                <td>BMW</td>
-                <td>$67,500</td>
-                <td class="status sold">Sold</td>
-                <td>
-                  <img src="/images/bmwx5.jpg" alt="BMW X5" class="car-img" />
-                </td>
-                <td>
-                  <button class="view">
-                    <i class="fa-solid fa-eye"></i>
-                  </button>
-                  <button class="edit">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  <button class="delete">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
+                <td colspan="7" style="text-align: center; padding: 40px">
+                  <i class="fa-solid fa-circle-notch fa-spin"></i> Loading
+                  cars...
                 </td>
               </tr>
             </tbody>
@@ -121,76 +80,139 @@
         </div>
       </section>
     </div>
-    <!-- ===== ADD CAR MODAL ===== -->
+
     <div id="addCarModal" class="modal">
       <div class="modal-content">
         <div class="modal-header">
-          <h3>Add New Car</h3>
+          <h3 id="modalTitle">Add New Car</h3>
           <span class="close" onclick="closeAddCarModal()">&times;</span>
         </div>
-
         <form id="addCarForm">
-          <!-- Car Name -->
-          <div class="form-group">
-            <label>Car Name</label>
-            <input type="text" name="carName" required />
+          <input type="hidden" name="carId" id="carId" />
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Car Name <span class="required">*</span></label>
+              <input
+                type="text"
+                name="carName"
+                id="carName"
+                placeholder="e.g. Toyota Camry"
+                required />
+            </div>
+            <div class="form-group">
+              <label>Brand <span class="required">*</span></label>
+              <input
+                type="text"
+                name="brand"
+                id="brand"
+                placeholder="e.g. Toyota"
+                required />
+            </div>
+            <div class="form-group">
+              <label>Price ($) <span class="required">*</span></label>
+              <input
+                type="number"
+                name="price"
+                id="price"
+                placeholder="0.00"
+                step="0.01"
+                required />
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select name="status" id="status">
+                <option value="available">Available</option>
+                <option value="sold">Sold</option>
+                <option value="out_of_stock">Out of Stock</option>
+              </select>
+            </div>
           </div>
-
-          <!-- Brand -->
-          <div class="form-group">
-            <label>Brand</label>
-            <select name="brand" required>
-              <option value="">Select brand</option>
-              <option value="Toyota">Toyota</option>
-              <option value="BMW">BMW</option>
-              <option value="Mercedes">Mercedes</option>
-              <option value="Honda">Honda</option>
-            </select>
-          </div>
-
-          <!-- Price -->
-          <div class="form-group">
-            <label>Price ($)</label>
-            <input type="number" name="price" required />
-          </div>
-
-          <!-- Status -->
-          <div class="form-group">
-            <label>Status</label>
-            <select name="status">
-              <option value="available">Available</option>
-              <option value="sold">Sold</option>
-              <option value="out_of_stock">Out of Stock</option>
-            </select>
-          </div>
-
-          <!-- Description -->
-          <div class="form-group">
+          <div class="form-group full-width">
             <label>Description</label>
-            <textarea name="description" rows="3"></textarea>
+            <textarea name="description" id="description" rows="3"></textarea>
           </div>
-
-          <!-- Image -->
-          <div class="form-group">
+          <div class="form-group full-width">
             <label>Car Image</label>
-            <input type="file" name="image" accept="image/*" />
+            <input
+              type="file"
+              name="image"
+              id="imageInput"
+              accept="image/*"
+              onchange="previewImage(this)" />
+            <div id="previewContainer" class="mt-2" style="display: none">
+              <img
+                id="imgPreview"
+                src=""
+                style="max-width: 150px; border-radius: 8px" />
+            </div>
           </div>
-
-          <!-- Buttons -->
           <div class="modal-actions">
-            <button type="submit" class="btn-save">Save</button>
             <button
               type="button"
               class="btn-cancel"
               onclick="closeAddCarModal()">
               Cancel
             </button>
+            <button type="submit" class="btn-save">Save Changes</button>
           </div>
         </form>
       </div>
     </div>
 
-    <!-- JS -->
+    <div id="viewCarModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Vehicle Details</h3>
+          <span class="close" onclick="closeViewCarModal()">&times;</span>
+        </div>
+        <div class="form-grid view-only">
+          <div class="form-group">
+            <label>Car Name</label><input id="viewCarName" readonly />
+          </div>
+          <div class="form-group">
+            <label>Brand</label><input id="viewBrand" readonly />
+          </div>
+          <div class="form-group">
+            <label>Price</label><input id="viewPrice" readonly />
+          </div>
+          <div class="form-group">
+            <label>Status</label><input id="viewStatus" readonly />
+          </div>
+          <div class="form-group full-width">
+            <label>Description</label
+            ><textarea id="viewDescription" rows="3" readonly></textarea>
+          </div>
+          <div class="form-group full-width">
+            <label>Vehicle Image</label>
+            <div class="view-image-box"><img id="viewImage" src="" /></div>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-cancel" onclick="closeViewCarModal()">
+            Close
+          </button>
+          <button class="btn-save" onclick="openEditFromView()">
+            Edit Car
+          </button>
+        </div>
+      </div>
+    </div>
+
     <script src="/script/common/layoutadmin.js"></script>
+    <script src="/script/admin/carmanagement.js"></script>
+    <script>
+      function previewImage(input) {
+        const preview = document.getElementById("imgPreview");
+        const container = document.getElementById("previewContainer");
+        if (input.files && input.files[0]) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            preview.src = e.target.result;
+            container.style.display = "block";
+          };
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+    </script>
   </body>
 </html>

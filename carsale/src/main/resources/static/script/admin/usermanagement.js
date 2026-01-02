@@ -75,7 +75,7 @@ function getRowHTML(u) {
     <td>
       <button class="view" data-id="${u.accountId}"><i class="fa-solid fa-eye"></i></button>
       <button class="edit" data-id="${u.accountId}"><i class="fa-solid fa-pen-to-square"></i></button>
-      <button class="delete" data-id="${u.accountId}"><i class="fa-solid fa-ban"></i></button>
+      <button class="delete" data-id="${u.accountId}"><i class="fa-solid fa-trash"></i></button>
     </td>
   `;
 }
