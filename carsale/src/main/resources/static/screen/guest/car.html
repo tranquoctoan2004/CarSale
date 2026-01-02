@@ -4,84 +4,43 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CarSale - Premium Cars</title>
-    <link rel="stylesheet" href="/style/guest/car.css">
+    <link rel="stylesheet" href="../../style/guest/guest.css">
+    <link rel="stylesheet" href="../../style/guest/car.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-    <style>
-        .car-container {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .sort-section {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 1.5rem;
-        }
-
-        .sort-select {
-            padding: 0.5rem 1rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 4px;
-            background: white;
-            cursor: pointer;
-            font-size: 0.9rem;
-            color: #1a365d;
-            font-weight: 500;
-        }
-
-        .sort-select:focus {
-            outline: none;
-            border-color: #ed8936;
-        }
-
-        .result-count {
-            text-align: center;
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-
-        @media (max-width: 768px) {
-            .sort-section {
-                justify-content: center;
-            }
-        }
-    </style>
+    <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
 </head>
 <body>
     <!-- Top Navigation Bar -->
     <header class="top-bar">
-        <a href="index.html" class="logo">
-            <img src="/image/logo.png" alt="CarShop Logo">
+        <a href="guest.html" class="logo">
+            <img src="../../image/logo.png" alt="CarShop Logo">
             <span>CarSale</span>
         </a>
 
         <nav class="nav-links">
             <a href="guest.html"><i class="fas fa-home"></i> Home</a>
-            <a href="/screen/guest/car.html" class="active"><i class="fas fa-car"></i> Cars</a>
-            <a href="#" onclick="redirectToLogin()"><i class="fas fa-newspaper"></i> News</a>
-            <a href="#" onclick="redirectToLogin()"><i class="fas fa-info-circle"></i> About</a>
+            <a href="car.html" class="active"><i class="fas fa-car"></i> Cars</a>
+            <a href="news.html"><i class="fas fa-newspaper"></i> News</a>
+            <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
         </nav>
 
         <select class="nav-select">
             <option value="guest.html">Home</option>
-            <option value="/screen/guest/car.html" selected>Cars</option>
-            <option value="#news">News</option>
-            <option value="#about">About</option>
+            <option value="car.html" selected>Cars</option>
+            <option value="news.html">News</option>
+            <option value="about.html">About</option>
         </select>
 
         <div class="icons">
             <div class="search-container">
                 <input type="text" placeholder="Search cars, brands..." class="search" id="searchInput">
-                <button class="search-btn" onclick="redirectToLogin()"><i class="fas fa-search"></i></button>
+                <button class="search-btn"><i class="fas fa-search"></i></button>
             </div>
-            <button class="cart-btn" onclick="redirectToLogin()">
+            <button class="cart-btn">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-count">0</span>
             </button>
-            <button class="user-btn" onclick="redirectToLogin()">
+            <button class="user-btn">
                 <i class="fas fa-user"></i>
             </button>
         </div>
@@ -145,7 +104,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-bottom">
-            <p>&copy; 2025 CarShop. All rights reserved. | <a href="#" onclick="redirectToLogin()">Privacy Policy</a> | <a href="#" onclick="redirectToLogin()">Terms of Service</a></p>
+            <p>&copy; 2025 CarShop. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
             <div class="payment-methods">
                 <i class="fab fa-cc-visa"></i>
                 <i class="fab fa-cc-mastercard"></i>
@@ -157,6 +116,7 @@
     </footer>
 
     <!-- JavaScript -->
-    <script src="/script/guest/car.js"></script>
+    <script src="../../script/guest/guest.js"></script>
+    <script src="../../script/guest/car.js"></script>
 </body>
 </html>

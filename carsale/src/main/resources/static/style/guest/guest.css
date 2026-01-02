@@ -413,13 +413,6 @@ body {
 }
 
 /* ===== REVIEWS ===== */
-.review-section {
-    background: white;
-    padding: 1.5rem;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-}
-
 .reviews-container {
     display: grid;
     gap: 1.2rem;
@@ -491,13 +484,6 @@ body {
 }
 
 /* ===== COMMENT SECTION ===== */
-.comment-section {
-    background: white;
-    padding: 1.5rem;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-}
-
 .comment-form {
     max-width: 800px;
     margin: 0 auto;
@@ -573,7 +559,6 @@ body {
 }
 
 /* ===== FOOTER ===== */
-/* ===== FOOTER ===== */
 .footer {
     background: linear-gradient(135deg, var(--primary), #2d3748);
     color: white;
@@ -608,34 +593,6 @@ body {
     gap: 1.2rem;
     font-size: 1.5rem;
     color: rgba(255, 255, 255, 0.7);
-}
-
-/* ===== RESPONSIVE DESIGN ===== */
-@media (max-width: 768px) {
-    .footer {
-        padding: 1rem;
-    }
-    
-    .footer-bottom p {
-        font-size: 0.8rem;
-        line-height: 1.4;
-    }
-    
-    .payment-methods {
-        font-size: 1.2rem;
-        gap: 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .footer-bottom p {
-        font-size: 0.75rem;
-    }
-    
-    .payment-methods {
-        font-size: 1rem;
-        gap: 0.8rem;
-    }
 }
 
 /* ===== RESPONSIVE DESIGN ===== */

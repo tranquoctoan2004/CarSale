@@ -1,3 +1,5 @@
+// script/guest/car.js
+
 // Fake car data (6 cars)
 const carsData = [
     {
@@ -100,11 +102,6 @@ const carGrid = document.getElementById('carGrid');
 const resultCount = document.getElementById('resultCount');
 const sortSelect = document.getElementById('sortSelect');
 
-// Redirect to login function
-function redirectToLogin() {
-    window.location.href = '/screen/user/login.html';
-}
-
 // Format price with commas
 function formatPrice(price) {
     return '$' + price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -150,10 +147,10 @@ function createCarCard(car) {
                     <p class="current-price">${formatPrice(car.price)}</p>
                 </div>
                 <div class="card-actions">
-                    <button class="btn-details" onclick="redirectToLogin()">
+                    <button class="btn-details">
                         <i class="fas fa-info-circle"></i> Details
                     </button>
-                    <button class="btn-cart" onclick="redirectToLogin()">
+                    <button class="btn-cart">
                         <i class="fas fa-shopping-cart"></i> Add to Cart
                     </button>
                 </div>
@@ -197,86 +194,22 @@ function displayCars() {
     resultCount.textContent = `Showing ${sortedCars.length} cars`;
 }
 
-// Initialize page
-document.addEventListener('DOMContentLoaded', function() {
+// Initialize car page specific functionality
+function initCarPage() {
     console.log('CarSale Cars Page initialized');
     
     // Initialize car display
     displayCars();
     
     // Set up sort select listener
-    sortSelect.addEventListener('change', (e) => {
-        sortBy = e.target.value;
-        displayCars();
-    });
-    
-    // Search functionality
-    const searchInput = document.getElementById('searchInput');
-    const searchBtn = document.querySelector('.search-btn');
-    
-    if (searchInput && searchBtn) {
-        searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                redirectToLogin();
-            }
+    if (sortSelect) {
+        sortSelect.addEventListener('change', (e) => {
+            sortBy = e.target.value;
+            displayCars();
         });
     }
     
-    // Navigation select
-    const navSelect = document.querySelector('.nav-select');
-    if (navSelect) {
-        navSelect.addEventListener('change', function() {
-            if (this.value) {
-                if (this.value.startsWith('#')) {
-                    redirectToLogin();
-                } else {
-                    window.location.href = this.value;
-                }
-            }
-        });
-    }
-    
-    // Initialize welcome section animation
-    const welcomeSection = document.querySelector('.welcome-section');
-    if (welcomeSection) {
-        setTimeout(() => {
-            welcomeSection.style.opacity = '1';
-            welcomeSection.style.transform = 'translateY(0)';
-        }, 300);
-        
-        welcomeSection.style.opacity = '0';
-        welcomeSection.style.transform = 'translateY(20px)';
-        welcomeSection.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    }
-    
-    // Add hover effects to cards
-    const cards = document.querySelectorAll('.card');
-    cards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-5px)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-        });
-    });
-    
-    // Keyboard shortcuts
-    document.addEventListener('keydown', function(e) {
-        // Ctrl/Cmd + F to focus search
-        if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
-            e.preventDefault();
-            if (searchInput) {
-                searchInput.focus();
-            }
-        }
-    });
-});
-
-// Add event listeners to all buttons that need login
-function initLoginButtons() {
-    // Details buttons
+    // Add event listeners to car buttons
     document.querySelectorAll('.btn-details').forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
@@ -284,32 +217,19 @@ function initLoginButtons() {
         });
     });
     
-    // Cart buttons
     document.querySelectorAll('.btn-cart').forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
             redirectToLogin();
         });
     });
-    
-    // Cart button in header
-    const cartBtn = document.querySelector('.cart-btn');
-    if (cartBtn) {
-        cartBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            redirectToLogin();
-        });
-    }
-    
-    // User button in header
-    const userBtn = document.querySelector('.user-btn');
-    if (userBtn) {
-        userBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            redirectToLogin();
-        });
-    }
 }
 
-// Initialize login buttons
-initLoginButtons();
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize common functionality from guest.js
+    // (These functions are called automatically in guest.js)
+    
+    // Initialize car page specific functionality
+    initCarPage();
+});
