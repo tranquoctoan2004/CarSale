@@ -44,8 +44,9 @@ public class AuthInterceptor implements HandlerInterceptor {
         // 3. API Công khai (Public API)
         // Fix: Chỉ cho phép GET nếu KHÔNG PHẢI đường dẫn admin
         boolean isPublicGet = "GET".equalsIgnoreCase(method) &&
-                (path.startsWith("/api/cars") || path.startsWith("/api/news")) &&
-                !path.startsWith("/api/admin/");
+                (path.startsWith("/api/cars") || path.startsWith("/api/news")) ||
+                path.startsWith("/api/comments") &&
+                        !path.startsWith("/api/admin/");
 
         if (path.startsWith("/api/auth/") ||
                 path.startsWith("/api/accounts/register") ||

@@ -3,9 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shop Layout - CarSale</title>
+    <title>CarSale - Home</title>
     <link rel="stylesheet" href="/style/global/user.css" />
     <link rel="stylesheet" href="/style/user/userhome.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   </head>
   <body>
     <div id="header"></div>
@@ -20,54 +23,85 @@
 
       <section class="content">
         <div class="bestseller">
-          <h2 style="margin: 0">Bestseller</h2>
-          <p
-            id="welcomeMessage"
-            style="font-size: 14px; font-weight: normal; color: #666">
-            Loading showroom...
-          </p>
+          <h2>Bestseller</h2>
+          <p id="welcomeMessage" style="color: #666">Loading showroom...</p>
         </div>
         <div class="view-more-container">
-          <button class="view-more-btn" onclick="goToCarsPage()">
+          <button class="view-more-btn" onclick="location.href='/cars'">
             View All Cars <span>→</span>
           </button>
         </div>
-        <div class="cards" id="bestseller-container">
-          <p style="grid-column: span 4; text-align: center">
-            Fetching cars...
-          </p>
-        </div>
+        <div class="cards" id="bestseller-container"></div>
 
         <div class="review-section">
-          <h2>Customer Reviews</h2>
-          <div class="review">
-            <div class="review-header">
-              <img
-                src="https://ui-avatars.com/api/?name=John+Doe&background=ffcc00"
-                class="review-avatar"
-                alt="User" />
-              <div>
-                <h4>John Doe</h4>
-                <span class="review-date">November 10, 2025</span>
-              </div>
+          <div class="review-header-flex">
+            <h2>Customer Reviews</h2>
+            <div class="search-comment-wrapper">
+              <input
+                type="text"
+                id="searchUserCmt"
+                placeholder="Search by username..."
+                oninput="debounceSearch()" />
+              <i class="fa-solid fa-magnifying-glass"></i>
             </div>
-            <p class="review-text">
-              Great experience! The car was in perfect condition.
-            </p>
           </div>
+          <div id="commentsContainer" class="comments-list"></div>
         </div>
 
-        <div class="comment">
-          <h2>Leave a Comment</h2>
+        <div class="comment-form-box">
+          <h2 id="formTitle">Leave a Comment</h2>
+          <input type="hidden" id="editingCommentId" value="" />
+
+          <div class="rating-stars">
+            <span>Your Rating:</span>
+            <div class="star-group">
+              <input
+                type="radio"
+                name="rating"
+                value="5"
+                id="st5"
+                checked /><label for="st5">★</label>
+              <input type="radio" name="rating" value="4" id="st4" /><label
+                for="st4"
+                >★</label
+              >
+              <input type="radio" name="rating" value="3" id="st3" /><label
+                for="st3"
+                >★</label
+              >
+              <input type="radio" name="rating" value="2" id="st2" /><label
+                for="st2"
+                >★</label
+              >
+              <input type="radio" name="rating" value="1" id="st1" /><label
+                for="st1"
+                >★</label
+              >
+            </div>
+          </div>
+
           <textarea
             id="commentInput"
-            placeholder="How do you feel about our collection?"></textarea>
+            placeholder="Tell us what you think about our cars..."></textarea>
+
           <div class="comment-actions">
-            <button class="submit" onclick="submitComment()">Submit</button>
             <button
+              id="btnSubmitCmt"
+              class="submit"
+              onclick="handleCommentSubmit()">
+              Submit Review
+            </button>
+            <button
+              id="btnCancelEdit"
               class="delete"
+              onclick="resetCommentForm()"
+              style="display: none">
+              Cancel
+            </button>
+            <button
+              class="clear-btn"
               onclick="document.getElementById('commentInput').value=''">
-              Delete
+              Clear
             </button>
           </div>
         </div>
@@ -84,20 +118,7 @@
     <div id="carModal" class="modal">
       <div class="modal-content">
         <span class="close-btn" onclick="closeModal()">&times;</span>
-        <div class="modal-body" id="modalBody">
-          <img id="modalImg" src="" alt="Car" />
-          <div class="modal-info">
-            <h2 id="modalTitle">Car Name</h2>
-            <p class="price-tag" id="modalPrice" style="font-size: 24px">$0</p>
-            <p id="modalDesc">Description goes here...</p>
-            <button
-              class="submit"
-              id="modalCartBtn"
-              style="width: 100%; margin-top: 20px">
-              Add to Cart 🛒
-            </button>
-          </div>
-        </div>
+        <div class="modal-body" id="modalBody"></div>
       </div>
     </div>
 
@@ -105,5 +126,6 @@
 
     <script src="/script/common/layout.js"></script>
     <script src="/script/user/userhome.js"></script>
+    <script src="/script/user/userhomeComment.js"></script>
   </body>
 </html>

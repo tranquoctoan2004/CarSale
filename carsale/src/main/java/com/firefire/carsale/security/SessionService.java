@@ -12,6 +12,12 @@ public class SessionService {
     private final Map<String, AccountResponse> sessions = new ConcurrentHashMap<>();
     private final Map<Integer, String> userTokens = new ConcurrentHashMap<>();
 
+    // Thêm hàm này vào SessionService.java
+    public Integer getAccountIdByToken(String token) {
+        AccountResponse account = sessions.get(token);
+        return (account != null) ? account.getAccountId() : null;
+    }
+
     public String createSession(AccountResponse account) {
         String token = java.util.UUID.randomUUID().toString();
 
