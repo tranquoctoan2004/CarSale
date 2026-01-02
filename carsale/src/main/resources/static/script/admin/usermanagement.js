@@ -3,9 +3,9 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchUsers(); // Load lần đầu
 });
 
-/* =======================
+/* 
     1. FETCH USERS (Lấy danh sách)
-======================= */
+ */
 function fetchUsers({ keyword = "", status = "" } = {}) {
   const token = localStorage.getItem("token");
   const params = new URLSearchParams();
@@ -18,8 +18,6 @@ function fetchUsers({ keyword = "", status = "" } = {}) {
 
   // 2. Xử lý status (Chỉ append nếu status không rỗng)
   if (status) {
-    // Nếu Backend của bạn nhạy cảm với chữ hoa/thường, 
-    // hãy thử status.toUpperCase() hoặc để nguyên status tùy theo API cũ.
     params.append("status", status); 
   }
 
@@ -32,15 +30,14 @@ function fetchUsers({ keyword = "", status = "" } = {}) {
     .then(res => res.json())
     .then(r => {
        renderUsers(r.data || []);
-       // Nếu bạn có dùng hàm sort, hãy gọi ở đây để danh sách luôn gọn
        if (typeof sortById === "function") sortById(); 
     })
     .catch(() => console.error("Lỗi tải danh sách"));
 }
 
-/* =======================
+/* 
     2. RENDER TABLE (Vẽ bảng)
-======================= */
+ */
 function renderUsers(users) {
   const tbody = document.getElementById("userTableBody");
   tbody.innerHTML = "";
@@ -80,9 +77,9 @@ function getRowHTML(u) {
   `;
 }
 
-/* =======================
-    3. CẬP NHẬT TỪNG DÒNG (Partial Update)
-======================= */
+/* 
+    3. CẬP NHẬT TỪNG DÒNG 
+ */
 document.getElementById("saveUserBtn").onclick = async () => {
   const id = document.getElementById("editUserId").value;
   const status = document.getElementById("editStatus").value; // Lấy từ Select
@@ -95,7 +92,7 @@ document.getElementById("saveUserBtn").onclick = async () => {
         Authorization: "Bearer " + token,
         "Content-Type": "application/json"
       },
-      // ✅ CHỈ gửi status, tuyệt đối không gửi roles hay bất kỳ trường nào khác
+      // Chỉ gửi status, không gửi roles hay bất kỳ trường nào khác
       body: JSON.stringify({ 
         status: status.toLowerCase() 
       })
@@ -103,7 +100,7 @@ document.getElementById("saveUserBtn").onclick = async () => {
 
     if (response.ok) {
       closeModal();
-      // ✅ Chỉ cập nhật ô Status trên bảng
+      //Chỉ cập nhật ô Status trên bảng
       patchStatusOnlyUI(id, status);
       console.log("Cập nhật Status thành công!");
     } else {
@@ -132,23 +129,23 @@ function patchStatusOnlyUI(id, newStatus) {
   }
 }
 
-/* =======================
+/* 
     5. DELETE/BAN USER (Xử lý xóa/khóa)
-======================= */
+ */
 function deleteUser(id) {
-  // 1. Hỏi xác nhận trước khi xóa
+  //Hỏi xác nhận trước khi xóa
   if (!confirm("Bạn có chắc chắn muốn xóa vĩnh viễn người dùng này khỏi danh sách?")) return;
 
   const token = localStorage.getItem("token");
 
-  // 2. Gửi lệnh xóa đến Backend
+  //Gửi lệnh xóa đến Backend
   fetch(`/api/accounts/${id}`, {
     method: "DELETE",
     headers: { Authorization: "Bearer " + token }
   })
     .then(res => {
       if (res.ok) {
-        // ✅ 3. TÌM DÒNG VÀ XÓA HẲN KHỎI GIAO DIỆN
+        //TÌM DÒNG VÀ XÓA HẲN KHỎI GIAO DIỆN
         const row = document.getElementById(`user-row-${id}`);
         if (row) {
           // Thêm một chút hiệu ứng thu nhỏ trước khi biến mất (tùy chọn)
@@ -173,9 +170,9 @@ function deleteUser(id) {
     });
 }
 
-/* =======================
-    CÁC HÀM TIỆN ÍCH KHÁC (Giữ nguyên logic của bạn)
-======================= */
+/* 
+    CÁC HÀM TIỆN ÍCH KHÁC
+ */
 function initFilterEvents() {
   const searchInput = document.querySelector(".search-input");
   const statusSelect = document.querySelector(".filters select");
@@ -196,7 +193,7 @@ function applyFilter() {
   const statusSelect = document.querySelector(".filters select");
   let status = statusSelect.value;
 
-  // ✅ Logic quan trọng: Nếu là giá trị mặc định thì coi như không lọc status
+  // Logic quan trọng: Nếu là giá trị mặc định thì coi như không lọc status
   if (status === "filterStatus") {
     status = "";
   }
@@ -331,9 +328,9 @@ function updateSortIcon() {
     icon.className = "fa-solid fa-sort-down";
   }
 }
-/* =======================
+/* 
     6. XỬ LÝ KHI THÊM MỚI THÀNH CÔNG (Từ Iframe)
-======================= */
+ */
 window.addEventListener("message", (event) => {
     if (event.data.type === "SIGNUP_SUCCESS") {
         const newUser = event.data.user;
@@ -363,7 +360,6 @@ function addNewUserToTable(u) {
     tr.style.backgroundColor = "#d4edda";
     setTimeout(() => tr.style.backgroundColor = "", 2000);
 
-    // Sắp xếp lại nhưng KHÔNG làm đảo chiều icon của người dùng
-    // Ví dụ: Luôn giữ đúng trật tự hiện tại
+    // Sắp xếp lại nhưng không làm đảo chiều icon của người dùng
     sortById(!isAscending); 
 }
