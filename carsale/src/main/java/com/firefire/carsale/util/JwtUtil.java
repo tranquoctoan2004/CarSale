@@ -16,6 +16,17 @@ public class JwtUtil {
     // Thời gian hết hạn token (vd: 1 giờ)
     private static final long EXPIRATION_MS = 3600000;
 
+    public static Integer getAccountIdFromToken(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(KEY)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        // Lấy accountId từ Claims (Đảm bảo lúc Login bạn đã put nó vào token)
+        return claims.get("accountId", Integer.class);
+    }
+
     /**
      * Tạo token JWT cho username
      */

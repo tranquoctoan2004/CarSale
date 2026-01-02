@@ -1,14 +1,15 @@
 package com.firefire.carsale.dto.response;
 
-import lombok.Builder;
-import lombok.Data;
-import java.time.LocalDateTime;
+import lombok.*;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CommentReplyResponse {
     private Integer replyId;
-    private String username;
     private String content;
-    private LocalDateTime createdAt;
+    private String createdAt; // Định dạng lại từ LocalDateTime để hiển thị
+    private String adminName; // Lấy từ Account entity trong CommentReply
+    private String status;
 }

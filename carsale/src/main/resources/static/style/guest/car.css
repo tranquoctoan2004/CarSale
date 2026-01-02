@@ -1,0 +1,50 @@
+/* style/guest/car.css */
+@import url('guest.css');
+
+.car-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.sort-section {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1.5rem;
+}
+
+.sort-select {
+    padding: 0.5rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #1a365d;
+    font-weight: 500;
+}
+
+.sort-select:focus {
+    outline: none;
+    border-color: #ed8936;
+}
+
+.result-count {
+    text-align: center;
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Additional car details */
+.car-details span:nth-child(4) {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+@media (max-width: 768px) {
+    .sort-section {
+        justify-content: center;
+    }
+}
