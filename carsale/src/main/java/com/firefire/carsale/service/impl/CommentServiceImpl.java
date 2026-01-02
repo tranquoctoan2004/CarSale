@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
@@ -74,11 +75,44 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public CommentResponse updateComment(Integer id, CommentCreateRequest request, Integer accountId) {
-        return null;
+        // 1. Tìm comment theo ID
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy bình luận với ID: " + id));
+
+        // 2. Kiểm tra quyền sở hữu (Chỉ người viết mới được sửa)
+        // Lưu ý: Dùng .equals() để so sánh hai đối tượng Integer
+        if (!comment.getAccount().getAccountId().equals(accountId)) {
+            throw new RuntimeException("Bạn không có quyền chỉnh sửa bình luận này!");
+        }
+
+        // 3. Cập nhật thông tin mới
+        comment.setContent(request.getContent());
+        comment.setRating(request.getRating());
+        // Có thể cập nhật lại ngày chỉnh sửa nếu muốn:
+        // comment.setReviewDate(LocalDateTime.now());
+
+        // 4. Lưu vào Database
+        Comment updated = commentRepository.save(comment);
+
+        // 5. Trả về kết quả đã map sang DTO
+        return mapToResponse(updated);
     }
 
     @Override
+    @Transactional
     public void deleteComment(Integer id, Integer accountId) {
+        // 1. Tìm comment
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy bình luận để xóa!"));
+
+        // 2. Kiểm tra quyền sở hữu
+        if (!comment.getAccount().getAccountId().equals(accountId)) {
+            throw new RuntimeException("Bạn không có quyền xóa bình luận này!");
+        }
+
+        // 3. Thực hiện xóa khỏi Database
+        commentRepository.delete(comment);
     }
 }

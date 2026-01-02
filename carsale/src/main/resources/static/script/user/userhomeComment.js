@@ -1,10 +1,10 @@
-// ⚡ CẤU HÌNH ĐỒNG BỘ VỚI LOGIN
+// ⚡ SYNC CONFIGURATION WITH LOGIN
 const STORAGE_KEYS = {
-    TOKEN: "token",  // Đã sửa từ 'userToken' thành 'token'
-    USER: "user"     // Key chứa object thông tin người dùng
+    TOKEN: "token", 
+    USER: "user"    
 };
 
-// ⚡ BIẾN TOÀN CỤC
+// ⚡ GLOBAL VARIABLES
 let currentUserId = null;
 let searchTimer = null;
 
@@ -12,42 +12,36 @@ document.addEventListener("DOMContentLoaded", () => {
     initUserHome();
 });
 
-// 1. Khởi tạo trang
+// 1. Initialize Page
 function initUserHome() {
     checkLoginStatus();
-    loadBestsellers(); // Hàm này bạn đã có logic riêng
-    loadComments();    // Tải bình luận khi mở trang
+    loadComments(); 
 }
 
-// 2. Kiểm tra trạng thái đăng nhập
+// 2. Check Login Status to get AccountId
 function checkLoginStatus() {
     const userStr = localStorage.getItem(STORAGE_KEYS.USER);
-    const welcomeMsg = document.getElementById('welcomeMessage');
-    
     if (userStr) {
         try {
             const user = JSON.parse(userStr);
-            currentUserId = user.accountId; // Lấy ID để kiểm tra quyền sửa/xóa
-            
-            if (welcomeMsg) {
-                welcomeMsg.innerText = `Welcome back, ${user.fullName || user.username}!`;
-            }
+            currentUserId = user.accountId;
         } catch (e) {
-            console.error("Lỗi parse thông tin user:", e);
+            // Error parsing user data
         }
     }
 }
 
-// 3. Lấy Token từ Local Storage
+// 3. Get Bearer Token
 function getAuthToken() {
     return localStorage.getItem(STORAGE_KEYS.TOKEN);
 }
 
-// 4. Tải danh sách bình luận (Có hỗ trợ tìm kiếm)
+// 4. Load Comments (Anti-cache enabled)
 async function loadComments(username = "") {
+    const v = new Date().getTime(); 
     const url = username 
-        ? `/api/comments/search?username=${encodeURIComponent(username)}`
-        : `/api/comments`;
+        ? `/api/comments/search?username=${encodeURIComponent(username)}&v=${v}`
+        : `/api/comments?v=${v}`;
 
     try {
         const response = await fetch(url);
@@ -56,41 +50,44 @@ async function loadComments(username = "") {
             renderComments(result.data);
         }
     } catch (error) {
-        console.error("Không thể tải bình luận:", error);
+        // Silent catch for loading errors
     }
 }
 
-// 5. Hiển thị bình luận lên HTML
+// 5. Render Comments to HTML
 function renderComments(comments) {
     const container = document.getElementById('commentsContainer');
     if (!container) return;
 
     if (!comments || comments.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">No reviews found.</p>';
+        container.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">No comments found.</p>';
         return;
     }
 
     container.innerHTML = comments.map(cmt => `
-        <div class="review">
-            <div class="review-header">
-                <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(cmt.fullName)}&background=ffcc00&color=fff" class="review-avatar">
+        <div class="review" style="position: relative; border-bottom: 1px solid #eee; padding: 15px 0;">
+            <div class="review-header" style="display: flex; align-items: center; gap: 10px;">
+                <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(cmt.fullName)}&background=ffcc00&color=fff" 
+                     style="width: 40px; height: 40px; border-radius: 50%;">
                 <div class="review-info">
-                    <h4>${cmt.fullName} <span style="font-size: 12px; color: #888;">(@${cmt.username})</span></h4>
-                    <span class="review-date">${cmt.reviewDate}</span>
+                    <h4 style="margin: 0;">${cmt.fullName} <small style="color: #888;">(@${cmt.username})</small></h4>
+                    <span style="font-size: 11px; color: #bbb;">${cmt.reviewDate}</span>
                 </div>
             </div>
-            <div class="review-rating" style="color: #ffcc00; margin-bottom: 8px;">
+            <div style="color: #ffcc00; margin: 5px 0;">
                 ${'★'.repeat(cmt.rating)}${'☆'.repeat(5 - cmt.rating)}
             </div>
-            <p class="review-text">${cmt.content}</p>
+            <p style="margin: 8px 0; color: #444;">${cmt.content}</p>
             
             ${cmt.accountId === currentUserId ? `
-                <div class="review-actions">
-                    <button class="btn-action btn-edit" title="Edit" onclick="prepareEdit(${cmt.commentId}, '${cmt.content.replace(/'/g, "\\'")}', ${cmt.rating})">
-                        <i class="fa-solid fa-pen"></i>
+                <div class="review-actions" style="position: absolute; top: 10px; right: 0;">
+                    <button onclick="prepareEdit(${cmt.commentId}, '${cmt.content.replace(/'/g, "\\'")}', ${cmt.rating})" 
+                            style="background:none; border:none; color: #3498db; cursor:pointer; margin-right: 10px;">
+                        <i class="fa-solid fa-pen"></i> Edit
                     </button>
-                    <button class="btn-action btn-delete" title="Delete" onclick="deleteComment(${cmt.commentId})">
-                        <i class="fa-solid fa-trash"></i>
+                    <button onclick="deleteComment(${cmt.commentId})" 
+                            style="background:none; border:none; color: #e74c3c; cursor:pointer;">
+                        <i class="fa-solid fa-trash"></i> Delete
                     </button>
                 </div>
             ` : ''}
@@ -98,26 +95,27 @@ function renderComments(comments) {
     `).join('');
 }
 
-// 6. Xử lý Gửi bình luận (Thêm mới hoặc Cập nhật)
+// 6. Handle Submit (POST & PUT)
 async function handleCommentSubmit() {
     const token = getAuthToken();
     const content = document.getElementById('commentInput').value.trim();
     const ratingElement = document.querySelector('input[name="rating"]:checked');
     const editingId = document.getElementById('editingCommentId').value;
 
-    // Kiểm tra đầu vào
     if (!token) {
-        alert("Please login to perform this action!");
+        alert("Please login to post a comment!");
         return;
     }
     if (!content) {
-        alert("Please enter your comment content.");
+        alert("Content cannot be empty!");
         return;
     }
 
-    const rating = ratingElement ? parseInt(ratingElement.value) : 5;
-    const payload = { content, rating };
-    
+    const payload = {
+        content: content,
+        rating: ratingElement ? parseInt(ratingElement.value) : 5
+    };
+
     const method = editingId ? 'PUT' : 'POST';
     const url = editingId ? `/api/comments/${editingId}` : `/api/comments`;
 
@@ -126,61 +124,65 @@ async function handleCommentSubmit() {
             method: method,
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}` // Gửi token theo chuẩn Bearer
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(payload)
         });
 
         const result = await response.json();
+        
         if (response.ok && result.success) {
-            alert(editingId ? "Comment updated!" : "Comment posted!");
+            alert(editingId ? "✅ Updated successfully!" : "✅ Posted successfully!");
             resetCommentForm();
-            loadComments(); // Tải lại danh sách
+            loadComments(); 
         } else {
-            alert(result.message || "Something went wrong!");
+            alert(" Failed: " + (result.message || "Internal Server Error"));
         }
     } catch (error) {
-        console.error("Lỗi gửi bình luận:", error);
-        alert("Server error. Please try again later.");
+        alert(" Server connection error!");
     }
 }
 
-// 7. Chế độ Chỉnh sửa
+// 7. Edit Mode: Populate Form
 function prepareEdit(id, content, rating) {
     document.getElementById('formTitle').innerText = "Edit Your Review";
-    document.getElementById('editingCommentId').value = id;
+    document.getElementById('editingCommentId').value = id; 
     document.getElementById('commentInput').value = content;
     
-    // Check đúng số sao đã đánh giá
     const starRadio = document.getElementById(`st${rating}`);
     if (starRadio) starRadio.checked = true;
 
-    document.getElementById('btnSubmitCmt').innerText = "Update Review";
+    document.getElementById('btnSubmitCmt').innerText = "Update Now";
     document.getElementById('btnCancelEdit').style.display = "inline-block";
     
-    // Cuộn xuống form
     document.querySelector('.comment-form-box').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('commentInput').focus();
 }
 
-// 8. Xóa bình luận
+// 8. Delete Comment
 async function deleteComment(id) {
     if (!confirm("Are you sure you want to delete this comment?")) return;
     
     const token = getAuthToken();
+
     try {
         const response = await fetch(`/api/comments/${id}`, {
             method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${token}` }
+            headers: { 
+                'Authorization': `Bearer ${token}` 
+            }
         });
         
-        if (response.ok) {
-            loadComments();
+        const result = await response.json();
+        
+        if (response.ok && result.success) {
+            alert(" Comment deleted successfully!");
+            loadComments(); 
         } else {
-            const res = await response.json();
-            alert(res.message || "Could not delete comment.");
+            alert(" Delete failed: " + (result.message || "You don't have permission"));
         }
     } catch (error) {
-        alert("Network error.");
+        alert(" Network error!");
     }
 }
 
@@ -194,16 +196,11 @@ function resetCommentForm() {
     document.getElementById('btnCancelEdit').style.display = "none";
 }
 
-// 10. Tìm kiếm thông minh (Debounce)
+// 10. Search Debounce
 function debounceSearch() {
     clearTimeout(searchTimer);
     searchTimer = setTimeout(() => {
         const val = document.getElementById('searchUserCmt').value.trim();
         loadComments(val);
     }, 600);
-}
-
-// Hàm giả lập (Placeholder) cho logic load xe cũ của bạn
-function loadBestsellers() {
-    console.log("Bestsellers data being fetched...");
 }
