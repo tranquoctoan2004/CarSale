@@ -2,66 +2,107 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Change Information - CarSale</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Update Profile | CarSale</title>
     <link rel="stylesheet" href="/style/global/user.css" />
-    <link rel="stylesheet" href="/style/user/updateinfo.css" />
+    <style>
+      .update-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        font-family: sans-serif;
+      }
+      .form-header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .input-field {
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+      }
+      .input-field label {
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .input-field input {
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+      .readonly-input {
+        background-color: #f4f4f4;
+        cursor: not-allowed;
+      }
+      .btn-save {
+        width: 100%;
+        padding: 12px;
+        background: #4361ee;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      .btn-save:hover {
+        background: #3046bc;
+      }
+    </style>
   </head>
   <body>
-    <!-- Header -->
-    <div id="header"></div>
-
-    <!-- Main container -->
-    <div class="container">
-      <h1>Change Information</h1>
-      <p>ID:</p>
-
-      <div class="form-wrapper">
-        <!-- Avatar section -->
-        <div class="avatar-section">
-          <div class="avatar"></div>
-          <button type="button">UPLOAD PHOTO</button>
-        </div>
-
-        <!-- Info section -->
-        <div class="info-section">
-          <label for="fullname">FULL NAME:</label>
-          <input type="text" id="fullname" placeholder="Enter full name" />
-
-          <label for="address">Address</label>
-          <input type="address" id="address" placeholder="Enter address" />
-
-          <label for="date">DATE OF BIRTH:</label>
-          <input type="date" id="date" />
-
-          <label for="email">EMAIL ADDRESS:</label>
-          <input type="email" id="email" placeholder="Enter email" />
-
-          <label for="phone">PHONE NUMBER:</label>
-          <input type="phone" id="phone" placeholder="Enter phone number" />
-
-          <label for="password">NEW PASSWORD:</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Enter new password" />
-
-          <label for="confirm-password">CONFIRMED PASSWORD:</label>
-          <input
-            type="password"
-            id="confirm-password"
-            placeholder="Confirm password" />
-
-          <!-- Buttons -->
-          <div class="form-buttons">
-            <button type="submit" class="save">SAVE CHANGES</button>
-            <button type="button" class="cancel">CANCEL</button>
-          </div>
-        </div>
+    <div class="update-container">
+      <div class="form-header">
+        <h2>Account Settings</h2>
+        <p>Update your personal details below</p>
       </div>
+
+      <form id="updateProfileForm">
+        <div class="input-field">
+          <label>Account ID</label>
+          <input type="text" id="accountId" readonly class="readonly-input" />
+        </div>
+
+        <div class="input-field">
+          <label>Username</label>
+          <input type="text" id="username" readonly class="readonly-input" />
+        </div>
+
+        <div class="input-field">
+          <label for="fullName">Full Name *</label>
+          <input
+            type="text"
+            id="fullName"
+            required
+            placeholder="Enter your full name" />
+        </div>
+
+        <div class="input-field">
+          <label for="email">Email Address *</label>
+          <input
+            type="email"
+            id="email"
+            required
+            placeholder="example@mail.com" />
+        </div>
+
+        <div class="input-field">
+          <label for="phoneNumber">Phone Number</label>
+          <input type="tel" id="phoneNumber" placeholder="e.g. 0987654321" />
+        </div>
+
+        <button type="submit" class="btn-save">SAVE CHANGES</button>
+      </form>
     </div>
-    <!-- Footer -->
-    <div id="footer"></div>
-    <!-- Script -->
-    <script src="/carsale/src/main/resources/static/script/common/layout.js"></script>
+
+    <script src="/script/user/updateinfo.js"></script>
   </body>
 </html>
