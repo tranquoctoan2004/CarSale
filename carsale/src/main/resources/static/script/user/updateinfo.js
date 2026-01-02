@@ -17,7 +17,7 @@ async function loadMyProfile() {
     
     if (!token) {
         alert("Phiên đăng nhập hết hạn!");
-        window.location.href = "/screen/guest/login.html";
+        window.location.href = "/screen/user/login.html";
         return;
     }
 

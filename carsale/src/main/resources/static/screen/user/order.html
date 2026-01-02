@@ -1,89 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="UTF-8" />
-    <title>Your Orders - CarShop</title>
-
-    <link rel="stylesheet" href="/style/global/user.css" />
+    <title>Giỏ hàng</title>
     <link rel="stylesheet" href="/style/user/order.css" />
   </head>
   <body>
-    <!-- Header -->
-    <div id="header"></div>
+    <div class="cart-container">
+      <h2>🛒 Giỏ hàng của bạn</h2>
 
-    <!-- MAIN -->
-    <main class="order-container">
-      <h2>Your Orders</h2>
+      <div id="cart-items"></div>
 
-      <!-- Tabs -->
-      <div class="order-tabs">
-        <button class="tab active">All Orders</button>
-        <button class="tab">In Delivery</button>
-        <button class="tab">Completed</button>
-        <button class="tab">Cancelled</button>
-        <button class="tab">Pending</button>
+      <div class="cart-summary">
+        <span>Tổng tiền:</span>
+        <span id="total-price">0 VND</span>
       </div>
 
-      <!-- Order List -->
-      <div class="order-list">
-        <!-- ==== Example Order ==== -->
-        <div class="order-card">
-          <div class="order-img"></div>
-          <div class="order-info">
-            <h3>Tesla Model S</h3>
-            <p>Order ID: <b>#A1023</b></p>
-            <p>Status: <span class="status delivering">Delivering</span></p>
-            <p>Estimated Delivery: 23 Nov 2025</p>
-          </div>
-          <div class="order-actions">
-            <button class="view">View</button>
-            <button class="cancel">Cancel</button>
-          </div>
-        </div>
-        <!-- ======================= -->
-
-        <div class="order-card">
-          <div class="order-img"></div>
-          <div class="order-info">
-            <h3>BMW M5</h3>
-            <p>Order ID: <b>#B9912</b></p>
-            <p>Status: <span class="status completed">Completed</span></p>
-            <p>Delivered: 10 Oct 2025</p>
-          </div>
-          <div class="order-actions">
-            <button class="view">View</button>
-          </div>
-        </div>
-
-        <div class="order-card">
-          <div class="order-img"></div>
-          <div class="order-info">
-            <h3>Ford Mustang GT</h3>
-            <p>Order ID: <b>#C5521</b></p>
-            <p>Status: <span class="status cancelled">Cancelled</span></p>
-          </div>
-          <div class="order-actions">
-            <button class="view">View</button>
-          </div>
-        </div>
-
-        <div class="order-card">
-          <div class="order-img"></div>
-          <div class="order-info">
-            <h3>Audi R8</h3>
-            <p>Order ID: <b>#D1982</b></p>
-            <p>Status: <span class="status pending">Pending Payment</span></p>
-          </div>
-          <div class="order-actions">
-            <button class="view">Pay Now</button>
-          </div>
-        </div>
+      <div class="cart-actions">
+        <button class="btn-clear" onclick="clearCart()">Xóa giỏ hàng</button>
+        <button class="btn-checkout" onclick="checkout()">Đặt hàng</button>
       </div>
-    </main>
+    </div>
 
-    <!-- Footer -->
-    <div id="footer"></div>
-    <!-- Script -->
-    <script src="/script/common/layout.js"></script>
+    <script src="/script/user/cart.js"></script>
   </body>
 </html>
