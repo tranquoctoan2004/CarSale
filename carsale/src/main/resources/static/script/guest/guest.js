@@ -1,6 +1,6 @@
 // Common redirect function for all guest pages
 function redirectToLogin() {
-    window.location.href = '/user/login.html';
+    window.location.href = '/screen/user/login.html';
 }
 
 // Initialize card buttons
