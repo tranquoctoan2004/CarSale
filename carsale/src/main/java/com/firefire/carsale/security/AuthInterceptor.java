@@ -24,7 +24,8 @@ public class AuthInterceptor implements HandlerInterceptor {
         if (path.startsWith("/screen/") ||
                 path.startsWith("/style/") ||
                 path.startsWith("/script/") ||
-                path.startsWith("/image/")) {
+                path.startsWith("/images/") || // Đã sửa từ /image/ thành /images/
+                path.startsWith("/uploads/")) { // THÊM DÒNG NÀY để không chặn ảnh upload
             return true;
         }
 
