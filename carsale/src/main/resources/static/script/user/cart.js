@@ -5,7 +5,7 @@ const getAuthHeaders = () => {
     const token = localStorage.getItem("token");
     if (!token) {
         alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!");
-        window.location.href = "/screen/guest/login.html";
+        window.location.href = "/screen/user/login.html";
         return null;
     }
     return {
